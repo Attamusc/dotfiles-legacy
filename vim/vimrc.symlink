@@ -1,0 +1,121 @@
+" Enable Sytax highlighting for pretty colors
+syntax enable
+
+" Various sets to make stuff better
+set noswapfile
+set number
+set list!
+set autoindent
+set smartindent
+
+" If we are using a GUI vim, use the Solarized color palette instead of the Terminal's palette
+if has('gui_running')
+    set background=dark
+    colorscheme solarized
+endif
+
+" Shortcut to rapidly toggle `set list`
+nmap <leader>l :set list!<CR>
+
+" Use the same symbols as TextMate for tabstops and EOLs
+set listchars=tab:▸\ ,eol:¬
+
+set ts=4 sts=4 sw=4 expandtab
+
+" Only do this part when compiled with support for autocommands
+if has("autocmd")
+  " Enable file type detection
+  filetype on
+
+  " Syntax of these languages is fussy over tabs Vs spaces
+  autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
+  autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+  autocmd FileType ruby setlocal ts=2 sts=2 sw=2 expandtab
+  autocmd FileType python setlocal ts=4 sts=4 sw=4 expandtab
+
+  " Customisations based on house-style (arbitrary)
+  autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
+  autocmd FileType css setlocal ts=2 sts=2 sw=2 expandtab
+  autocmd FileType javascript setlocal ts=2 sts=2 sw=2 expandtab
+
+  " Treat .rss files as XML
+  autocmd BufNewFile,BufRead *.rss setfiletype xml
+  autocmd BufNewFile,BufRead *.zsh* setfiletype zsh
+endif
+
+nmap <D-[> <<
+nmap <D-]> >>
+vmap <D-[> <gv
+vmap <D-]> >gv
+
+" Prevent multi loads and disable in compatible mode
+" check if vim version is at least 7.3
+" (relativenumber is not supported below)
+if exists('g:loaded_numbertoggle') || &cp || v:version < 703
+  finish
+endif
+let g:loaded_numbertoggle = 1
+let g:insertmode = 0
+let g:focus = 1
+
+" NumberToggle toggles between relative and absolute line numbers
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set number
+  else
+    set relativenumber
+  endif
+endfunc
+
+function! UpdateMode()
+  if(g:focus == 0)
+    set number
+  elseif(g:insertmode == 0)
+    set relativenumber
+  else
+    set number
+  end
+endfunc
+
+function! FocusGained()
+  let g:focus = 1
+  call UpdateMode()
+endfunc
+
+function! FocusLost()
+  let g:focus = 0
+  call UpdateMode()
+endfunc
+
+function! InsertLeave()
+  let g:insertmode = 0
+  call UpdateMode()
+endfunc
+
+function! InsertEnter()
+  let g:insertmode = 1
+  call UpdateMode()
+endfunc
+
+
+" Automatically set relative line numbers when opening a new document
+autocmd BufNewFile * :call UpdateMode()
+autocmd BufReadPost * :call UpdateMode()
+autocmd FilterReadPost * :call UpdateMode()
+autocmd FileReadPost * :call UpdateMode()
+
+" Automatically switch to absolute numbers when focus is lost and switch back
+" when the focus is regained.
+autocmd FocusLost * :call FocusLost()
+autocmd FocusGained * :call FocusGained()
+
+" Switch to absolute line numbers when entering insert mode and switch back to
+" relative line numbers when switching back to normal mode.
+autocmd InsertEnter * :call InsertEnter()
+autocmd InsertLeave * :call InsertLeave()
+
+if exists('g:NumberToggleTrigger')
+  exec "nnoremap <silent> " . g:NumberToggleTrigger . " :call NumberToggle()<cr>"
+else
+  nnoremap <silent> <C-n> :call NumberToggle()<cr>
+endif

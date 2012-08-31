@@ -1,0 +1,9 @@
+{
+	"extensions":
+	[
+		".*",
+		"sh",
+		"zsh",
+		"symlink"
+	]
+}

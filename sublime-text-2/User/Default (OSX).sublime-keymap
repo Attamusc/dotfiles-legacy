@@ -1,0 +1,4 @@
+[
+    { "keys": ["super+ctrl+n"], "command": "quick_create_file" },
+    { "keys": ["super+ctrl+d"], "command": "quick_create_directory" }
+]

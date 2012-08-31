@@ -1,0 +1,13 @@
+{
+    "sublimelinter_notes": true,
+    "jshint_options": {
+        "evil": true,
+        "eqeqeq": true,
+        "regexdash": true,
+        "browser": true,
+        "node": true,
+        "wsh": true,
+        "trailing": true,
+        "sub": true
+    }
+}
