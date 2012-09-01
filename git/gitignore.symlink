@@ -62,6 +62,9 @@ Icon
 .Spotlight-V100
 .Trashes
 
+# --Ruby Files--
+.rake_tasks~
+
 # --SASS Files--
 *.sass-cache
 
