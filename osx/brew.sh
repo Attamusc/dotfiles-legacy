@@ -9,7 +9,7 @@ brew upgrade
 # ---"TEH NECESSARIES"---
 brew install coreutils
 brew install grc
-brew install ack
+brew install gawk
 brew install tree
 brew install webkit2png
 brew install git
