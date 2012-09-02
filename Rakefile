@@ -34,6 +34,7 @@ task :install do
   end
 end
 
+desc "Replace the dotfiles that were symlinked during install with their backups"
 task :uninstall do
 
   Dir.glob('**/*.symlink').each do |linkable|

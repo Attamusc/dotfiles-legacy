@@ -63,7 +63,7 @@ Icon
 .Trashes
 
 # --Ruby Files--
-.rake_tasks~
+.rake_tasks
 
 # --SASS Files--
 *.sass-cache

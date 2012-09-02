@@ -1,0 +1,51 @@
+#!/usr/bin/env sh
+
+# This script will run all the bootstraping scripts required
+# for the base configuration that I like on my machines.
+#
+# Note: This currently only considers OS X environments
+
+# Check for Homebrew and install stuff if it exists
+if test ! $(which brew)
+then
+  echo "It looks like Homebrew is not installed."
+  echo "You can install it by running:"
+  echo "    ruby <(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
+  exit
+else
+  echo "Installing packages with Homebrew"
+  source osx/brew
+fi
+
+# Check for gem and install stuff if it exists
+if test ! $(which gem)
+then
+  echo "It looks like gem is not installed."
+  echo "Is ruby installed?"
+  echo "I prefer to use rvm for ruby management, you can get it with:"
+  echo "    curl -L https://get.rvm.io | bash -s stable"
+  exit
+else
+  echo "Installing packages with gem"
+  source ruby/gem
+fi
+
+# Check for npm and install stuff if it exists
+if test ! $(which npm)
+then
+  echo "It looks like npm is not installed."
+  echo "You can install it by running:"
+  echo "    curl http://npmjs.org/install.sh | sh"
+  exit
+else
+  echo "Installing packages with npm"
+  source node/npm
+fi
+
+# Switch to zsh
+if test ! $(which zsh)
+then
+  echo "It looks like zsh isn't installed."
+else
+  chsh -s $(which zsh)
+fi

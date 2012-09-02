@@ -1,5 +1,3 @@
-#!/usr/bin/env sh
-
 # Update brew
 brew update
 
@@ -7,6 +5,7 @@ brew update
 brew upgrade
 
 # ---"TEH NECESSARIES"---
+echo "Homebrew :: Installing neccessary base packages..."
 brew install coreutils
 brew install grc
 brew install gawk
@@ -23,14 +22,13 @@ brew install hub
 # brew install node
 
 # Scala and Typesafe Stack
+echo "Homebrew :: Installing the Type Stack (scala, akka, etc.)..."
 brew install scala
 brew install sbt
 brew install maven
 brew install giter8
 
 # Clojure
+echo "Homebrew :: Installing Clojure..."
 brew install clojure
 brew install leiningen
-
-# Inform that npm should be installed
-echo 'Hey Buddy! You may want to install npm: "curl http://npmjs.org/install.sh | sh"'

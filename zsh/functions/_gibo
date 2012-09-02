@@ -1,0 +1,3 @@
+#compdef gibo
+
+compadd `find $HOME/.gitignore-boilerplates -name "*.gitignore" -exec basename \{\} .gitignore \;`
