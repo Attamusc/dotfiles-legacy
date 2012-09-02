@@ -2,6 +2,12 @@
 	name = Sean Dunn
 	email = sean@attamusc.com
 [alias]
+  credit = !$ZSH/bin/git-credit
+  promote = !$ZSH/bin/git-promote
+  thanks = !$ZSH/bin/git-thanks
+  wtf = !$ZSH/bin/git-wtf
+  up = !$ZSH/bin/git-up
+  reup = !$ZSH/bin/git-reup
 	# Find FIXME, TODO, etc
   # Taken from @pengwynn
   n = !"git ls-files | xargs notes | awk -F: '{ print $1,$2; print $3,$4; print $5}' | grcat conf.notes "
