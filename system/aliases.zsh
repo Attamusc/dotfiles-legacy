@@ -1,11 +1,18 @@
-# For the lolz
-alias die='afplay /Users/Atta/Documents/Sean/Darth\ Vader\ NO.mp3; exit'
+# Aliases that I like
 
-# Lazy clear command
-alias cl='clear'
+# Easier navigation: .., ..., ...., ....., ~ and -
+# Taken from @mathiasbynens's dotfiles
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ~="cd ~"
+alias -- -="cd -"
 
-# cd
-alias ..='cd ..'
+# Shortcuts
+alias p="cd ~/Projects"
+alias o="open"
+alias oo="open ."
 
 # ls
 alias ls="ls -GF"
@@ -13,15 +20,7 @@ alias l="ls -GlAh"
 alias ll="ls -Gl"
 alias la='ls -GA'
 
-# Shortcuts
-alias p="cd ~/Projects"
-alias v="vim"
-alias m="mate ."
-alias s="subl ."
-alias o="open"
-alias oo="open ."
-
-alias update='sudo softwareupdate -i -a; brew update; brew upgrade'
+alias update='sudo softwareupdate -i -a; brew update; brew upgrade; npm update npm -g; npm update -g'
 
 # ---Spotlight Stuff---
 # Disable/Enable spotlight indexing
@@ -47,3 +46,9 @@ alias PUT='burl PUT'
 alias PATCH='burl PATCH'
 alias DELETE='burl DELETE'
 alias OPTIONS='burl OPTIONS'
+
+# For the lolz
+alias die='afplay /Users/Atta/Documents/Sean/Darth\ Vader\ NO.mp3; exit'
+
+# Lazy clear command
+alias cl='clear'
