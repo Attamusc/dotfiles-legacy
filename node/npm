@@ -11,6 +11,9 @@ npm install -g coffee-script
 npm install -g jade
 npm install -g stylus
 
+# Testing Tools
+npm install -g mocha
+
 # Nodejitsu's cli
 npm install -g jitsu
 

@@ -8,6 +8,7 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias ~="cd ~"
 alias -- -="cd -"
+alias cdot="cd ~/.dotfiles"
 
 # Shortcuts
 alias p="cd ~/Projects"
