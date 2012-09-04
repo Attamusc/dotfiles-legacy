@@ -21,11 +21,24 @@
 	user = Attamusc
 [credential]
   helper = osxkeychain
+[color]
+  ui = auto
+[color "branch"]
+  current = magenta
+  local = blue
+  remote = green
+[color "diff"]
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+[color "status"]
+  added = green
+  changed = cyan
+  untracked = red
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path =
 [mergetool "sourcetree"]
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
-[color]
-	ui = 1
