@@ -7,16 +7,21 @@ npm install -g n
 # CoffeeScript
 npm install -g coffee-script
 
-# LESS
-npm install -g less
+# Pre-processors
+npm install -g jade
+npm install -g stylus
 
 # Nodejitsu's cli
 npm install -g jitsu
 
 # Frameworks
 npm install -g express
-npm install -g spine.app
 npm install -g geddy
+
+# Front-End
+npm install -g spine.app
+npm install -g batman
+
+# Utilities
 npm install -g hem
 npm install -g jake
-npm install -g batman

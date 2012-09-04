@@ -1,6 +1,9 @@
 #!/usr/bin/env sh
 # Install development dependencies with gem
 
+# Heroku CLI
 gem install heroku
+
+# Pre-Processors
 gem install sass
 gem install compass
