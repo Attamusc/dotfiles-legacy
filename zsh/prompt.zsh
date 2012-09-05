@@ -74,4 +74,4 @@ function git_time_since_commit() {
   fi
 }
 
-PROMPT='%{$fg[cyan]%}%C $(git_prompt_info)$(git_time_since_commit)%{$fg_bold[red]%}$ %{$reset_color%}'
+PROMPT='%{$fg[cyan]%}%c $(git_prompt_info)$(git_time_since_commit)%{$fg_bold[red]%}$ %{$reset_color%}'
