@@ -5,6 +5,9 @@
 #
 # Note: This currently only considers OS X environments
 
+# Set our defaults for OS X
+source osx/set-defaults.sh
+
 # Check for Homebrew and install stuff if it exists
 if test ! $(which brew)
 then
