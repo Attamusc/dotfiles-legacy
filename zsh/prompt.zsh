@@ -19,7 +19,7 @@ function git_prompt_info() {
 }
 
 # Checks if working tree is dirty
-parse_git_dirty() {
+function parse_git_dirty() {
   if [[ -n $(git status -s 2> /dev/null) ]]; then
     echo "$ZSH_THEME_GIT_PROMPT_DIRTY"
   else
@@ -74,4 +74,31 @@ function git_time_since_commit() {
   fi
 }
 
-PROMPT='%{$fg[cyan]%}%c $(git_prompt_info)$(git_time_since_commit)%{$fg_bold[red]%}$ %{$reset_color%}'
+# From @pengwynn's awwwwesome dotfiles :D
+function notes_count() {
+  if [[ -z $1 ]]; then
+    local NOTES_PATTERN="TODO|FIXME|HACK";
+  else
+    local NOTES_PATTERN=$1;
+  fi
+  grep -ERn "\b($NOTES_PATTERN)\b" {app,config,lib,spec,test,src,main} 2>/dev/null | wc -l | sed 's/ //g'
+}
+
+function notes_prompt() {
+  local COUNT=$(notes_count $1);
+  if [ $COUNT != 0 ]; then
+    echo " $1: $COUNT";
+  else
+    echo "";
+  fi
+}
+
+export PROMPT='%{$fg[cyan]%}%c $(git_prompt_info)$(git_time_since_commit)%{$fg_bold[red]%}$ %{$reset_color%}'
+
+set_prompt () {
+  export RPROMPT="%{$fg_bold[blue]%}$(notes_prompt TODO)%{$reset_color%}%{$fg_bold[yellow]%}$(notes_prompt HACK)%{$reset_color%}%{$fg_bold[red]%}$(notes_prompt FIXME)%{$reset_color%}"
+}
+
+precmd() {
+  set_prompt
+}
