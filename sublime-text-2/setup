@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+# This script will symlink the User directory into the place Sublime
+# expects it
+#
+# Assumptions:
+# - This only considers OS X environments
+# - That you've set $ZSH to your .dotfiles clone
+
+# Make a backup of the current settings
+mv ~/Library/Application\ Support/Sublime\ Text\ 2/Packages/User ~/Library/Application\ Support/Sublime\ Text\ 2/Packages/User.backup
+
+# Symlink the dotfiles User directory to where Sublime expects it
+ln -s $ZSH/sublime-text-2/User ~/Library/Application\ Support/Sublime\ Text\ 2/Packages/User
