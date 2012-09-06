@@ -1,5 +1,4 @@
 {
-    "sublimelinter_notes": true,
     "jshint_options": {
         "evil": true,
         "eqeqeq": true,
@@ -8,6 +7,7 @@
         "node": true,
         "wsh": true,
         "trailing": true,
-        "sub": true
+        "sub": true,
+        "strict": false
     }
 }

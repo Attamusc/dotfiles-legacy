@@ -1,0 +1,3 @@
+# Get rid of cache files from Sublime
+*.cache
+sublime-text-2/User/SublimeREPLHistory
