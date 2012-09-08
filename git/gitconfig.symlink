@@ -2,6 +2,20 @@
 	name = Sean Dunn
 	email = sean@attamusc.com
 [alias]
+  # Shortcut aliases
+  aa = add --all
+  ci = commit -m
+  ce = commit -e
+  co = checkout
+  cb = checkout -b
+  m = merge
+  mnff = merge --no-ff
+  pp = pull --prune
+  pom = push origin master
+  ph = push origin HEAD
+  l = log --graph --pretty=format:'%C(bold red)%h%Creset %Cgreen(%cr)%Creset %C(blue)%an%Creset:%C(yellow)%d%Creset %s' --abbrev-commit --date=relative
+  s = status -sb
+  # commands to link to various scripts
   credit = !$ZSH/bin/git-credit
   promote = !$ZSH/bin/git-promote
   thanks = !$ZSH/bin/git-thanks
@@ -15,7 +29,7 @@
   # Taken from @pengwynn
   n = !"git ls-files | xargs notes | awk -F: '{ print $1,$2; print $3,$4; print $5}' | grcat conf.notes "
 [core]
-	editor = subl
+	editor = vim
 	excludesfile = /Users/Atta/.gitignore
 [github]
 	user = Attamusc
