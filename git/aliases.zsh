@@ -2,12 +2,12 @@
 # Inspired by @holman's git-related dotfile and his
 # awesome "Git and GitHub Secrets" talk.
 alias gpull='git pull --prune'
-alias gl="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
+alias gl="git log --graph --pretty=format:'%C(bold red)%h%Creset %Cgreen(%cr)%Creset %C(blue)%an%Creset:%C(yellow)%d%Creset %s' --abbrev-commit --date=relative"
 alias gp='git push'
 alias gpom='git push origin master'
 alias gph='git push origin HEAD'
 alias gdi='git diff'
-alias gad='git add .'
+alias gad='git add --all .'
 alias gc='git commit -m'
 alias gca='git commit -a -m'
 alias gco='git checkout'
