@@ -11,7 +11,7 @@ set smartindent
 " If we are using a GUI vim, use the Solarized color palette instead of the Terminal's palette
 if has('gui_running')
     set background=dark
-    colorscheme solarized
+    colorscheme jellybeans
 endif
 
 " Shortcut to rapidly toggle `set list`

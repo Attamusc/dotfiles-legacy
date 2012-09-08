@@ -2,19 +2,37 @@
 	name = Sean Dunn
 	email = sean@attamusc.com
 [alias]
-  # Shortcut aliases
+  # Add
   aa = add --all
+
+  # Commit
   ci = commit -m
   ce = commit -e
+
+  # Checkout
   co = checkout
   cb = checkout -b
+
+  # Diff
+  di = diff
+  dc = diff --cached
+  ds = diff --stat=160,120
+  dh1 = diff HEAD~1
+
+  # Merge
   m = merge
   mnff = merge --no-ff
+
+  # Push/Pull
   pp = pull --prune
   pom = push origin master
   ph = push origin HEAD
+
+  # Logging/Status Shortcuts
+  h = !git l -1
   l = log --graph --pretty=format:'%C(bold red)%h%Creset %Cgreen(%cr)%Creset %C(blue)%an%Creset:%C(yellow)%d%Creset %s' --abbrev-commit --date=relative
   s = status -sb
+
   # commands to link to various scripts
   credit = !$ZSH/bin/git-credit
   promote = !$ZSH/bin/git-promote
@@ -25,6 +43,7 @@
   conflicts = !$ZSH/bin/git-conflicts
   in = !$ZSH/bin/git-incoming
   out = !$ZSH/bin/git-outgoing
+
 	# Find FIXME, TODO, etc
   # Taken from @pengwynn
   n = !"git ls-files | xargs notes | awk -F: '{ print $1,$2; print $3,$4; print $5}' | grcat conf.notes "
