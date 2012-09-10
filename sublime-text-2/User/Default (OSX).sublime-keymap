@@ -1,4 +1,5 @@
 [
   { "keys": ["super+alt+n"], "command": "quick_create_file" },
-  { "keys": ["super+alt+d"], "command": "quick_create_directory" }
+  { "keys": ["super+alt+d"], "command": "quick_create_directory" },
+  { "keys": ["super+t"], "command": "build", "args": {"variant": "Test"} }
 ]

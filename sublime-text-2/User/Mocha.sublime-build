@@ -1,0 +1,10 @@
+{
+  "cmd": ["mocha", "--compilers", "coffee:coffee-script", "--recursive"],
+  "working_dir": "${folder}",
+  "variants": [
+    {
+      "cmd": ["mocha", "--compilers", "coffee:coffee-script", "$file"],
+      "name": "Test"
+    }
+  ]
+}
