@@ -1,0 +1,49 @@
+#!/bin/bash
+set -e
+
+function usage {
+  echo "Usage: Help Text..."
+}
+
+function main {
+  case $1 in
+    (play)
+      if [[ "$2" -eq "artist" || "$2" -eq "track" || "$2" -eq "album" ]]; then
+        shift
+        get_and_play $@
+      elif [[ "$2" -eq "" ]]; then
+        osascript -e "tell application \"Spotify\" to play"
+      else
+        usage
+      fi ;;
+    (next)
+      osascript -e "tell application \"Spotify\" to next track" ;;
+    (prev)
+      osascript -e "tell application \"Spotify\" to previous track" ;;
+    (pause)
+      osascript -e "tell application \"Spotify\" to pause" ;;
+    (help|*)
+      usage
+  esac
+}
+
+function get_and_play {
+  type=$1
+  shift
+  if [[ $# -gt 0 ]]; then
+    escaped_string="$1"
+    while [[ $# -ne 0 ]]; do
+      escaped_string="$escaped_string%20$1"
+      shift
+    done
+    spot_uri=$(curl -s "http://ws.spotify.com/search/1/$type?q=$escaped_string" |
+               awk 'match($0, /href="(spotify:'$type':.*)"/, results) {print results[1]}' |
+               head -n1)
+    osascript -e "tell application \"Spotify\" to play track \"$spot_uri\""
+  else
+    usage
+  fi
+}
+
+
+main $@
