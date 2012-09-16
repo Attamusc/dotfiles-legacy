@@ -8,20 +8,20 @@ function usage {
 function main {
   case $1 in
     (play)
-      if [[ "$2" -eq "artist" || "$2" -eq "track" || "$2" -eq "album" ]]; then
+      if [[ $# -eq 1 ]]; then
+        osascript -e 'tell application "Spotify" to play'
+      elif [[ "$2" -eq "artist" || "$2" -eq "track" || "$2" -eq "album" ]]; then
         shift
         get_and_play $@
-      elif [[ "$2" -eq "" ]]; then
-        osascript -e "tell application \"Spotify\" to play"
       else
         usage
       fi ;;
     (next)
-      osascript -e "tell application \"Spotify\" to next track" ;;
+      osascript -e 'tell application "Spotify" to next track' ;;
     (prev)
-      osascript -e "tell application \"Spotify\" to previous track" ;;
+      osascript -e 'tell application "Spotify" to previous track' ;;
     (pause)
-      osascript -e "tell application \"Spotify\" to pause" ;;
+      osascript -e 'tell application "Spotify" to pause' ;;
     (help|*)
       usage
   esac
