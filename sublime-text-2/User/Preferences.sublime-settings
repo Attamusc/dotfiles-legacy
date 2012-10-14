@@ -1,4 +1,5 @@
 {
+	"auto_complete": false,
 	"auto_complete_commit_on_tab": true,
 	"bold_folder_labels": true,
 	"color_scheme": "Packages/User/Oceanic.tmTheme",
@@ -7,21 +8,52 @@
 	"file_exclude_patterns":
 	[
 		".DS_Store",
-		".gitkeep"
+		".gitkeep",
+		"*.pyc",
+		"*.pyo",
+		"*.exe",
+		"*.dll",
+		"*.obj",
+		"*.o",
+		"*.a",
+		"*.lib",
+		"*.so",
+		"*.dylib",
+		"*.ncb",
+		"*.sdf",
+		"*.suo",
+		"*.pdb",
+		"*.idb",
+		".DS_Store",
+		"*.class",
+		"*.psd",
+		"*.db"
 	],
 	"folder_exclude_patterns":
 	[
 		".git",
+		".svn",
+		".hg",
+		"CVS",
 		".sass-cache",
-		"tmp"
+		"tmp",
+		"target",
+		"build"
 	],
-	"font_face": "Menlo",
-	"font_size": 12.0,
+	"font_face": "Source Code Pro",
+	"font_size": 13.0,
+	"highlight_line": true,
 	"highlight_modified_tabs": true,
+	"ignored_packages":
+	[
+	],
 	"save_on_focus_lost": true,
 	"show_minimap": false,
 	"tab_size": 2,
 	"theme": "Soda Dark.sublime-theme",
 	"translate_tabs_to_spaces": true,
-	"trim_trailing_white_space_on_save": true
+	"trim_trailing_white_space_on_save": true,
+	"vintage_start_in_command_mode": true,
+	"vintage_use_clipboard": true,
+  "word_wrap": true
 }

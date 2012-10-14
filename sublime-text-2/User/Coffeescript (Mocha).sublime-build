@@ -1,6 +1,7 @@
 {
   "cmd": ["mocha", "--compilers", "coffee:coffee-script", "--recursive"],
   "working_dir": "${folder}",
+  "selector": "soruce.coffee",
   "variants": [
     {
       "cmd": ["mocha", "--compilers", "coffee:coffee-script", "$file"],

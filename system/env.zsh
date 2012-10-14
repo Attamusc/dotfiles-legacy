@@ -10,7 +10,7 @@ export GO_HOME=/usr/local/go
 # Frameworks
 export GWT_HOME=/usr/local/gwt-2.4.0
 export GRAILS_HOME=/usr/local/grails-2.0.0
-export PLAY_HOME=/Applications/play-2.0
+export PLAY_HOME=/usr/local/play
 
 # Tools
 export BEES_HOME=/usr/local/cloudbees-sdk-0.7.1

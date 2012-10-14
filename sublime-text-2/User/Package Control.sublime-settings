@@ -1,5 +1,5 @@
 {
-	"auto_upgrade_last_run": 1348116361,
+	"auto_upgrade_last_run": 1350218700,
 	"installed_packages":
 	[
 		"Abacus",
@@ -34,14 +34,20 @@
 		"sublime-github",
 		"Sublime-KnockoutJS-Snippets",
 		"sublime-text-2-git",
+		"SublimeBlockCursor",
 		"SublimeLinter",
 		"SublimeREPL",
 		"SublimeTODO",
 		"Theme - Soda",
 		"TomDoc",
 		"Twitter Bootstrap Snippets",
+		"VintageEx",
 		"WordHighlight",
 		"zenburn",
 		"ZenCoding"
+	],
+	"repositories":
+	[
+		"https://github.com/wuub/SublimeREPL/"
 	]
 }
