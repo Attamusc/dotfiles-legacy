@@ -33,6 +33,9 @@
   l = log --graph --pretty=format:'%C(bold red)%h%Creset %Cgreen(%cr)%Creset %C(blue)%an%Creset:%C(yellow)%d%Creset %s' --abbrev-commit --date=relative
   s = status -sb
 
+  # For the lolz
+  yolo = !git reset --hard HEAD^
+
   # commands to link to various scripts
   credit = !$ZSH/bin/git-credit
   promote = !$ZSH/bin/git-promote
