@@ -55,5 +55,5 @@
 	"trim_trailing_white_space_on_save": true,
 	"vintage_start_in_command_mode": true,
 	"vintage_use_clipboard": true,
-  "word_wrap": true
+	"word_wrap": true
 }
