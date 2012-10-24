@@ -1,8 +1,12 @@
 #!/usr/bin/env sh
 # Install development dependencies with gem
 
-# Heroku CLI
-gem install heroku
+# Bundler
+gem install bundler
+
+# Pry stuff
+gem install pry
+gem install pry-doc
 
 # Pre-Processors
 gem install sass

@@ -20,8 +20,13 @@ brew install hub
 # Node.js
 # the brew node does not install npm, but it can be installed with the following:
 # curl http://npmjs.org/install.sh | sh
-# Removing this for now, since we use @visionmedia's n to manage our node installs
-# brew install node
+echo "Homebrew :: Installing node..."
+brew install node
+
+# rbenv and ruby-build
+echo "Homebrew :: Installing ruby management stuff..."
+brew install rbenv
+brew install ruby-build
 
 # Scala and Typesafe Stack
 echo "Homebrew :: Installing the Type Stack (scala, akka, etc.)..."
