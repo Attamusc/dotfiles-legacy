@@ -1,6 +1,7 @@
 # Exports
 # make Sublime the default editor
 export EDITOR="subl"
+export LESS=FRSX
 
 # Languages
 export GROOVY_HOME=/usr/local/Cellar/groovy/1.8.0/libexec

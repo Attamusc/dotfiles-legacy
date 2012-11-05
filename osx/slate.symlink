@@ -1,0 +1,64 @@
+# All bindings refer to the current screen.
+config defaultToCurrentScreen true
+
+# Nudge/resize commands refer to % of screen sice.
+config nudgePercentOf screenSize
+config resizePercentOf screenSize
+
+# Mimic divvy bindings, for brain-ease
+# corners: q/e/z/c for nw/ne/sw/se, quarter screen
+alias resize-quarter resize:screenSizeX/2;screenSizeY/2
+bind q:alt;space corner top-left ${resize-quarter}
+bind e:alt;space corner top-right ${resize-quarter}
+bind z:alt;space corner bottom-left ${resize-quarter}
+bind c:alt;space corner bottom-right ${resize-quarter}
+
+# sides: a/w/d/x for left/top/right/bottom, half screen
+bind a:alt;space push left bar-resize:screenSizeX/2
+bind w:alt;space push top bar-resize:screenSizeY/2
+bind d:alt;space push right bar-resize:screenSizeX/2
+bind x:alt;space push bottom bar-resize:screenSizeY/2
+
+# center: s - center with a 1/8th margin around the edges
+#         f - full screen
+bind s:alt;space move screenOriginX+screenSizeX/8;0 screenSizeX*0.75;screenSizeY
+bind f:alt;space move screenOriginX;screenOriginY screenSizeX;screenSizeY
+
+# grid: opt+space, space
+bind space:alt;space grid
+
+# focus: switch the current focus to the application in
+#        the given direction
+bind left:alt;space  focus left
+bind right:alt;space focus right
+bind up:alt;space    focus up
+bind down:alt;space  focus down
+
+# Layout for Hacking
+#   * Sublime Text 2 - Left 2/3
+#   * iTerm - Right 1/3
+layout hacking 'Sublime Text 2':REPEAT  push left bar-resize:screenSizeX*3/5
+layout hacking 'iTerm':REPEAT           push right bar-resize:screenSizeX*2/5
+bind m:alt;space layout hacking
+
+# Alternate Layout for Hacking
+#   * Chocolat - Left 2/3
+#   * iTerm - Right 1/3
+layout alt-hacking 'Chocolat':REPEAT  push left bar-resize:screenSizeX*3/5
+layout alt-hacking 'iTerm':REPEAT     push right bar-resize:screenSizeX*2/5
+bind n:alt;space layout alt-hacking
+
+# work monitor layout:
+#   * ST2, upper-right corner, half width, 3/4 height
+#   * iTerm, top-right, quarter screen
+#   * FF, bottom-left, quarter screen
+#   * Mailplane, botton-right, quarter screen, behind Colloquy and Harvest
+#   * Colloquy, bottom-right, 1/4 width, 1/4 height
+#   * Harvest, bottom, between FF and Colloquy.
+# layout work-monitor 'Sublime Text 2':REPEAT     corner top-right resize:screenSizeX/2;screenSizeY*3/4
+# layout work-monitor 'iTerm':REPEAT              corner top-left ${resize-quarter}
+# layout work-monitor 'Aurora':REPEAT             corner bottom-left ${resize-quarter}
+# layout work-monitor 'Colloquy':REPEAT           corner bottom-right resize:screenSizeX/4;screenSizeY/4
+# layout work-monitor 'Harvest':REPEAT            move screenOriginX+screenSizeX/2;screenOriginY+screenSizeY*3/4 340,screenSizeY/4
+# layout work-monitor 'Mailplane 3':REPEAT        corner bottom-right ${resize-quarter}
+# bind padEnter:ctrl layout work-monitor

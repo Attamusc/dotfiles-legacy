@@ -1,5 +1,5 @@
 {
-  "color_scheme": "Packages/User/Tomorrow-Night-Eighties.tmTheme",
+  "color_scheme": "Packages/User/base16-eighties.dark.tmTheme",
 	"extensions": [
 		"sbt"
 	]
