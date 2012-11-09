@@ -27,5 +27,8 @@ export PATH=$PATH:$GO_HOME/bin:$POSTGRES_APP_HOME/bin:$DART_HOME/bin:$PLAY_HOME:
 # Add rbenv, if we have/need it
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
+# Add finatra generator to the PATH
+eval "$(/usr/local/finatra/finatra init -)"
+
 # Set our MANPATH for `man`
 export MANPATH="/usr/share/man:/share/man:/usr/local/mysql/man:$MANPATH"
