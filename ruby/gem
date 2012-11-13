@@ -8,6 +8,10 @@ gem install bundler
 gem install pry
 gem install pry-doc
 
-# Pre-Processors
+# Pre-Processor(s)
 gem install sass
+
+# SASS libraries
 gem install compass
+gem install bourbon
+gem install neat
