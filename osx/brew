@@ -14,7 +14,7 @@ brew install gawk
 brew install tree
 brew install webkit2png
 brew install git
-brew install hub
+brew install jq
 
 # ---Languages---
 # Node.js
@@ -34,8 +34,3 @@ brew install scala
 brew install sbt
 brew install maven
 brew install giter8
-
-# Clojure
-echo "Homebrew :: Installing Clojure..."
-brew install clojure
-brew install leiningen

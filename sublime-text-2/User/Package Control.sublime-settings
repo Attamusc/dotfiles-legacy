@@ -1,5 +1,5 @@
 {
-	"auto_upgrade_last_run": 1352495925,
+	"auto_upgrade_last_run": 1353382859,
 	"installed_packages":
 	[
 		"Abacus",
@@ -40,8 +40,7 @@
 		"Twitter Bootstrap Snippets",
 		"VintageEx",
 		"WordHighlight",
-		"zenburn",
-		"ZenCoding"
+		"zenburn"
 	],
 	"repositories":
 	[
