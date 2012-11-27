@@ -30,7 +30,7 @@
 
   # Logging/Status Shortcuts
   h = !git l -1
-  l = log --graph --pretty=format:'%C(bold red)%h%Creset %C(blue)%an%Creset:%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+  l = log --graph --pretty=format:'%C(bold red)%h%Creset%C(yellow)%d%Creset %s %Cgreen(%C(magenta)%an%Creset%Cgreen, %cr)%Creset' --abbrev-commit --date=relative
   s = status -sb
 
   # For the lolz
