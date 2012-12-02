@@ -4,14 +4,20 @@ syntax enable
 " Various sets to make stuff better
 set noswapfile
 set number
-set list!
 set autoindent
 set smartindent
+set cursorline
 
-" If we are using a GUI vim, use the Solarized color palette instead of the Terminal's palette
+let mapleader=","
+let base16colorspace=256  " Access colors present in 256 colorspace
+
 if has('gui_running')
+    set guifont=Source\ Code\ Pro:h13
     set background=dark
-    colorscheme jellybeans
+    colorscheme base16-ocean
+else
+    set background=dark
+    colorscheme base16-eighties
 endif
 
 " Shortcut to rapidly toggle `set list`

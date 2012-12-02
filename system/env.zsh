@@ -33,3 +33,7 @@ eval "$(/usr/local/finatra/finatra init -)"
 
 # Set our MANPATH for `man`
 export MANPATH="/usr/share/man:/share/man:/usr/local/mysql/man:$MANPATH"
+
+# Use the base-16 color override so that we can use it's
+# scheme in terminal vim
+source $ZSH/system/colors/base16-eighties.dark.sh

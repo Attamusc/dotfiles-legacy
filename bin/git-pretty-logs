@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Color Hacking
+CYAN=`echo -e '\x1b[36m'`
+RESET=`echo -e '\x1b[0m'`
+
+HASH="%C(red)%h%Creset"
+RELATIVE_TIME="%C(magenta)%cr%Creset"
+AUTHOR="%C(bold blue)%an%Creset"
+REFS="%C(yellow)%d%Creset"
+SUBJECT="%s"
+
+FORMAT="$HASH}$RELATIVE_TIME}$AUTHOR}$REFS $SUBJECT"
+
+git log --graph --pretty=format:"${FORMAT}" $* |
+  # Replace 2 years ago with 2y
+  sed -Ee 's/([[:digit:]]+) ([a-z]).+ ago/\1\2/' |
+  # Color merge commits
+  sed -Ee "s/[mM]erge [bB]ranch .*$/$CYAN&$RESET/" |
+  # Line columns up based on } delimiter
+  column -s '}' -t |
+  # Page only if we need to
+  less -FXRS
