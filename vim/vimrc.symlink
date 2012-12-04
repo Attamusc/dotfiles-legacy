@@ -1,8 +1,19 @@
 " Enable Sytax highlighting for pretty colors
 syntax enable
 
-" Various sets to make stuff better
+" Vundle setup for plugin management
 set nocompatible
+
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+Bundle 'cakebaker/scss-syntax.vim'
+
+filetype plugin indent on
+
+" Various sets to make stuff better
 set noswapfile
 set number
 set autoindent
@@ -10,6 +21,9 @@ set smartindent
 set cursorline
 set cmdheight=2
 set laststatus=2
+" Use the same symbols as TextMate for tabstops and EOLs
+set listchars=tab:▸\ ,eol:¬
+set ts=2 sts=2 sw=2 expandtab
 
 let mapleader=","
 let base16colorspace=256  " Access colors present in 256 colorspace
@@ -28,11 +42,6 @@ endif
 
 " Shortcut to rapidly toggle `set list`
 nmap <leader>l :set list!<CR>
-
-" Use the same symbols as TextMate for tabstops and EOLs
-set listchars=tab:▸\ ,eol:¬
-
-set ts=4 sts=4 sw=4 expandtab
 
 " Only do this part when compiled with support for autocommands
 if has("autocmd")
