@@ -77,6 +77,7 @@ project/boot/
 # --Sublime Text--
 /*.sublime-project
 *.sublime-workspace
+Package Control.last-run
 
 # --TextMate--
 *.tmproj
