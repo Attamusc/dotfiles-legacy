@@ -15,6 +15,9 @@ alias p="cd ~/Projects"
 alias o="open"
 alias oo="open ."
 
+# Open Mou from the command line
+alias md="open -a Mou"
+
 # ls
 alias ls="ls -GF"
 alias l="ls -GlAh"
