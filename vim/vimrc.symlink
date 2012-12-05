@@ -11,6 +11,9 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 Bundle 'cakebaker/scss-syntax.vim'
 Bundle 'scrooloose/nerdcommenter'
+Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-repeat'
+Bundle 'scrooloose/nerdtree'
 
 filetype plugin indent on
 
@@ -51,33 +54,36 @@ endif
 nnoremap <leader>l :set list!<CR>
 
 " Only do this part when compiled with support for autocommands
-augroup vimrcEx
-  autocmd!
+if has("autocmd")
+  augroup vimrcEx
+    autocmd!
 
-  " Save the buffer when focus is lost
-  autocmd FocusLost * :wa
+    " Save the buffer when focus is lost
+    autocmd FocusLost * :wa
 
-  " Jump to last cursor position unless it's invalid or in an event handler
-  autocmd BufWinEnter *
-    \ if line("'\"") > 0 && line("'\"") <= line("$") |
-    \   exe "normal g`\"" |
-    \ endif
+    " Auto-source the .vimrc file when it is saved
+    autocmd BufWritePost *vimrc* source $MYVIMRC
 
-  " Syntax of these languages is fussy over tabs Vs spaces
-  autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
-  autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-  autocmd FileType ruby setlocal ts=2 sts=2 sw=2 expandtab
-  autocmd FileType python setlocal ts=4 sts=4 sw=4 expandtab
+    " Jump to last cursor position unless it's invalid or in an event handler
+    autocmd BufWinEnter *
+      \ if line("'\"") > 0 && line("'\"") <= line("$") |
+      \   exe "normal g`\"" |
+      \ endif
 
-  " Customisations based on house-style (arbitrary)
-  autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
-  autocmd FileType css setlocal ts=2 sts=2 sw=2 expandtab
-  autocmd FileType javascript setlocal ts=2 sts=2 sw=2 expandtab
+    " Syntax of these languages is fussy over tabs Vs spaces
+    autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
+    autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+    autocmd FileType ruby setlocal ts=2 sts=2 sw=2 expandtab
+    autocmd FileType python setlocal ts=4 sts=4 sw=4 expandtab
 
-  " Treat .rss files as XML
-  autocmd BufNewFile,BufRead *.rss setfiletype xml
-  autocmd BufNewFile,BufRead *.zsh* setfiletype zsh
-augroup END
+    " Customisations based on personal preferences
+    autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
+    autocmd FileType css setlocal ts=2 sts=2 sw=2 expandtab
+    autocmd FileType javascript setlocal ts=2 sts=2 sw=2 expandtab
+
+    autocmd BufNewFile,BufRead *.zsh* setfiletype zsh
+  augroup END
+endif
 
 " Context sensitive tab completion taken from @garybernhardt's dotfiles
 function! InsertTabWrapper()
@@ -103,6 +109,13 @@ map <Right> <Nop>
 map <Up> <Nop>
 map <Down> <Nop>
 
+" Quick access to vimrc for on-the-fly customizations
+nmap <leader>v :tabedit $MYVIMRC<CR>
+
+map <leader>bn :BundleInstall<CR>
+
+map <leader>nf :NERDTreeFind<CR>
+map <leader>n :NERDTreeToggle<CR>
 map <leader>/ <plug>NERDCommenterToggle<CR>
 imap <leader>/ <esc><plug>NERDCommenterToggle<CR>i
 
