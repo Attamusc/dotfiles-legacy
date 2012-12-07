@@ -84,6 +84,12 @@ if has("autocmd")
     au BufWinEnter,BufRead * normal zR
   augroup END
 
+  augroup git
+    au!
+
+    au VimLeave gitcommit !open -a iTerm
+  augroup END
+
   augroup vimrcEx
     autocmd!
 
