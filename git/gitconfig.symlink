@@ -59,7 +59,7 @@
   f = feature
   ff = feature finish
 [core]
-	editor = subl --wait
+	editor = "mvim -f --nomru" 
 	excludesfile = /Users/Atta/.gitignore
 [github]
 	user = Attamusc

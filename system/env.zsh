@@ -1,6 +1,6 @@
 # Exports
 # make Sublime the default editor
-export EDITOR="subl"
+export EDITOR="mvim"
 export LESS=FRSX
 
 # Languages
