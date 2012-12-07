@@ -29,7 +29,7 @@ export PATH=$TYPESAFE_HOME/bin:$GO_HOME/bin:$POSTGRES_APP_HOME/bin:$DART_HOME/bi
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # Add finatra generator to the PATH
-eval "$(/usr/local/finatra/finatra init -)"
+if [ -e "/usr/local/finatra/finatra" ]; then eval "$(/usr/local/finatra/finatra init -)"; fi
 
 # Set our MANPATH for `man`
 export MANPATH="/usr/share/man:/share/man:/usr/local/mysql/man:$MANPATH"

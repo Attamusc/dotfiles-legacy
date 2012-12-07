@@ -11,7 +11,6 @@ alias -- -="cd -"
 alias cdot="cd ~/.dotfiles"
 
 # Shortcuts
-alias p="cd ~/Projects"
 alias m="mvim"
 alias v="vim"
 alias o="open"
