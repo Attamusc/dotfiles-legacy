@@ -11,6 +11,7 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 Bundle 'cakebaker/scss-syntax.vim'
 Bundle 'scrooloose/nerdcommenter'
+Bundle 'tpope/vim-git'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-repeat'
 Bundle 'scrooloose/nerdtree'
@@ -87,8 +88,7 @@ if has("autocmd")
   augroup git
     au!
 
-    au VimLeave gitcommit !open -a iTerm
-  augroup END
+    au BufNewFile,BufRead *gitconfig* setfiletype gitconfig
 
   augroup vimrcEx
     autocmd!
