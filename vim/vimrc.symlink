@@ -26,14 +26,16 @@ set number
 set autoindent
 set smartindent
 set cursorline
+set formatoptions=qrn1
 set cmdheight=2
 set laststatus=2
 set scrolloff=5
 set switchbuf=useopen
 set backspace=indent,eol,start
 " Use the same symbols as TextMate for tabstops and EOLs
-set listchars=tab:▸\ ,eol:¬
+set listchars=tab:▸\ ,eol:¬,trail:⌴
 set ts=2 sts=2 sw=2 expandtab
+set noswapfile
 set backup
 set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
@@ -66,7 +68,7 @@ nnoremap <leader>l :set list!<CR>
 if has("autocmd")
   augroup common
     au!
-    
+
     " Jump to last cursor position unless it's invalid or in an event handler
     au BufWinEnter *
       \ if line("'\"") > 0 && line("'\"") <= line("$") |
@@ -76,7 +78,7 @@ if has("autocmd")
     " Cursor Highlight in Insert mode is annoying
     au WinLeave,InsertEnter * set nocursorline
     au WinEnter,InsertLeave * set cursorline
-    
+
     " I like having the option of folding, but I don't like everything
     " folded when I open the file
     au BufWinEnter,BufRead * normal zR
@@ -107,7 +109,7 @@ if has("autocmd")
 
   augroup css
     au!
-  
+
     au Filetype css,sass,scss,less,stylus setlocal foldmethod=marker
     au Filetype css,sass,scss,less,stylus setlocal foldmarker={,}
     au Filetype css,sass,scss,less,stylus setlocal omnifunc=csscomplete#CompleteCSS
@@ -121,16 +123,6 @@ if has("autocmd")
 
     au BufNewFile,BufRead *.gradle setfiletype groovy
 endif
-
-" Context sensitive tab completion taken from @garybernhardt's dotfiles
-function! InsertTabWrapper()
-    let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~ '\k'
-        return "\<tab>"
-    else
-        return "\<c-p>"
-    endif
-endfunction
 
 " Super Awesome fold text taken from @sjl
 function! MyFoldText() " {{{
@@ -150,10 +142,17 @@ function! MyFoldText() " {{{
 endfunction " }}}
 set foldtext=MyFoldText()
 
-nnoremap <CR> :nohlsearch<CR>
+" Context sensitive tab completion taken from @garybernhardt's dotfiles
+function! InsertTabWrapper()
+    let col = col('.') - 1
+    if !col || getline('.')[col - 1] !~ '\k'
+        return "\<tab>"
+    else
+        return "\<c-p>"
+    endif
+endfunction
 
-nnoremap <space> za
-vnoremap <space> za
+nnoremap <leader>tw mz:%s/\s\+$//<cr>:let @/=''<cr>`z
 
 inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 inoremap <s-tab> <c-n>
@@ -162,6 +161,11 @@ nnoremap <s-tab> <<
 nnoremap <tab> >>
 vnoremap <s-tab> <gv
 vnoremap <tab> >gv
+
+nnoremap <CR> :nohlsearch<CR>
+
+nnoremap <space> za
+vnoremap <space> za
 
 " To enforce good habits...
 map <Left> <Nop>
