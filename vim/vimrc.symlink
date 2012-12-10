@@ -115,6 +115,11 @@ if has("autocmd")
 
     au FileType css,sass,scss,less,stylus inoremap {<CR> {}<left><CR><tab><CR><ESC>kA
   augroup END
+
+  augroup groovy
+    au!
+
+    au BufNewFile,BufRead *.gradle setfiletype groovy
 endif
 
 " Context sensitive tab completion taken from @garybernhardt's dotfiles
