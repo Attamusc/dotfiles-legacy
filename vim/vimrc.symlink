@@ -9,13 +9,23 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 Bundle 'gmarik/vundle'
-Bundle 'cakebaker/scss-syntax.vim'
+
+" Plugins
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'tpope/vim-git'
+Bundle 'tpope/vim-unimpaired'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-repeat'
 Bundle 'scrooloose/nerdtree'
+
+" Language stuff
+Bundle 'VimClojure'
+Bundle 'cakebaker/scss-syntax.vim'
 Bundle 'pangloss/vim-javascript'
+Bundle 'wavded/vim-stylus'
+Bundle 'digitaltoad/vim-jade'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'othree/html5.vim'
 
 filetype plugin indent on
 
@@ -24,6 +34,7 @@ set visualbell
 set t_vb=
 set hidden
 set number
+set showcmd
 set autoindent
 set smartindent
 set cursorline
@@ -33,17 +44,24 @@ set laststatus=2
 set scrolloff=5
 set switchbuf=useopen
 set backspace=indent,eol,start
+
 " Use the same symbols as TextMate for tabstops and EOLs
 set listchars=tab:▸\ ,eol:¬,trail:⌴
 set ts=2 sts=2 sw=2 expandtab
+
 set noswapfile
-set backup
-set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set nobackup
+set undofile
+set undodir=~/tmp/vim/undo
+if !isdirectory(expand(&undodir))
+    call mkdir(expand(&undodir), "p")
+endif
+
 set showmatch
 set incsearch
 set hlsearch
 set foldlevelstart=0
+
 " Better Completion
 set complete=.,w,b,u,t
 set completeopt=longest,menuone,preview
@@ -51,6 +69,10 @@ set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 
 let mapleader=","
 let base16colorspace=256  " Access colors present in 256 colorspace
+
+let vimclojure#HighlightBuiltins = 1
+let vimclojure#ParenRainbow = 1
+let vimclojure#WantNailgun = 0
 
 if has('gui_running')
     set guifont=Source\ Code\ Pro:h13
@@ -116,12 +138,14 @@ if has("autocmd")
   augroup css
     au!
 
+    au BufNewFile,BufRead *.styl setfiletype stylus
+
     au Filetype css,sass,scss,less,stylus setlocal foldmethod=marker
     au Filetype css,sass,scss,less,stylus setlocal foldmarker={,}
     au Filetype css,sass,scss,less,stylus setlocal omnifunc=csscomplete#CompleteCSS
     au Filetype css,sass,scss,less,stylus setlocal iskeyword+=-
 
-    au FileType css,sass,scss,less,stylus inoremap {<CR> {}<left><CR><tab><CR><ESC>kA
+    au BufNewFile,BufRead *.css,*.scss,*.less, inoremap {<CR> {}<left><CR><tab><CR><ESC>kA
   augroup END
 endif
 
@@ -153,10 +177,22 @@ function! InsertTabWrapper()
     endif
 endfunction
 
+" WTF vim?
+map j gj
+map k gk
+
 nnoremap <leader>tw mz:%s/\s\+$//<cr>:let @/=''<cr>`z
 
 inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 inoremap <s-tab> <c-n>
+
+" 'Bubble' the text up or down a line
+" These bindings require @tpope's unimpaired plugin
+nmap <D-Up> [e
+nmap <D-Down> ]e
+
+" Make changing tags in HTML super easy
+nmap <leader>ct cst<
 
 nnoremap <s-tab> <<
 nnoremap <tab> >>
