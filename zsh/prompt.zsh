@@ -75,6 +75,24 @@ function git_time_since_commit() {
 }
 
 # From @pengwynn's awwwwesome dotfiles :D
+todo_count(){
+  if $(which todo.sh &> /dev/null)
+  then
+    num=$(echo $(todo.sh ls $1 | wc -l))
+    let todos=num-2
+    echo "$todos"
+  fi
+}
+
+function todo_prompt() {
+  local COUNT=$(todo_count $1);
+  if [ $COUNT != 0 ]; then
+    echo "$1: $COUNT";
+  else
+    echo "";
+  fi
+}
+
 function notes_count() {
   if [[ -z $1 ]]; then
     local NOTES_PATTERN="TODO|FIXME|HACK";
@@ -95,7 +113,8 @@ function notes_prompt() {
 
 set_prompt () {
   export PROMPT='%{$fg[cyan]%}%c $(git_prompt_info)$(git_time_since_commit)%{$fg_bold[red]%}$ %{$reset_color%}'
-  export RPROMPT="%{$fg_bold[blue]%}$(notes_prompt TODO)%{$reset_color%}%{$fg_bold[yellow]%}$(notes_prompt HACK)%{$reset_color%}%{$fg_bold[red]%}$(notes_prompt FIXME)%{$reset_color%}"
+  #export RPROMPT="%{$fg_bold[blue]%}$(notes_prompt TODO)%{$reset_color%}%{$fg_bold[yellow]%}$(notes_prompt HACK)%{$reset_color%}%{$fg_bold[red]%}$(notes_prompt FIXME)%{$reset_color%}"
+  export RPROMPT="%{$fg_bold[blue]%}$(todo_prompt +next)%{$reset_color%}"
 }
 
 precmd() {
