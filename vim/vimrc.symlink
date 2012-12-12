@@ -19,7 +19,7 @@ Bundle 'tpope/vim-repeat'
 Bundle 'scrooloose/nerdtree'
 
 " Language stuff
-Bundle 'VimClojure'
+Bundle 'gberenfield/sjl-slimv'
 Bundle 'cakebaker/scss-syntax.vim'
 Bundle 'pangloss/vim-javascript'
 Bundle 'wavded/vim-stylus'
@@ -65,6 +65,24 @@ set foldlevelstart=0
 " Better Completion
 set complete=.,w,b,u,t
 set completeopt=longest,menuone,preview
+
+set wildmenu
+set wildmode=list:longest
+
+set wildignore+=.hg,.git,.svn
+set wildignore+=*.aux,*.out,*.toc
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest
+set wildignore+=*.spl
+set wildignore+=*.sw?
+set wildignore+=*.DS_Store
+set wildignore+=*.luac
+set wildignore+=migrations
+set wildignore+=*.pyc
+set wildignore+=*.orig
+set wildignore+=classes
+set wildignore+=lib
+
 set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 
 let mapleader=","
@@ -113,26 +131,48 @@ if has("autocmd")
     au BufNewFile,BufRead *gitconfig* setfiletype gitconfig
 
   augroup vimrcEx
-    autocmd!
+    au!
 
     " Save the buffer when focus is lost
-    autocmd FocusLost * :wa
+    au FocusLost * :wa
 
     " Auto-source the .vimrc file when it is saved
-    autocmd BufWritePost *vimrc* source $MYVIMRC
+    au BufWritePost *vimrc* source $MYVIMRC
 
     " Syntax of these languages is fussy over tabs Vs spaces
-    autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
-    autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-    autocmd FileType ruby setlocal ts=2 sts=2 sw=2 expandtab
-    autocmd FileType python setlocal ts=4 sts=4 sw=4 expandtab
+    au FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
+    au FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+    au FileType ruby setlocal ts=2 sts=2 sw=2 expandtab
+    au FileType python setlocal ts=4 sts=4 sw=4 expandtab
 
     " Customisations based on personal preferences
-    autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
-    autocmd FileType css setlocal ts=2 sts=2 sw=2 expandtab
-    autocmd FileType javascript setlocal ts=2 sts=2 sw=2 expandtab
+    au FileType html setlocal ts=2 sts=2 sw=2 expandtab
+    au FileType css setlocal ts=2 sts=2 sw=2 expandtab
 
-    autocmd BufNewFile,BufRead *.zsh* setfiletype zsh
+    au BufNewFile,BufRead *.zsh* setfiletype zsh
+  augroup END
+
+  augroup java
+      au!
+
+      au FileType java setlocal foldmethod=marker
+      au FileType java setlocal foldmarker={,}
+
+      " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
+      " positioned inside of them AND the following code doesn't get unfolded.
+      au Filetype java inoremap <buffer> {<CR> {}<left><CR><tab><CR><ESC>kA
+  augroup END
+
+  augroup javascript
+      au!
+
+      au FileType javascript setlocal foldmethod=marker
+      au FileType javascript setlocal foldmarker={,}
+      au FileType javascript setlocal ts=2 sts=2 sw=2 expandtab
+
+      " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
+      " positioned inside of them AND the following code doesn't get unfolded.
+      au Filetype javascript inoremap <buffer> {<CR> {}<left><CR><tab><CR><ESC>kA
   augroup END
 
   augroup css
@@ -216,7 +256,7 @@ map <Up> <Nop>
 map <Down> <Nop>
 
 " Quick access to vimrc for on-the-fly customizations
-nmap <leader>v :tabedit $MYVIMRC<CR>
+nmap <leader>ev :tabedit $MYVIMRC<CR>
 
 map <leader>bi :BundleInstall<CR>
 
