@@ -38,6 +38,7 @@ set showcmd
 set autoindent
 set smartindent
 set cursorline
+set splitright
 set formatoptions=qrn1
 set cmdheight=2
 set laststatus=2
@@ -88,6 +89,8 @@ set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 let mapleader=","
 let base16colorspace=256  " Access colors present in 256 colorspace
 
+let g:lisp_rainbow = 1
+let g:slimv_repl_split = 4
 let vimclojure#HighlightBuiltins = 1
 let vimclojure#ParenRainbow = 1
 let vimclojure#WantNailgun = 0
@@ -96,7 +99,11 @@ if has('gui_running')
     set guifont=Source\ Code\ Pro:h13
     set background=dark
     colorscheme base16-ocean
+    set go-=T
+    set go-=l
+    set go-=L
     set go-=r
+    set go-=R
 else
     set background=dark
     colorscheme base16-eighties
