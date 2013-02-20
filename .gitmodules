@@ -43,3 +43,6 @@
 [submodule "vim/vim.symlink/bundle/html5.vim"]
 	path = vim/vim.symlink/bundle/html5.vim
 	url = http://github.com/othree/html5.vim
+[submodule "vim/vim.symlink/bundle/syntastic"]
+	path = vim/vim.symlink/bundle/syntastic
+	url = https://github.com/scrooloose/syntastic

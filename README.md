@@ -14,14 +14,8 @@ The topics are fairly opinionated, with only the stuff I actually use included. 
 * JVM (Java, Scala, Clojure, Groovy)
 * PostgreSQL
 * Homebrew
+* Vim
 * Sublime Text 2
-* (Some) Vim
-
-```
-require 'activerecord
-class Boy < Person
-    attr_accessor :name, :fav_food
-```
 
 ## Organization
 
