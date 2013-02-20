@@ -12,11 +12,13 @@ Bundle 'gmarik/vundle'
 
 " Plugins
 Bundle 'scrooloose/nerdcommenter'
+Bundle 'tpope/vim-rails'
 Bundle 'tpope/vim-git'
 Bundle 'tpope/vim-unimpaired'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-repeat'
 Bundle 'scrooloose/nerdtree'
+Bundle 'mattn/zencoding-vim'
 
 " Language stuff
 Bundle 'gberenfield/sjl-slimv'
@@ -158,7 +160,14 @@ if has("autocmd")
 
     au BufNewFile,BufRead *.zsh* setfiletype zsh
   augroup END
+  
+  augroup html
+    au!
 
+    au BufNewFile,BufRead *.hbs setfiletype html
+    au BufNewFile,BufRead *.handlebars setfiletype html
+    au BufNewFile,BufRead *.ejs setfiletype html
+  augroup END
   augroup java
       au!
 
@@ -240,8 +249,8 @@ inoremap <s-tab> <c-n>
 
 " 'Bubble' the text up or down a line
 " These bindings require @tpope's unimpaired plugin
-nmap <D-Up> [e
-nmap <D-Down> ]e
+nmap <C-Up> [e
+nmap <C-Down> ]e
 
 " Make changing tags in HTML super easy
 nmap <leader>ct cst<

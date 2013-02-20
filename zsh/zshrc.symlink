@@ -22,3 +22,6 @@ for config_file ($ZSH/**/completion.sh) source $config_file
 
 # Load z
 . /usr/local/z/z.sh
+
+# Load NVM
+. ~/.nvm/nvm.sh
