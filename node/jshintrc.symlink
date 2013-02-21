@@ -1,0 +1,15 @@
+{
+  "browser": true,
+  "node": true,
+  "jquery": true,
+  "devel": true,
+  "nonstandard": true,
+  "debug": false,
+  "es5": true,
+  "curly": true,
+  "latedef": true,
+  "noempty": true,
+  "trailing": true,
+  "undef": true,
+  "sub": true
+}

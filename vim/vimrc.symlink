@@ -68,6 +68,15 @@ set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 let mapleader=","
 let base16colorspace=256  " Access colors present in 256 colorspace
 
+" Remap CtrlP because muscle memory's a bitch
+let g:ctrlp_map = '<D-t>'
+
+" Syntastic configs
+" Ignore HTML files since templating breaks it
+let g:syntastic_mode_map = { 'mode': 'active',
+	\ 'active_filetypes': [],
+	\ 'passive_filetypes': ['html'] }
+
 let g:lisp_rainbow = 1
 let g:slimv_repl_split = 4
 let vimclojure#HighlightBuiltins = 1
@@ -219,8 +228,6 @@ endfunction
 map j gj
 map k gk
 
-nnoremap <leader>tw mz:%s/\s\+$//<cr>:let @/=''<cr>`z
-
 inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 inoremap <s-tab> <c-n>
 
@@ -250,8 +257,6 @@ map <Down> <Nop>
 
 " Quick access to vimrc for on-the-fly customizations
 nmap <leader>ev :tabedit $MYVIMRC<CR>
-
-map <leader>bi :BundleInstall<CR>
 
 map <leader>nf :NERDTreeFind<CR>
 map <leader>n :NERDTreeToggle<CR>
