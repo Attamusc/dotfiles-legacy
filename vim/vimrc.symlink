@@ -43,8 +43,9 @@ set hlsearch
 set foldlevelstart=0
 
 " Better Completion
+set omnifunc=syntaxcomplete#Complete
 set complete=.,w,b,u,t
-set completeopt=longest,menuone,preview
+set completeopt+=longest,menuone,preview
 
 set wildmenu
 set wildmode=list:longest
@@ -60,8 +61,7 @@ set wildignore+=*.luac
 set wildignore+=migrations
 set wildignore+=*.pyc
 set wildignore+=*.orig
-set wildignore+=classes
-set wildignore+=lib
+set wildignore+=*/classes/*,*/tmp*,*/node_modules
 
 set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 
@@ -70,6 +70,7 @@ let base16colorspace=256  " Access colors present in 256 colorspace
 
 " Remap CtrlP because muscle memory's a bitch
 let g:ctrlp_map = '<D-t>'
+let g:ctrlp_match_window_bottom = 0
 
 " Syntastic configs
 " Ignore HTML files since templating breaks it
@@ -172,6 +173,8 @@ if has("autocmd")
       au FileType javascript setlocal foldmarker={,}
       au FileType javascript setlocal ts=2 sts=2 sw=2 expandtab
 
+      au FileType javascript inoremap <buffer> (<space> ()<space>
+
       " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
       " positioned inside of them AND the following code doesn't get unfolded.
       au Filetype javascript inoremap <buffer> {<CR> {}<left><CR><tab><CR><ESC>kA
@@ -194,6 +197,13 @@ if has("autocmd")
     au!
 
     au BufNewFile,BufRead *.gradle setfiletype groovy
+  augroup END
+
+  augroup ruby
+    au!
+
+    au BufNewFile,BufRead Guardfile setfiletype ruby
+  augroup END
 endif
 
 " Super Awesome fold text taken from @sjl
@@ -224,12 +234,16 @@ function! InsertTabWrapper()
     endif
 endfunction
 
+inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+inoremap <s-tab> <c-n>
+
+" Who used the MacVim menu anyway?
+inoremap <D-o> <c-x><c-o>
+inoremap <D-u> <c-x><c-u>
+
 " WTF vim?
 map j gj
 map k gk
-
-inoremap <tab> <c-r>=InsertTabWrapper()<cr>
-inoremap <s-tab> <c-n>
 
 " 'Bubble' the text up or down a line
 " These bindings require @tpope's unimpaired plugin

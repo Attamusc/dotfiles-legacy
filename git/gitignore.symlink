@@ -64,6 +64,10 @@ Icon
 # --Ruby Files--
 .rake_tasks
 
+# Zeus files
+custom_plan.rb
+zeus.json
+
 # --SASS Files--
 *.sass-cache
 

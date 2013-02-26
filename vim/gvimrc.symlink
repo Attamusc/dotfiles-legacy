@@ -1,5 +1,6 @@
 if has("gui_macvim")
   macmenu File.New\ Tab key=<nop>
+  macmenu File.Open\.\.\. key=<nop>
 
   set fuoptions=maxvert,maxhorz
 end
