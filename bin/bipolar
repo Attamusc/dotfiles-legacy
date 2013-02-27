@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# A pipe-based asynchronous test runner based of an idea from
+# Destroy All Software
+
+if [ ! -p bipolar-pipe ]; then
+  mkfifo bipolar-pipe
+fi
+
+echo "Pipe is open for business!"
+
+while true; do
+  sh -c "$(cat bipolar-pipe)"
+done

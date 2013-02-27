@@ -13,6 +13,8 @@ alias cdot="cd ~/.dotfiles"
 # Shortcuts
 alias m="mvim"
 alias v="vim"
+alias f="foreman start"
+alias ford='foreman start -f Procfile.dev'
 alias o="open"
 alias oo="open ."
 

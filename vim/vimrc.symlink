@@ -50,7 +50,7 @@ set completeopt+=longest,menuone,preview
 set wildmenu
 set wildmode=list:longest
 
-set wildignore+=.hg,.git,.svn
+set wildignore+=.hg/,.git/,.svn/
 set wildignore+=*.aux,*.out,*.toc
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg
 set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest
@@ -61,15 +61,13 @@ set wildignore+=*.luac
 set wildignore+=migrations
 set wildignore+=*.pyc
 set wildignore+=*.orig
-set wildignore+=*/classes/*,*/tmp*,*/node_modules
+set wildignore+=*/classes/*,*/tmp*,*/node_modules,*/vendor/*ruby
 
 set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 
 let mapleader=","
 let base16colorspace=256  " Access colors present in 256 colorspace
 
-" Remap CtrlP because muscle memory's a bitch
-let g:ctrlp_map = '<D-t>'
 let g:ctrlp_match_window_bottom = 0
 
 " Syntastic configs
@@ -85,17 +83,20 @@ let vimclojure#ParenRainbow = 1
 let vimclojure#WantNailgun = 0
 
 if has('gui_running')
-    set guifont=Source\ Code\ Pro:h13
-    set background=dark
-    colorscheme base16-ocean
-    set go-=T
-    set go-=l
-    set go-=L
-    set go-=r
-    set go-=R
+  set guifont=Source\ Code\ Pro:h13
+  set background=dark
+  colorscheme base16-ocean
+  set go-=T
+  set go-=l
+  set go-=L
+  set go-=r
+  set go-=R
+  " Remap CtrlP because muscle memory's a bitch
+  let g:ctrlp_map = '<D-t>'
 else
-    set background=dark
-    colorscheme base16-eighties
+  set background=dark
+  colorscheme base16-eighties
+  let g:ctrlp_map = '<C-p>'
 endif
 
 " Shortcut to rapidly toggle `set list`
@@ -196,13 +197,13 @@ if has("autocmd")
   augroup groovy
     au!
 
-    au BufNewFile,BufRead *.gradle setfiletype groovy
+    au BufNewFile,BufRead *.gradle set ft=groovy
   augroup END
 
   augroup ruby
     au!
 
-    au BufNewFile,BufRead Guardfile setfiletype ruby
+    au BufNewFile,BufRead Rakefile,Guardfile set ft=ruby
   augroup END
 endif
 
@@ -285,3 +286,42 @@ nnoremap <c-l> <c-w>l
 " uppercase/lowercase a word
 nmap <leader>uc mQviwU`Q
 nmap <leader>lc mQviwu`Q
+
+" rspec mappings, taken from @thoughtbot's dotfiles
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+
+function! RunCurrentSpecFile()
+  if InSpecFile()
+    let l:command = "spring rspec -f documentation " . @%
+    call SetLastSpecCommand(l:command)
+    call RunSpecs(l:command)
+  endif
+endfunction
+
+function! RunNearestSpec()
+  if InSpecFile()
+    let l:command = "spring rspec -f documentation " . " -l " . line("."). " " . @% 
+    call SetLastSpecCommand(l:command)
+    call RunSpecs(l:command)
+  endif
+endfunction
+
+function! RunLastSpec()
+  if exists("t:last_spec_command")
+    call RunSpecs(t:last_spec_command)
+  endif
+endfunction
+
+function! InSpecFile()
+  return match(expand("%"), "_spec.rb$") != -1
+endfunction
+
+function! SetLastSpecCommand(command)
+  let t:last_spec_command = a:command
+endfunction
+
+function! RunSpecs(command)
+  execute ":w\|!silent echo 'clear && echo " . a:command . " && echo && " . a:command . "' > bipolar-pipe"
+endfunction
