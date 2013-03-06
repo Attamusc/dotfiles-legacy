@@ -1,0 +1,2 @@
+#compdef g
+_dispatch git git

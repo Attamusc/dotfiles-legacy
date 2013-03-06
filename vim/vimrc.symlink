@@ -99,8 +99,10 @@ else
   let g:ctrlp_map = '<C-p>'
 endif
 
+highlight clear SignColumn
+
 " Shortcut to rapidly toggle `set list`
-nnoremap <leader>l :set list!<CR>
+nnoremap <leader>lt :set list!<CR>
 
 " Only do this part when compiled with support for autocommands
 if has("autocmd")
@@ -323,5 +325,5 @@ function! SetLastSpecCommand(command)
 endfunction
 
 function! RunSpecs(command)
-  execute ":w\|!silent echo 'clear && echo " . a:command . " && echo && " . a:command . "' > bipolar-pipe"
+  execute ":w\|silent !echo 'clear && echo " . a:command . " && echo && " . a:command . "' > bipolar-pipe"
 endfunction

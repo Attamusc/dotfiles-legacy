@@ -28,8 +28,10 @@ export PATH=$TYPESAFE_HOME/bin:$GO_HOME/bin:$POSTGRES_APP_HOME/bin:$DART_HOME/bi
 # Add rbenv, if we have/need it
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
-# Add finatra generator to the PATH
-if [ -e "/usr/local/finatra/finatra" ]; then eval "$(/usr/local/finatra/finatra init -)"; fi
+# Add tmuxinator, if we have/need it
+if which tmuxinator > /dev/null; then 
+  [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
+fi
 
 # Set our MANPATH for `man`
 export MANPATH="/usr/share/man:/share/man:/usr/local/mysql/man:$MANPATH"
