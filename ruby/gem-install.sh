@@ -1,9 +1,6 @@
 #!/usr/bin/env sh
 # Install development dependencies with gem
 
-# Bundler
-gem install bundler
-
 # Pry stuff
 gem install pry
 gem install pry-doc

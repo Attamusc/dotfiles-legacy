@@ -11,7 +11,7 @@ The topics are fairly opinionated, with only the stuff I actually use included. 
 * Git
 * Ruby
 * Node.js
-* JVM (Java, Scala, Clojure, Groovy)
+* JVM (Java, Scala, Clojure)
 * PostgreSQL
 * Homebrew
 * Vim
@@ -23,13 +23,12 @@ The files are split by topic, instead of lumped into massive files with differen
 
 ## Install
 
-The installer is run with `rake install`. Following [Zach Holman's Dotfiles](https://github.com/holman/dotfiles), anything marked `*.symlink` will be linked from the dotfiles repo to your `$HOME` folder. This will not actually install anything, it'll simply move things into the correct spot. The Sublime Text 2 User directory also DOES NOT get moved auto-magically with the install command.
+To install, run `script/bootstrap`, which will link up all the necessary files. If on OS X, the `bin/dot` script with be run to set some defaults and install homebrew packages (take a look at `brew/install.sh` to see what gets installed). Run this every once-in-while to get the latest and greatest from homebrew.
 
-There is a bootstrap script, which I am currently working on, but it HAS NOT BEEN TESTED on a clean machine (because I don't have one :P)
-
+There are also <code>*-install.sh</code> for a few package managers which will install global packages I like or use a lot. Currently there is an `npm` one in `/node` and a `gem` one in `/ruby`. **NOTE:** These do not get run in the bootstrap script, as they may not be for everyone.
 ## Thanks
 
-Lots of the little tricks and settings in these files came either from or were inspired by various other's dotfiles, including [Zach Holman](https://github.com/holman/dotfiles), [Ryan Bates](https://github.com/ryanb/dotfiles), [Mathias Bynens](https://github.com/mathiasbynens/dotfiles), [Ryan Tomayko](https://github.com/rtomayko/dotfiles), and [Wynn Netherland](https://github.com/pengwynn/dotfiles). You guys rock.
+Lots of the little tricks and settings in these files came either from or were inspired by various other's dotfiles, including [Zach Holman](https://github.com/holman/dotfiles), [Ryan Bates](https://github.com/ryanb/dotfiles), [Mathias Bynens](https://github.com/mathiasbynens/dotfiles), [Ryan Tomayko](https://github.com/rtomayko/dotfiles), and [Wynn Netherland](https://github.com/pengwynn/dotfiles). You guys **rock**.
 
 ## License
 
