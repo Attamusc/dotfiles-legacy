@@ -290,13 +290,14 @@ nmap <leader>uc mQviwU`Q
 nmap <leader>lc mQviwu`Q
 
 " rspec mappings, taken from @thoughtbot's dotfiles
+" assumes using zeus in ruby projects
 map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 
 function! RunCurrentSpecFile()
   if InSpecFile()
-    let l:command = "spring rspec -f documentation " . @%
+    let l:command = "s -f documentation " . @%
     call SetLastSpecCommand(l:command)
     call RunSpecs(l:command)
   endif
@@ -304,7 +305,7 @@ endfunction
 
 function! RunNearestSpec()
   if InSpecFile()
-    let l:command = "spring rspec -f documentation " . " -l " . line("."). " " . @% 
+    let l:command = "s -f documentation " . " -l " . line("."). " " . @% 
     call SetLastSpecCommand(l:command)
     call RunSpecs(l:command)
   endif
@@ -326,4 +327,39 @@ endfunction
 
 function! RunSpecs(command)
   execute ":w\|silent !echo 'clear && echo " . a:command . " && echo && " . a:command . "' > bipolar-pipe"
+endfunction
+
+" Dash searching integration
+map <leader>d :call SearchDash()<CR>
+
+function! SearchDash()
+  let s:browser = "/usr/bin/open"
+  let s:wordUnderCursor = expand("<cword>")
+ 
+  " Get the filetype (everything after the first ., for special cases
+  " such as index.html.haml or abc.css.scss.erb)
+  let s:fileType = substitute(expand("%"),"^[^.]*\.","",1)
+
+  " Match it and set the searchType
+  if match(s:fileType, "js") != -1
+    let s:searchType = "js:"
+  elseif match(s:fileType, "css") != -1
+    let s:searchType = "css:"
+  elseif match(s:fileType, "html") != -1
+    let s:searchType = "html:"
+  elseif match(s:fileType, "rb") != -1
+    let s:searchType = "rb:"
+  elseif match(s:fileType, "php") != -1
+    let s:searchType = "php:"
+  elseif match(s:fileType, "py") != -1
+    let s:searchType = "python:"
+  else
+    let s:searchType = ""
+  endif
+ 
+  " Run it
+  let s:url = "dash://".s:searchType.s:wordUnderCursor
+  let s:cmd ="silent ! " . s:browser . " " . s:url
+  execute s:cmd
+  redraw!
 endfunction

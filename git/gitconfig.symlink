@@ -13,6 +13,7 @@
   # Checkout
   co = checkout
   cb = checkout -b
+  com = checkout master
 
   # Diff
   di = diff

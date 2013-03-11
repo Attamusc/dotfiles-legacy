@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 # ---Utilities---
-brew install coreutils grc gawk tree webkit2png git jq
+brew install coreutils grc gawk tree webkit2png git hub jq
 
 # ---Languages---
 # rbenv and ruby-build
