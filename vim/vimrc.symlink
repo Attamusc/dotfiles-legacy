@@ -83,7 +83,7 @@ let vimclojure#ParenRainbow = 1
 let vimclojure#WantNailgun = 0
 
 if has('gui_running')
-  set guifont=Source\ Code\ Pro:h13
+  set guifont=Source\ Code\ Pro\ For\ Powerline:h13
   set background=dark
   colorscheme base16-ocean
   set go-=T
@@ -240,7 +240,7 @@ endfunction
 inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 inoremap <s-tab> <c-n>
 
-" Who used the MacVim menu anyway?
+" Who uses the MacVim menu anyway?
 inoremap <D-o> <c-x><c-o>
 inoremap <D-u> <c-x><c-u>
 

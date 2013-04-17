@@ -1,7 +1,6 @@
 [user]
-  # You should change these if you aren't me :P
 	name = Sean Dunn
-	email = sean@attamusc.com
+	email = sedunn@adobe.com
 [alias]
   # Add
   aa = add --all

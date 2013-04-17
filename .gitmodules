@@ -19,9 +19,6 @@
 [submodule "vim/vim.symlink/bundle/zencoding-vim"]
 	path = vim/vim.symlink/bundle/zencoding-vim
 	url = http://github.com/mattn/zencoding-vim
-[submodule "vim/vim.symlink/bundle/sjl-slimv"]
-	path = vim/vim.symlink/bundle/sjl-slimv
-	url = http://github.com/gberenfield/sjl-slimv
 [submodule "vim/vim.symlink/bundle/scss-syntax.vim"]
 	path = vim/vim.symlink/bundle/scss-syntax.vim
 	url = http://github.com/cakebaker/scss-syntax.vim
@@ -49,6 +46,3 @@
 [submodule "vim/vim.symlink/bundle/vim-gitgutter"]
 	path = vim/vim.symlink/bundle/vim-gitgutter
 	url = git://github.com/airblade/vim-gitgutter.git
-[submodule "vim/vim.symlink/bundle/javascript-libraries-syntax"]
-	path = vim/vim.symlink/bundle/javascript-libraries-syntax
-	url = https://github.com/othree/javascript-libraries-syntax.vim.git
