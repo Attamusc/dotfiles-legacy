@@ -18,6 +18,7 @@ Bundle "mattn/zencoding-vim"
 Bundle "scrooloose/syntastic"
 Bundle "kien/ctrlp.vim"
 Bundle "airblade/vim-gitgutter"
+Bundle "majutsushi/tagbar"
 
 " Langs
 Bundle "tpope/vim-rails"
@@ -258,6 +259,9 @@ inoremap <s-tab> <c-n>
 
 " For fast and east bundler installing
 nnoremap <Leader>bi :BundleInstall<cr>
+
+" Show TagBar
+nnoremap <Leader>ts :TagbarToggle<CR>
 
 " Who uses the MacVim menu anyway?
 inoremap <D-o> <c-x><c-o>
