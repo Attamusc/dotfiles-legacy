@@ -16,7 +16,7 @@ git log --graph --pretty=format:"${FORMAT}" $* |
   # Replace 2 years ago with 2y
   sed -Ee 's/([[:digit:]]+) ([a-z]).+ ago/\1\2/' |
   # Color merge commits
-  sed -Ee "s/[mM]erge [bB]ranch .*$/$CYAN&$RESET/" |
+  sed -Ee "s/[mM]erge (.*\s*[bB]ranch .*|.* into .*)$/$CYAN&$RESET/" |
   # Line columns up based on } delimiter
   column -s '}' -t |
   # Page only if we need to
