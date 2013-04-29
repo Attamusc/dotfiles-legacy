@@ -25,3 +25,6 @@ for config_file ($ZSH/**/completion.sh) source $config_file
 
 # Load nvm
 . ~/.nvm/nvm.sh
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"

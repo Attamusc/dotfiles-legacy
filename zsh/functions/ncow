@@ -1,0 +1,1 @@
+notes_count $1 | grcat conf.notes

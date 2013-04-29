@@ -41,6 +41,7 @@ set autoindent
 set smartindent
 set cursorline
 set splitright
+set synmaxcol=400
 set formatoptions=qrn1
 set cmdheight=2
 set laststatus=2
@@ -49,7 +50,7 @@ set switchbuf=useopen
 set backspace=indent,eol,start
 
 " Use the same symbols as TextMate for tabstops and EOLs
-set listchars=tab:▸\ ,eol:¬,trail:⌴
+set listchars=tab:▸\ ,eol:¬,trail:·
 set ts=2 sts=2 sw=2 expandtab
 
 set noswapfile
@@ -91,7 +92,11 @@ set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 let mapleader=","
 let base16colorspace=256  " Access colors present in 256 colorspace
 
+let g:ctrlp_dotfiles = 1
 let g:ctrlp_match_window_bottom = 0
+
+" Show hidden files in NerdTree
+let NERDTreeShowHidden=1
 
 " Syntastic configs
 " Ignore HTML files since templating breaks it
@@ -188,6 +193,8 @@ if has("autocmd")
 
   augroup javascript
       au!
+
+      au BufNewFile,BufRead .jshintrc setfiletype javascript
 
       au FileType javascript setlocal foldmethod=marker
       au FileType javascript setlocal foldmarker={,}

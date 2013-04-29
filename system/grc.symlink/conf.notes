@@ -13,6 +13,16 @@ regexp=FIXME
 colours=red
 count=more
 =====
+# REFACTOR
+regexp=REFACTOR
+colours=magenta
+count=more
+=====
+# OPTIMIZE
+regexp=OPTIMIZE
+colours=blue
+count=more
+=====
 # Line numbers
 regexp=\s\d+$
 colours=blue
