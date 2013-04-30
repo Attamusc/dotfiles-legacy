@@ -19,6 +19,7 @@ Bundle "scrooloose/syntastic"
 Bundle "kien/ctrlp.vim"
 Bundle "airblade/vim-gitgutter"
 Bundle "majutsushi/tagbar"
+Bundle "AutoClose"
 
 " Langs
 Bundle "tpope/vim-rails"
@@ -200,11 +201,11 @@ if has("autocmd")
       au FileType javascript setlocal foldmarker={,}
       au FileType javascript setlocal ts=2 sts=2 sw=2 expandtab
 
-      au FileType javascript inoremap <buffer> (<space> ()<space>
+      "au FileType javascript inoremap <buffer> (<space> ()<space>
 
-      " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
-      " positioned inside of them AND the following code doesn't get unfolded.
-      au Filetype javascript inoremap <buffer> {<CR> {}<left><CR><tab><CR><ESC>kA
+      "" Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
+      "" positioned inside of them AND the following code doesn't get unfolded.
+      "au Filetype javascript inoremap <buffer> {<CR> {}<left><CR><tab><CR><ESC>kA
   augroup END
 
   augroup css
