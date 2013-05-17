@@ -8,6 +8,8 @@ filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
+Bundle "gmarik/vundle"
+
 " Utilities
 Bundle "scrooloose/nerdcommenter"
 Bundle "tpope/vim-unimpaired"
@@ -19,7 +21,10 @@ Bundle "scrooloose/syntastic"
 Bundle "kien/ctrlp.vim"
 Bundle "airblade/vim-gitgutter"
 Bundle "majutsushi/tagbar"
-Bundle "AutoClose"
+Bundle "Townk/vim-autoclose"
+Bundle "Shougo/neocomplcache"
+Bundle 'Shougo/neosnippet'
+Bundle 'honza/vim-snippets'
 
 " Langs
 Bundle "tpope/vim-rails"
@@ -29,6 +34,10 @@ Bundle "wavded/vim-stylus"
 Bundle "digitaltoad/vim-jade"
 Bundle "kchmck/vim-coffee-script"
 Bundle "othree/html5.vim"
+
+" Colors
+Bundle "zeis/vim-kolor"
+Bundle "nanotech/jellybeans.vim"
 
 filetype plugin indent on
 
@@ -72,6 +81,10 @@ set omnifunc=syntaxcomplete#Complete
 set complete=.,w,b,u,t
 set completeopt+=longest,menuone,preview
 
+hi Pmenu  guifg=#000000 guibg=#F8F8F8 ctermfg=black ctermbg=Lightgray
+hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
+hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
+
 set wildmenu
 set wildmode=list:longest
 
@@ -93,6 +106,12 @@ set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 let mapleader=","
 let base16colorspace=256  " Access colors present in 256 colorspace
 
+let g:jellybeans_overrides = {
+\    'Todo': { 'guifg': 'f0f000',
+\              'ctermfg': 'Yellow',
+\              'attr': 'bold' },
+\}
+
 let g:ctrlp_dotfiles = 1
 let g:ctrlp_match_window_bottom = 0
 
@@ -104,11 +123,85 @@ let NERDTreeShowHidden=1
 let g:syntastic_mode_map = { 'mode': 'active',
 	\ 'active_filetypes': [],
 	\ 'passive_filetypes': ['html'] }
+let g:syntastic_error_symbol = '✗'
+let g:syntastic_warning_symbol = '✗'
+let g:syntastic_enable_highlighting = 0
+
+"{{{ neocomplcache
+let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_disable_auto_complete = 1
+let g:neocomplcache_enable_camel_case_completion = 1
+let g:neocomplcache_enable_smart_case = 1
+let g:neocomplcache_enable_underbar_completion = 1
+let g:neocomplcache_enable_auto_delimiter = 1
+let g:neocomplcache_max_list = 15
+let g:neocomplcache_force_overwrite_completefunc = 1
+
+" Define dictionary.
+let g:neocomplcache_dictionary_filetype_lists = { 'default' : '' }
+
+" Define keyword.
+if !exists('g:neocomplcache_keyword_patterns')
+    let g:neocomplcache_keyword_patterns = {}
+endif
+let g:neocomplcache_keyword_patterns._ = '\h\w*'
+
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+
+" Plugin key-mappings.
+inoremap <expr><C-g> neocomplcache#undo_completion()
+inoremap <expr><C-l> neocomplcache#complete_common_string()
+inoremap <expr><CR> neocomplcache#complete_common_string()
+
+" <CR>: close popup
+" <s-CR>: close popup and save indent.
+inoremap <expr><s-CR> pumvisible() ? neocomplcache#close_popup()"\<CR>" : "\<CR>"
+inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y> neocomplcache#close_popup()
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+
+" Enable heavy omni completion.
+if !exists('g:neocomplcache_omni_patterns')
+    let g:neocomplcache_omni_patterns = {}
+endif
+let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplcache_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
+
+" Use honza's snippets.
+let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
+
+" Enable neosnippet snipmate compatibility mode
+let g:neosnippet#enable_snipmate_compatibility = 1
+
+" For snippet_complete marker.
+if has('conceal')
+    set conceallevel=2 concealcursor=i
+endif
+
+" Disable the neosnippet preview candidate window
+" When enabled, there can be too much visual noise
+" especially when splits are used.
+set completeopt-=preview
+"}}}
 
 if has('gui_running')
   set guifont=Source\ Code\ Pro\ For\ Powerline:h13
   set background=dark
-  colorscheme base16-ocean
+  colorscheme jellybeans
   set go-=T
   set go-=l
   set go-=L
@@ -173,7 +266,7 @@ if has("autocmd")
 
     au BufNewFile,BufRead *.zsh* setfiletype zsh
   augroup END
-  
+
   augroup html
     au!
 
@@ -186,10 +279,6 @@ if has("autocmd")
 
       au FileType java setlocal foldmethod=marker
       au FileType java setlocal foldmarker={,}
-
-      " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
-      " positioned inside of them AND the following code doesn't get unfolded.
-      au Filetype java inoremap <buffer> {<CR> {}<left><CR><tab><CR><ESC>kA
   augroup END
 
   augroup javascript
@@ -200,12 +289,6 @@ if has("autocmd")
       au FileType javascript setlocal foldmethod=marker
       au FileType javascript setlocal foldmarker={,}
       au FileType javascript setlocal ts=2 sts=2 sw=2 expandtab
-
-      "au FileType javascript inoremap <buffer> (<space> ()<space>
-
-      "" Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
-      "" positioned inside of them AND the following code doesn't get unfolded.
-      "au Filetype javascript inoremap <buffer> {<CR> {}<left><CR><tab><CR><ESC>kA
   augroup END
 
   augroup css
@@ -217,8 +300,6 @@ if has("autocmd")
     au Filetype css,sass,scss,less,stylus setlocal foldmarker={,}
     au Filetype css,sass,scss,less,stylus setlocal omnifunc=csscomplete#CompleteCSS
     au Filetype css,sass,scss,less,stylus setlocal iskeyword+=-
-
-    au BufNewFile,BufRead *.css,*.scss,*.less, inoremap {<CR> {}<left><CR><tab><CR><ESC>kA
   augroup END
 
   augroup groovy
@@ -258,7 +339,7 @@ function! InsertTabWrapper()
     if !col || getline('.')[col - 1] !~ '\k'
         return "\<tab>"
     else
-        return "\<c-p>"
+        return pumvisible() ? "\<c-p>" : "\<c-x>\<c-u>"
     endif
 endfunction
 
@@ -270,10 +351,6 @@ nnoremap <Leader>bi :BundleInstall<cr>
 
 " Show TagBar
 nnoremap <Leader>ts :TagbarToggle<CR>
-
-" Who uses the MacVim menu anyway?
-inoremap <D-o> <c-x><c-o>
-inoremap <D-u> <c-x><c-u>
 
 " WTF vim?
 map j gj
@@ -306,10 +383,12 @@ map <Down> <Nop>
 " Quick access to vimrc for on-the-fly customizations
 nmap <leader>ev :tabedit $MYVIMRC<CR>
 
+nmap <leader>ss :%s/\s\+$//<CR><CR>``
+
 map <leader>nf :NERDTreeFind<CR>
 map <leader>n :NERDTreeToggle<CR>
 map <leader>/ <plug>NERDCommenterToggle<CR>
-imap <leader>/ <esc><plug>NERDCommenterToggle<CR>i
+imap <leader>/ <esc><plug>NERDCommenterToggle<CR>
 
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
@@ -322,9 +401,9 @@ nmap <leader>lc mQviwu`Q
 
 " rspec mappings, taken from @thoughtbot's dotfiles
 " assumes using zeus in ruby projects
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
+"map <Leader>t :call RunCurrentSpecFile()<CR>
+"map <Leader>s :call RunNearestSpec()<CR>
+"map <Leader>l :call RunLastSpec()<CR>
 
 function! RunCurrentSpecFile()
   if InSpecFile()
@@ -336,7 +415,7 @@ endfunction
 
 function! RunNearestSpec()
   if InSpecFile()
-    let l:command = "s -f documentation " . " -l " . line("."). " " . @% 
+    let l:command = "s -f documentation " . " -l " . line("."). " " . @%
     call SetLastSpecCommand(l:command)
     call RunSpecs(l:command)
   endif
@@ -366,7 +445,7 @@ map <leader>d :call SearchDash()<CR>
 function! SearchDash()
   let s:browser = "/usr/bin/open"
   let s:wordUnderCursor = expand("<cword>")
- 
+
   " Get the filetype (everything after the first ., for special cases
   " such as index.html.haml or abc.css.scss.erb)
   let s:fileType = substitute(expand("%"),"^[^.]*\.","",1)
@@ -387,7 +466,7 @@ function! SearchDash()
   else
     let s:searchType = ""
   endif
- 
+
   " Run it
   let s:url = "dash://".s:searchType.s:wordUnderCursor
   let s:cmd ="silent ! " . s:browser . " " . s:url

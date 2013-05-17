@@ -32,7 +32,7 @@
 
   # Logging/Status Shortcuts
   h = !git l -1
-  r = !git l -30
+  r = !git l -20
   ra = !git r --all
   lo = log --graph --pretty=format:'%C(bold red)%h%Creset%C(yellow)%d%Creset %s %Cgreen(%C(magenta)%an%Creset%Cgreen, %cr)%Creset' --abbrev-commit --date=relative
   l = !$ZSH/bin/git-pretty-logs
@@ -52,6 +52,7 @@
   conflicts = !$ZSH/bin/git-conflicts
   in = !$ZSH/bin/git-incoming
   out = !$ZSH/bin/git-outgoing
+  pr = !$ZSH/bin/git-pr
 
 	# Find FIXME, TODO, etc
   # Taken from @pengwynn
@@ -62,9 +63,11 @@
   ff = feature finish
 [core]
 	editor = "mvim -f --nomru -c 'au VimLeave * !open -a iTerm'"
-	excludesfile = /Users/Atta/.gitignore
+	excludesfile = ~/.gitignore
 [github]
 	user = Attamusc
+[hub]
+  protocol = https
 [credential]
   helper = osxkeychain
 [color]

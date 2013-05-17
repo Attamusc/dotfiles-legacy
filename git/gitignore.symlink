@@ -104,3 +104,8 @@ $RECYCLE.BIN/
 *.un~
 Session.vim
 .netrwhist
+tags
+
+# --Javascript--
+.tern-project
+.tern-port
