@@ -1,3 +1,2 @@
 # Load NVM
-. ~/.nvm/nvm.sh
-
+emulate zsh -c '. ~/.nvm/nvm.sh'

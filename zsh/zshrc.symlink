@@ -23,8 +23,7 @@ for config_file ($ZSH/**/completion.sh) source $config_file
 # Load z
 . /usr/local/z/z.sh
 
-# Load nvm
-. ~/.nvm/nvm.sh
+nvm ls default &>/dev/null && nvm use default >/dev/null
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
