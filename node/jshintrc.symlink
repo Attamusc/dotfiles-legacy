@@ -1,15 +1,26 @@
 {
+  "bitwise": true,
   "browser": true,
+  "boss": true,
   "node": true,
-  "jquery": true,
-  "devel": true,
-  "nonstandard": true,
-  "debug": false,
+  "eqeqeq": true,
   "es5": true,
-  "curly": true,
-  "latedef": true,
-  "noempty": true,
-  "trailing": true,
+  "forin": true,
+  "indent": 2,
+  "nomen": false,
+  "plusplus": true,
+  "regexp": true,
   "undef": true,
-  "sub": true
+  "predef": [
+    // ---require.js---
+    "requirejs",
+    "require",
+    "define",
+
+    // ---Testing---
+    "describe",
+    "ddescribe",
+    "it",
+    "iit"
+  ]
 }

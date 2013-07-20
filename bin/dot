@@ -12,4 +12,10 @@ $ZSH/osx/set-defaults.sh
 brew update
 
 # Install homebrew packages
-$ZSH/brew/install.sh 2>&1
+#$ZSH/brew/install.sh 2>&1
+
+# Install ruby stuff
+$ZSH/ruby/gem-install.sh
+
+# Install node stuff
+$ZSH/node/npm-install.sh

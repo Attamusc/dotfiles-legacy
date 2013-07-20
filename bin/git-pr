@@ -125,13 +125,18 @@ EOF
 
   def merge!(delete)
     authenticate!
-    merge = client.merge_pull_request(repo, pull_num, get_message_from_editor)
+    merge = client.merge_pull_request(repo, pull_num, get_message_from_editor('MERGE_MSG'))
     
     if merge.merged
       puts "Successfully Merged pull request ##{pull_num} for repo '#{repo}'."
     else
       puts "Could not merge pull request ##{pull_num}. See '#{url}' for details."
     end
+  end
+
+  def create!
+    authenticate!
+    pull = client
   end
 
   private
@@ -144,10 +149,10 @@ EOF
       end
     end
 
-    def get_message_from_editor
+    def get_message_from_editor(filename)
       `#{`git config --get core.editor`.chomp} /tmp/MERGE-MSG`
-      message = File.open('/tmp/MERGE-MSG', 'r').read
-      File.delete('/tmp/MERGE-MSG')
+      message = File.open("/tmp/#{filename}", 'r').read
+      File.delete("/tmp/#{filename}")
       return message
     end
 end
