@@ -11,33 +11,38 @@ call vundle#rc()
 Bundle "gmarik/vundle"
 
 " Utilities
+Bundle "scrooloose/nerdtree"
 Bundle "scrooloose/nerdcommenter"
 Bundle "tpope/vim-unimpaired"
 Bundle "tpope/vim-surround"
 Bundle "tpope/vim-repeat"
-Bundle "scrooloose/nerdtree"
-Bundle "mattn/zencoding-vim"
+Bundle "tpope/vim-fugitive"
+Bundle "mattn/emmet-vim"
 Bundle "scrooloose/syntastic"
 Bundle "kien/ctrlp.vim"
 Bundle "airblade/vim-gitgutter"
-Bundle "majutsushi/tagbar"
-Bundle "Townk/vim-autoclose"
-Bundle "Shougo/neocomplcache"
-Bundle 'Shougo/neosnippet'
-Bundle 'honza/vim-snippets'
+Bundle "Raimondi/delimitMate"
+Bundle 'mileszs/ack.vim'
+Bundle 'Valloric/MatchTagAlways'
+Bundle 'Valloric/YouCompleteMe'
+Bundle 'godlygeek/tabular'
+Bundle 'bling/vim-airline'
 
 " Langs
-Bundle "tpope/vim-rails"
-Bundle "cakebaker/scss-syntax.vim"
-Bundle "pangloss/vim-javascript"
-Bundle "wavded/vim-stylus"
-Bundle "digitaltoad/vim-jade"
+Bundle "elixir-lang/vim-elixir"
+Bundle "jelera/vim-javascript-syntax"
 Bundle "kchmck/vim-coffee-script"
+Bundle "cakebaker/scss-syntax.vim"
+Bundle "wavded/vim-stylus"
 Bundle "othree/html5.vim"
+Bundle "juvenn/mustache.vim"
+Bundle "brettof86/vim-swigjs"
+Bundle "tpope/vim-rails"
 
 " Colors
-Bundle "zeis/vim-kolor"
 Bundle "nanotech/jellybeans.vim"
+Bundle "Pychimp/vim-luna"
+Bundle "baskerville/bubblegum"
 
 filetype plugin indent on
 
@@ -58,6 +63,8 @@ set laststatus=2
 set scrolloff=5
 set switchbuf=useopen
 set backspace=indent,eol,start
+set autoread
+set t_Co=256
 
 " Use the same symbols as TextMate for tabstops and EOLs
 set listchars=tab:▸\ ,eol:¬,trail:·
@@ -67,9 +74,6 @@ set noswapfile
 set nobackup
 set undofile
 set undodir=~/tmp/vim/undo
-if !isdirectory(expand(&undodir))
-    call mkdir(expand(&undodir), "p")
-endif
 
 set showmatch
 set incsearch
@@ -104,7 +108,10 @@ set wildignore+=*/classes/*,*/tmp*,*/node_modules,*/vendor/*ruby
 set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 
 let mapleader=","
-let base16colorspace=256  " Access colors present in 256 colorspace
+
+" vim-airline config
+let g:airline_powerline_fonts = 1
+let g:airline_theme='bubblegum'
 
 let g:jellybeans_overrides = {
 \    'Todo': { 'guifg': 'f0f000',
@@ -118,6 +125,9 @@ let g:ctrlp_match_window_bottom = 0
 " Show hidden files in NerdTree
 let NERDTreeShowHidden=1
 
+" Make Ack.vim use Ag instead
+let g:ackprg = 'ag --nogroup --nocolor --column'
+
 " Syntastic configs
 " Ignore HTML files since templating breaks it
 let g:syntastic_mode_map = { 'mode': 'active',
@@ -127,42 +137,6 @@ let g:syntastic_error_symbol = '✗'
 let g:syntastic_warning_symbol = '✗'
 let g:syntastic_enable_highlighting = 0
 
-"{{{ neocomplcache
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_disable_auto_complete = 1
-let g:neocomplcache_enable_camel_case_completion = 1
-let g:neocomplcache_enable_smart_case = 1
-let g:neocomplcache_enable_underbar_completion = 1
-let g:neocomplcache_enable_auto_delimiter = 1
-let g:neocomplcache_max_list = 15
-let g:neocomplcache_force_overwrite_completefunc = 1
-
-" Define dictionary.
-let g:neocomplcache_dictionary_filetype_lists = { 'default' : '' }
-
-" Define keyword.
-if !exists('g:neocomplcache_keyword_patterns')
-    let g:neocomplcache_keyword_patterns = {}
-endif
-let g:neocomplcache_keyword_patterns._ = '\h\w*'
-
-imap <C-k> <Plug>(neosnippet_expand_or_jump)
-smap <C-k> <Plug>(neosnippet_expand_or_jump)
-
-" Plugin key-mappings.
-inoremap <expr><C-g> neocomplcache#undo_completion()
-inoremap <expr><C-l> neocomplcache#complete_common_string()
-inoremap <expr><CR> neocomplcache#complete_common_string()
-
-" <CR>: close popup
-" <s-CR>: close popup and save indent.
-inoremap <expr><s-CR> pumvisible() ? neocomplcache#close_popup()"\<CR>" : "\<CR>"
-inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "\<CR>"
-
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y> neocomplcache#close_popup()
-
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -171,37 +145,10 @@ autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 
-" Enable heavy omni completion.
-if !exists('g:neocomplcache_omni_patterns')
-    let g:neocomplcache_omni_patterns = {}
-endif
-let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
-
-" Use honza's snippets.
-let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
-
-" Enable neosnippet snipmate compatibility mode
-let g:neosnippet#enable_snipmate_compatibility = 1
-
-" For snippet_complete marker.
-if has('conceal')
-    set conceallevel=2 concealcursor=i
-endif
-
-" Disable the neosnippet preview candidate window
-" When enabled, there can be too much visual noise
-" especially when splits are used.
-set completeopt-=preview
-"}}}
-
 if has('gui_running')
   set guifont=Source\ Code\ Pro\ For\ Powerline:h13
   set background=dark
-  colorscheme jellybeans
+  colorscheme bubblegum
   set go-=T
   set go-=l
   set go-=L
@@ -211,14 +158,11 @@ if has('gui_running')
   let g:ctrlp_map = '<D-t>'
 else
   set background=dark
-  colorscheme base16-eighties
+  colorscheme jellybeans
   let g:ctrlp_map = '<C-p>'
 endif
 
 highlight clear SignColumn
-
-" Shortcut to rapidly toggle `set list`
-nnoremap <leader>lt :set list!<CR>
 
 " Only do this part when compiled with support for autocommands
 if has("autocmd")
@@ -270,9 +214,9 @@ if has("autocmd")
   augroup html
     au!
 
-    au BufNewFile,BufRead *.hbs setfiletype html
-    au BufNewFile,BufRead *.handlebars setfiletype html
-    au BufNewFile,BufRead *.mustache setfiletype html
+    "au BufNewFile,BufRead *.hbs setfiletype html
+    "au BufNewFile,BufRead *.handlebars setfiletype html
+    "au BufNewFile,BufRead *.mustache setfiletype html
     au BufNewFile,BufRead *.ejs setfiletype html
   augroup END
 
@@ -287,6 +231,7 @@ if has("autocmd")
       au!
 
       au BufNewFile,BufRead .jshintrc setfiletype javascript
+      au BufNewFile,BufRead *.json setfiletype javascript
 
       au FileType javascript setlocal foldmethod=marker
       au FileType javascript setlocal foldmarker={,}
@@ -297,6 +242,7 @@ if has("autocmd")
     au!
 
     au BufNewFile,BufRead *.styl setfiletype stylus
+    au BufNewFile,BufRead *.roo setfiletype stylus
 
     au Filetype css,sass,scss,less,stylus setlocal foldmethod=marker
     au Filetype css,sass,scss,less,stylus setlocal foldmarker={,}
@@ -338,21 +284,29 @@ set foldtext=MyFoldText()
 " Context sensitive tab completion taken from @garybernhardt's dotfiles
 function! InsertTabWrapper()
     let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~ '\k'
+    if (!col || getline('.')[col - 1] !~ '\k') && !pumvisible()
         return "\<tab>"
     else
-        return pumvisible() ? "\<c-p>" : "\<c-x>\<c-u>"
+        return pumvisible() ? "\<c-n>" : "\<c-x>\<c-u>"
     endif
 endfunction
 
-inoremap <tab> <c-r>=InsertTabWrapper()<cr>
-inoremap <s-tab> <c-n>
+"inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+"inoremap <s-tab> <c-p>
+
+" Plugin key-mappings.
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xmap <C-k> <Plug>(neosnippet_expand_target)
 
 " For fast and east bundler installing
 nnoremap <Leader>bi :BundleInstall<cr>
 
 " Show TagBar
 nnoremap <Leader>ts :TagbarToggle<CR>
+
+" Shortcut to rapidly toggle `set list`
+nnoremap <leader>lt :set list!<CR>
 
 " WTF vim?
 map j gj
@@ -371,6 +325,9 @@ nnoremap <tab> >>
 vnoremap <s-tab> <gv
 vnoremap <tab> >gv
 
+" Ack plugin
+nnoremap <leader>a :Ack ''<left>
+
 nnoremap <CR> :nohlsearch<CR>
 
 nnoremap <space> za
@@ -382,12 +339,28 @@ map <Right> <Nop>
 map <Up> <Nop>
 map <Down> <Nop>
 
+" Tabular
+if exists(":Tabularize")
+  nmap <Leader>a= :Tabularize /=<CR>
+  vmap <Leader>a= :Tabularize /=<CR>
+  nmap <Leader>a: :Tabularize /:<CR>
+  vmap <Leader>a: :Tabularize /:<CR>
+endif
+
+
+" For rsyncing
+nmap <leader>rn :silent !rsync -rltz --executability --filter=':- .gitignore' -e ssh . sbelsky@dev17.be.lan:/var/www/vhosts/network/sandbox/<CR>
+nmap <leader>ra :silent !rsync -rltz --executability --filter=':- .gitignore' -e ssh . sbelsky@dev17.be.lan:/var/www/vhosts/network/sandbox/public/assets/<CR>
+nmap <leader>rs :silent !rsync -rltz --executability --filter=':- .gitignore' -e ssh . sbelsky@dev17.be.lan:/var/www/vhosts/scheduler/sandbox/<CR>
+
+nmap <leader>rc :silent !osascript -e 'tell application "Google Chrome Canary" to tell the active tab of its last window to reload'<CR>
+
 " Quick access to vimrc for on-the-fly customizations
 nmap <leader>ev :tabedit $MYVIMRC<CR>
 
 nmap <leader>ss :%s/\s\+$//<CR><CR>``
 
-map <leader>nf :NERDTreeFind<CR>
+"map <leader>nf :NERDTreeFind<CR>
 map <leader>n :NERDTreeToggle<CR>
 map <leader>/ <plug>NERDCommenterToggle<CR>
 imap <leader>/ <esc><plug>NERDCommenterToggle<CR>

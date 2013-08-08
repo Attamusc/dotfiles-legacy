@@ -1,3 +1,2 @@
 export PATH="/Users/`whoami`/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
-export POW_DST_PORT=88
