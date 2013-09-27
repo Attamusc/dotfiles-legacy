@@ -34,7 +34,7 @@ bind right:alt;space focus right
 bind up:alt;space    focus up
 bind down:alt;space  focus down
 
-# Work Layout
+# Work Dev Layout
 #   * MacVim - Left 1/2
 #   * iTerm - Top-Right 1/4
 #   * HipChat - Bottom-Right 1/4
@@ -42,3 +42,12 @@ layout hacking-right 'MacVim':REPEAT    push left bar-resize:screenSizeX/2
 layout hacking-right 'iTerm':REPEAT     corner top-right ${resize-quarter}
 layout hacking-right 'HipChat':REPEAT   corner bottom-right ${resize-quarter}
 bind n:alt;space layout hacking-right
+
+# Work Social Layout
+#   * Chrome - Left 1/2
+#   * HipChat - Top-Right 1/4
+#   * Wunderlist - Bottom-Right 1/4
+layout work-social-right 'Google Chrome':REPEAT    push left bar-resize:screenSizeX/2
+layout work-social-right 'HipChat':REPEAT     corner top-right ${resize-quarter}
+layout work-social-right 'Wunderlist':REPEAT   corner bottom-right ${resize-quarter}
+bind m:alt;space layout work-social-right

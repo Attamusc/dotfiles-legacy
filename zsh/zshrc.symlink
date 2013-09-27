@@ -27,5 +27,4 @@ for config_file ($ZSH/**/completion.sh) source $config_file
 
 nvm ls default &>/dev/null && nvm use default >/dev/null
 
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/php5/bin:/usr/local/heroku/bin:$PATH"
+export PATH="/Applications/Postgres.app/Contents/MacOS/bin:/usr/local/php5/bin:/usr/local/heroku/bin:$PATH"

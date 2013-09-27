@@ -29,6 +29,9 @@ alias la='ls -GA'
 
 alias update='sudo softwareupdate -i -a; brew update; brew upgrade; npm update npm -g; npm update -g'
 
+# ---Selenium Standalone Server---
+alias sel-start="java -jar /usr/local/opt/selenium-server-standalone/selenium-server-standalone-2.35.0.jar -p 4444"
+
 # ---Spotlight Stuff---
 # Disable/Enable spotlight indexing
 alias spotoff="sudo mdutil -a -i off"
