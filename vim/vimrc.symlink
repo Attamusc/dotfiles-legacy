@@ -74,8 +74,6 @@ set ts=2 sts=2 sw=2 expandtab
 
 set noswapfile
 set nobackup
-set undofile
-set undodir=~/tmp/vim/undo
 
 set showmatch
 set incsearch
@@ -402,9 +400,9 @@ endif
 
 
 " For rsyncing
-nmap <leader>rn :silent !rsync -rltz --executability --filter=':- .gitignore' -e ssh . sbelsky@dev17.be.lan:/var/www/vhosts/network/sandbox/<CR>
-nmap <leader>ra :silent !rsync -rltz --executability --filter=':- .gitignore' -e ssh . sbelsky@dev17.be.lan:/var/www/vhosts/network/sandbox/public/assets/<CR>
-nmap <leader>rs :silent !rsync -rltz --executability --filter=':- .gitignore' -e ssh . sbelsky@dev17.be.lan:/var/www/vhosts/scheduler/sandbox/<CR>
+nmap <leader>rn :silent !rsync -rltz --executability --filter=':- .gitignore' -e ssh . root@dev17.be.lan:/var/www/vhosts/network/sandbox/<CR>
+nmap <leader>ra :silent !rsync -rltz --executability --filter=':- .gitignore' -e ssh . root@dev17.be.lan:/var/www/vhosts/network/sandbox/public/assets/<CR>
+nmap <leader>rs :silent !rsync -rltz --executability --filter=':- .gitignore' -e ssh . root@dev17.be.lan:/var/www/vhosts/scheduler/sandbox/<CR>
 
 nmap <leader>rc :silent !osascript -e 'tell application "Google Chrome Canary" to tell the active tab of its last window to reload'<CR>
 

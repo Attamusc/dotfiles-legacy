@@ -11,7 +11,7 @@ bind-key q   confirm-before kill-session
 bind-key n   command-prompt 'rename-window "%%"'
 bind-key N   command-prompt 'rename-session "%%"'
 
-bind-key r   source-file $HOME/.tmux.conf
+bind-key r   source-file $HOME/.tmux.conf \; display "Config Reload!"
 
 # Use vim keybindings in copy mode
 setw -g mode-keys vi
