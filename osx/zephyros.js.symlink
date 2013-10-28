@@ -1,0 +1,157 @@
+// vim: set ft=javascript:
+/* global api, bind, unbind, doAfter, log */
+
+var active = false;
+
+function _bindKey(key, callback) {
+  bind(key, [], function() {
+    callback();
+    _unbindAll();
+  });
+}
+
+function _moveWindow(fn) {
+  var win = api.focusedWindow(),
+      frame = win.screen().frameWithoutDockOrMenu();
+
+  fn && fn(frame);
+
+  win.setFrame(frame);
+}
+
+function _bindAll() {
+  if (!active) {
+    log('Binding All...');
+
+    unbind('Space', ['alt']);
+
+    // - Moves -
+    // -- Sides --
+    // Top Half
+    _bindKey('w', function() {
+      _moveWindow(function(frame) {
+        frame.h = frame.h / 2.0;
+      });
+    });
+
+    // Left Half
+    _bindKey('a', function() {
+      _moveWindow(function(frame) {
+        frame.w = frame.w / 2.0;
+      });
+    });
+
+    // Bottom Half
+    _bindKey('x', function() {
+      _moveWindow(function(frame) {
+        frame.y = frame.h = frame.h / 2.0;
+      });
+    });
+
+    // Right Half
+    _bindKey('d', function() {
+      _moveWindow(function(frame) {
+        frame.x = frame.w = frame.w / 2.0;
+      });
+    });
+
+    // -- Corners --
+    // Top Left Quarter
+    _bindKey('q', function() {
+      _moveWindow(function(frame) {
+        frame.w = frame.w / 2.0;
+        frame.h = frame.h / 2.0;
+      });
+    });
+
+    // Top Right Quarter
+    _bindKey('e', function() {
+      _moveWindow(function(frame) {
+        frame.x = frame.w = frame.w / 2.0;
+        frame.h = frame.h / 2.0;
+      });
+    });
+
+    // Bottom Left Quarter
+    _bindKey('z', function() {
+      _moveWindow(function(frame) {
+        frame.w = frame.w / 2.0;
+        frame.y = frame.h = frame.h / 2.0;
+      });
+    });
+
+    // Bottom Right Quarter
+    _bindKey('c', function() {
+      _moveWindow(function(frame) {
+        frame.x = frame.w = frame.w / 2.0;
+        frame.y = frame.h = frame.h / 2.0;
+      });
+    });
+
+    // Center
+    _bindKey('s', function() {
+      _moveWindow(function(frame) {
+        var partitionX = frame.w / 8.0,
+            partitionY = frame.h / 8.0;
+
+        frame.x = partitionX;
+        frame.y = partitionY;
+
+        frame.w = partitionX * 6;
+        frame.h = partitionY * 6;
+      });
+    });
+
+    // Fullscreen
+    _bindKey('f', function() {
+      _moveWindow();
+    });
+
+    _bindDismiss();
+    active = true;
+  }
+}
+
+function _unbindAll() {
+  if (active) {
+    log('Unbinding All...');
+
+    bind('space', ['alt'], function() {
+      _bindAll();
+    });
+
+    unbind('w', []);
+    unbind('a', []);
+    unbind('x', []);
+    unbind('d', []);
+
+    unbind('q', []);
+    unbind('e', []);
+    unbind('z', []);
+    unbind('c', []);
+
+    unbind('s', []);
+    unbind('f', []);
+
+    _unbindDismiss();
+    active = false;
+  }
+}
+
+function _bindDismiss() {
+  bind('Escape', [], function() {
+    _unbindAll();
+  });
+
+  // Default Timeout if no known action happens for 4 seconds
+  doAfter(4, _unbindAll);
+}
+
+function _unbindDismiss() {
+  unbind('Escape', []);
+}
+
+// Bind the mode toggle
+bind('space', ['alt'], function() {
+  _bindAll();
+});

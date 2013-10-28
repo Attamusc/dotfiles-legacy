@@ -145,7 +145,7 @@ EOF
       @client = if credentials[:token].empty?
         Octokit::Client.new(:login => credentials[:login], :password => credentials[:password])
       else
-        Octokit::Client.new(:login => credentials[:login], :oauth_token => credentials[:token])
+        Octokit::Client.new(:login => credentials[:login], :access_token => credentials[:token])
       end
     end
 

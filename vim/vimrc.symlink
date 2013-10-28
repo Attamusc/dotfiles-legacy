@@ -259,7 +259,7 @@ if has("autocmd")
   augroup ruby
     au!
 
-    au BufNewFile,BufRead Rakefile,Guardfile set ft=ruby
+    au BufNewFile,BufRead Rakefile,Guardfile,Vagrantfile set ft=ruby
   augroup END
 
   " strip trailing whitespace on buffer saves
@@ -398,11 +398,8 @@ if exists(":Tabularize")
   vmap <Leader>a: :Tabularize /:<CR>
 endif
 
-
 " For rsyncing
-nmap <leader>rn :silent !rsync -rltz --executability --filter=':- .gitignore' -e ssh . root@dev17.be.lan:/var/www/vhosts/network/sandbox/<CR>
-nmap <leader>ra :silent !rsync -rltz --executability --filter=':- .gitignore' -e ssh . root@dev17.be.lan:/var/www/vhosts/network/sandbox/public/assets/<CR>
-nmap <leader>rs :silent !rsync -rltz --executability --filter=':- .gitignore' -e ssh . root@dev17.be.lan:/var/www/vhosts/scheduler/sandbox/<CR>
+nmap <leader>rn :silent !rsync -rltz --executability --filter=':- .gitignore' -e ssh . sbelsky@dev17.be.lan:/var/www/vhosts/network/sandbox/<CR>
 
 nmap <leader>rc :silent !osascript -e 'tell application "Google Chrome Canary" to tell the active tab of its last window to reload'<CR>
 
@@ -424,6 +421,36 @@ nnoremap <c-l> <c-w>l
 " uppercase/lowercase a word
 nmap <leader>uc mQviwU`Q
 nmap <leader>lc mQviwu`Q
+
+" xmpfilter mappings for poorman's insta-repl
+" annotations
+"map <silent> <leader>ra !xmpfilter -a<cr>
+"nmap <silent> <leader>ra V<leader>ra
+"imap <silent> <leader>ra <ESC><leader>raa
+
+nmap <silent> <leader>ra mzggVG!xmpfilter -a<cr>'z
+imap <silent> <leader>ra <ESC><leader>ra
+
+" add # => marker
+vmap <silent> <leader>rm !xmpfilter -m<cr>
+nmap <silent> <leader>rm V<leader>rm
+imap <silent> <leader>rm <ESC><leader>rma
+
+" remove # => marker
+vmap <silent> <leader>rd ms:call RemoveRubyEval()<CR>
+nmap <silent> <leader>rd V<leader>rd
+imap <silent> <leader>rd <ESC><leader>rda
+
+function! RemoveRubyEval() range
+  let begv = a:firstline
+  let endv = a:lastline
+  normal Hmt
+  set lz
+  execute ":" . begv . "," . endv . 's/\s*# \(=>\|!!\).*$//e'
+  normal 'tzt`s
+  set nolz
+  redraw
+endfunction
 
 " rspec mappings, taken from @thoughtbot's dotfiles
 " assumes using zeus in ruby projects

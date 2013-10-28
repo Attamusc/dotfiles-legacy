@@ -47,6 +47,9 @@
   s = stash
   sp = stash pop
 
+  # Grabbing SHA of latest commit
+  sha = !git rev-parse HEAD | pbcopy
+
   # For the lolz
   yolo = !git reset --hard HEAD^
 
