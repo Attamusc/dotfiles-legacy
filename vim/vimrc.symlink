@@ -12,11 +12,17 @@ Bundle "gmarik/vundle"
 
 " Utilities
 Bundle "Attamusc/vim-mocha"
+Bundle "Blackrush/vim-gocode"
 Bundle "bling/vim-airline"
-Bundle "godlygeek/tabular"
+Bundle "drmingdrmer/xptemplate"
+Bundle "gre/play2vim"
+Bundle 'junegunn/vim-easy-align'
 Bundle "jgdavey/tslime.vim"
+Bundle "kien/ctrlp.vim"
+Bundle "marijnh/tern_for_vim"
 Bundle "mattn/emmet-vim"
 Bundle "mhinz/vim-signify"
+Bundle "nathanaelkane/vim-indent-guides"
 Bundle "Raimondi/delimitMate"
 Bundle "scrooloose/nerdtree"
 Bundle "scrooloose/nerdcommenter"
@@ -25,6 +31,7 @@ Bundle "Shougo/unite.vim"
 Bundle "Shougo/vimproc"
 Bundle "tpope/vim-endwise"
 Bundle "tpope/vim-fugitive"
+Bundle "tpope/vim-markdown"
 Bundle "tpope/vim-repeat"
 Bundle "tpope/vim-surround"
 Bundle "tpope/vim-unimpaired"
@@ -35,16 +42,24 @@ Bundle "Valloric/YouCompleteMe"
 Bundle "cakebaker/scss-syntax.vim"
 Bundle "elixir-lang/vim-elixir"
 Bundle "jelera/vim-javascript-syntax"
+Bundle "pangloss/vim-javascript"
+Bundle "elzr/vim-json"
 Bundle "juvenn/mustache.vim"
 Bundle "kchmck/vim-coffee-script"
 Bundle "othree/html5.vim"
 Bundle "tpope/vim-rails"
 Bundle "wavded/vim-stylus"
+Bundle "jnwhiteh/vim-golang"
+Bundle "derekwyatt/vim-scala"
 
 " Colors
 Bundle "baskerville/bubblegum"
 Bundle "nanotech/jellybeans.vim"
 Bundle "Pychimp/vim-luna"
+Bundle "szw/seoul256.vim"
+Bundle "noahfrederick/vim-hemisu"
+Bundle "jonathanfilip/vim-lucius"
+Bundle "w0ng/vim-hybrid"
 
 filetype plugin indent on
 
@@ -67,6 +82,7 @@ set switchbuf=useopen
 set backspace=indent,eol,start
 set autoread
 set t_Co=256
+set tags=tags;/
 
 " Use the same symbols as TextMate for tabstops and EOLs
 set listchars=tab:▸\ ,eol:¬,trail:·
@@ -109,6 +125,9 @@ set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 
 let mapleader=","
 
+" vim-json config
+let g:vim_json_syntax_conceal = 0
+
 " vim-airline config
 let g:airline_powerline_fonts = 1
 
@@ -121,6 +140,7 @@ let g:jellybeans_overrides = {
 " ctrlp config
 let g:ctrlp_dotfiles = 1
 let g:ctrlp_match_window_bottom = 0
+let g:ctrlp_custom_ignore = '\v[\/]((\.(git|hg|svn))|target|project|node_modules)$'
 
 " Show hidden files in NerdTree
 let NERDTreeShowHidden=1
@@ -134,19 +154,25 @@ let g:syntastic_error_symbol = '✗'
 let g:syntastic_warning_symbol = '✗'
 let g:syntastic_enable_highlighting = 0
 
+" gocode
+let g:gocode_gofmt_tabs = ' -tabs=true'
+let g:gocode_gofmt_tabwidth = ' -tabwidth=4'
+
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 
+" YCM Settings
+let g:ycm_autoclose_preview_window_after_completion = 1
+
 if has('gui_running')
   set guifont=Source\ Code\ Pro\ For\ Powerline:h13
   set background=dark
-  colorscheme jellybeans
-  let g:airline_theme='jellybeans'
+  colorscheme hybrid
+  let g:airline_theme='lucius'
   set go-=T
   set go-=l
   set go-=L
@@ -224,18 +250,33 @@ if has("autocmd")
 
       au FileType java setlocal foldmethod=marker
       au FileType java setlocal foldmarker={,}
+      au BufWritePre *.java call StripTrailing()
   augroup END
+
+  augroup json
+    au!
+
+    au BufNewFile,BufRead .tern-project setfiletype json
+  augroup end
 
   augroup javascript
       au!
 
       au BufNewFile,BufRead .jshintrc setfiletype javascript
-      au BufNewFile,BufRead *.json setfiletype javascript
       au BufNewFile,BufRead *.njs setfiletype javascript
 
       au FileType javascript setlocal foldmethod=marker
       au FileType javascript setlocal foldmarker={,}
       au FileType javascript setlocal ts=2 sts=2 sw=2 expandtab
+
+      " Tern Bindings
+      au FileType javascript inoremap <C-t> <esc>:TernType<cr>a
+      au FileType javascript nnoremap <C-t> :TernType<cr>
+
+      au FileType javascript noremap <C-d> <esc>:TernDef<cr>
+      au FileType javascript noremap <C-d> :TernDef<cr>
+
+      au BufWritePre *.js,*.njs call StripTrailing()
   augroup END
 
   augroup css
@@ -252,19 +293,20 @@ if has("autocmd")
 
   augroup groovy
     au!
-
     au BufNewFile,BufRead *.gradle set ft=groovy
+  augroup END
+
+  augroup go
+    au!
+    au FileType go setlocal ts=4 sts=4 sw=4
+    au BufWritePre *.go call StripTrailing()
   augroup END
 
   augroup ruby
     au!
 
     au BufNewFile,BufRead Rakefile,Guardfile,Vagrantfile set ft=ruby
-  augroup END
-
-  " strip trailing whitespace on buffer saves
-  augroup whitespace
-    autocmd BufWritePre *.rb,*.js call StripTrailing()
+    au BufWritePre *.rb call StripTrailing()
   augroup END
 endif
 
@@ -296,30 +338,22 @@ function! MyFoldText() " {{{
 endfunction " }}}
 set foldtext=MyFoldText()
 
-" Context sensitive tab completion taken from @garybernhardt's dotfiles
-function! InsertTabWrapper()
-    let col = col('.') - 1
-    if (!col || getline('.')[col - 1] !~ '\k') && !pumvisible()
-        return "\<tab>"
-    else
-        return pumvisible() ? "\<c-n>" : "\<c-x>\<c-u>"
-    endif
-endfunction
-
-"inoremap <tab> <c-r>=InsertTabWrapper()<cr>
-"inoremap <s-tab> <c-p>
-
 " Unite settings
 call unite#set_profile('files', 'smartcase', 1)
-call unite#custom#source('file,file/new,buffer,file_rec,file_rec/async',
-	\ 'matchers', 'matcher_fuzzy')
-call unite#custom#source('file_mru,file_rec,file_rec/async,grepocate',
-        \ 'max_candidates', 30000)
-call unite#custom#profile('files', 'filters', 'sorter_rank')
+"call unite#custom#profile('files', 'filters', 'sorter_rank')
+call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
+      \ 'ignore_pattern', join([
+      \ '\.git/',
+      \ ], '\|'))
 
-let g:unite_data_directory='~/.vim/.cache/unite'
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+
+let g:unite_winheight = 10
+let g:unite_data_directory='/Users/Sean/.vim/.cache/unite'
 let g:unite_enable_start_insert=1
 let g:unite_source_history_yank_enable=1
+let g:unite_source_rec_max_cache_files=5000
 let g:unite_source_file_rec_max_cache_files=30000
 let g:unite_prompt='» '
 let g:unite_source_grep_command='ag'
@@ -331,13 +365,15 @@ function! s:unite_settings()
   nmap <buffer> Q <plug>(unite_exit)
   nmap <buffer> <esc> <plug>(unite_exit)
   imap <buffer> <esc> <plug>(unite_exit)
+  imap <silent><buffer><expr> <C-x> unite#do_action('split')
+  imap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
+  imap <silent><buffer><expr> <C-t> unite#do_action('tabopen')
   imap <buffer> <C-j> <down>
   imap <buffer> <C-k> <up>
 endfunction
 autocmd FileType unite call s:unite_settings()
 
 " Unite keybindings
-nnoremap <D-t> :Unite -toggle -auto-resize -buffer-name=files file_rec/async:!<cr>
 nnoremap <leader>aa :Unite -no-quit -buffer-name=search grep:.<cr>
 
 nnoremap <space><space> :Unite -toggle -auto-resize -buffer-name=mixed file_rec/async buffer file_mru bookmark<cr>
@@ -390,25 +426,21 @@ map <Right> <Nop>
 map <Up> <Nop>
 map <Down> <Nop>
 
-" Tabular
-if exists(":Tabularize")
-  nmap <Leader>a= :Tabularize /=<CR>
-  vmap <Leader>a= :Tabularize /=<CR>
-  nmap <Leader>a: :Tabularize /:<CR>
-  vmap <Leader>a: :Tabularize /:<CR>
-endif
+" Vim-Easy-Align
+vnoremap <silent> <Enter> :EasyAlign<Enter>
 
 " For rsyncing
 nmap <leader>rn :silent !rsync -rltz --executability --filter=':- .gitignore' -e ssh . sbelsky@dev17.be.lan:/var/www/vhosts/network/sandbox/<CR>
-
 nmap <leader>rc :silent !osascript -e 'tell application "Google Chrome Canary" to tell the active tab of its last window to reload'<CR>
 
 " Quick access to vimrc for on-the-fly customizations
 nmap <leader>ev :tabedit $MYVIMRC<CR>
 
-nmap <leader>ss :%s/\s\+$//<CR><CR>``
+nmap <leader>rs :%s/\s\+$//<CR><CR>``
 
-"map <leader>nf :NERDTreeFind<CR>
+" Search and replace current word under cursor
+noremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
+
 map <leader>n :NERDTreeToggle<CR>
 map <leader>/ <plug>NERDCommenterToggle<CR>
 imap <leader>/ <esc><plug>NERDCommenterToggle<CR>
@@ -423,11 +455,6 @@ nmap <leader>uc mQviwU`Q
 nmap <leader>lc mQviwu`Q
 
 " xmpfilter mappings for poorman's insta-repl
-" annotations
-"map <silent> <leader>ra !xmpfilter -a<cr>
-"nmap <silent> <leader>ra V<leader>ra
-"imap <silent> <leader>ra <ESC><leader>raa
-
 nmap <silent> <leader>ra mzggVG!xmpfilter -a<cr>'z
 imap <silent> <leader>ra <ESC><leader>ra
 

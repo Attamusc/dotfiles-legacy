@@ -1,0 +1,116 @@
+# vim: set ft=coffee:
+
+# General Utilities
+
+class Zeph
+  constructor: ->
+    @active = false
+    #
+    # Bind the mode toggle
+    bind 'space', ['alt'], =>
+      if @active
+        @_unbindAll()
+
+        # Default Timeout if no known action happens for 4 seconds
+      else
+        @_bindAll()
+
+  _bindKey: (key, callback) ->
+    bind key, [], =>
+      callback()
+      @_unbindAll()
+
+  _moveWindow: (fn) ->
+    win = api.focusedWindow()
+    frame = win.screen().frameWithoutDockOrMenu()
+
+    fn && fn(frame)
+    win.setFrame(frame)
+
+  _bindAll: ->
+    if not @active
+      @active = true
+      showBox('Bound')
+
+      # - Moves -
+      # -- Sides --
+      # Top Half
+      @_bindKey 'w', =>
+        @_moveWindow (frame) ->
+          frame.h = frame.h / 2.0
+
+      # Left Half
+      @_bindKey 'a', =>
+        @_moveWindow (frame) ->
+          frame.w = frame.w / 2.0
+
+      # Bottom Half
+      @_bindKey 'x', =>
+        @_moveWindow (frame) ->
+          frame.y = frame.h = frame.h / 2.0
+
+      # Right Half
+      @_bindKey 'd', =>
+        @_moveWindow (frame) ->
+          frame.x = frame.w = frame.w / 2.0
+
+      # -- Corners --
+      # Top Left Quarter
+      @_bindKey 'q', =>
+        @_moveWindow (frame) ->
+          frame.w = frame.w / 2.0
+          frame.h = frame.h / 2.0
+          frame.y = frame.h = frame.h / 2.0
+
+      # Bottom Right Quarter
+      @_bindKey 'c', =>
+        @_moveWindow (frame) ->
+          frame.x = frame.w = frame.w / 2.0
+          frame.y = frame.h = frame.h / 2.0
+
+      # Center
+      @_bindKey 's', =>
+        @_moveWindow (frame) ->
+          partitionX = frame.w / 8.0
+          partitionY = frame.h / 8.0
+
+          frame.x = partitionX
+          frame.y = partitionY
+
+          frame.w = partitionX * 6
+          frame.h = partitionY * 6
+
+      # Fullscreen
+      @_bindKey 'f', =>
+        @_moveWindow()
+
+      @_bindDismiss()
+
+  _unbindAll: ->
+    if @active
+      @active = false
+      hideBox()
+
+      unbind 'w', []
+      unbind 'a', []
+      unbind 'x', []
+      unbind 'd', []
+
+      unbind 'q', []
+      unbind 'e', []
+      unbind 'z', []
+      unbind 'c', []
+
+      unbind 's', []
+      unbind 'f', []
+
+      @_unbindDismiss()
+
+   _bindDismiss: ->
+    bind 'Escape', [], =>
+      @_unbindAll()
+
+   _unbindDismiss: ->
+    unbind 'Escape', []
+
+new Zeph()

@@ -9,6 +9,7 @@ alias .....="cd ../../../.."
 alias ~="cd ~"
 alias -- -="cd -"
 alias cdot="cd ~/.dotfiles"
+alias capps="cd /usr/local/etc/nginx/sites-available"
 
 # Shortcuts
 alias m="mvim"
@@ -29,8 +30,11 @@ alias la='ls -GA'
 
 alias update='sudo softwareupdate -i -a; brew update; brew upgrade; npm update npm -g; npm update -g'
 
+# ---tmuxifier---
+alias mux="tmuxifier"
+
 # ---Selenium Standalone Server---
-alias sel-start="java -jar /usr/local/opt/selenium-server-standalone/selenium-server-standalone-2.35.0.jar -p 4444"
+alias sel-start="java -jar /usr/local/opt/selenium-server-standalone/selenium-server-standalone-2.37.0.jar -p 4444"
 
 # ---Spotlight Stuff---
 # Disable/Enable spotlight indexing

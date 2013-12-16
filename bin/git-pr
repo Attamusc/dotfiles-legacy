@@ -3,15 +3,28 @@
 # Work with GitHub Pull Requests from the comfort of the command line
 # Authenticates using a personal OAUTH token, or a stored password
 #
+# $ git pr
+# $ git pr list
+# => List of all open pull requests for the current repo
+#
+# $ git pr details 14
+# => Show opener, description, and various details about pull request 14
+#
+# $ git pr commits 14
+# => Show the commits associated with pull request 14
+#
+# $ git pr merge 14
+# => Click the "Merge Button"™ for pull request 14
+#
 # $ git pr open 14
-# => Open default browser with pull request 14 open
+# => Open default browser with pull request 14 discussion
 
 GEM_DEPS = %w[commander/import octokit]
 
 GEM_DEPS.each do |gem|
   begin
     require "#{gem}"
-  rescue LoadError => e
+  rescue LoadError
     puts "You must install the '#{gem}' gem in order to use git-pr"
   end
 end
@@ -112,7 +125,7 @@ class GitPr
 Created By: #{pull.user.login}
 Status: #{pull.state.capitalize}
 
-#{pull.body})
+#{pull.body}
 EOF
   end
 
@@ -153,7 +166,7 @@ EOF
       `#{`git config --get core.editor`.chomp} /tmp/MERGE-MSG`
       message = File.open("/tmp/#{filename}", 'r').read
       File.delete("/tmp/#{filename}")
-      return message
+      message
     end
 end
 
