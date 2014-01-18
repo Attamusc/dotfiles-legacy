@@ -21,3 +21,4 @@ npm install -g hem
 npm install -g jake
 npm install -g grunt-cli
 npm install -g jshint
+npm install -g jscs

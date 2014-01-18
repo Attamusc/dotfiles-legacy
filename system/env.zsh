@@ -1,4 +1,7 @@
 # Exports
+# Fix for cgo on Mavericks
+export CC=clang
+
 # make Sublime the default editor
 export EDITOR="mvim"
 export LESS=FRSX
@@ -8,7 +11,7 @@ export GROOVY_HOME=/usr/local/Cellar/groovy/1.8.0/libexec
 export DART_HOME=/Users/Atta/dart/dart-sdk
 export GO_HOME=/usr/local/go
 
-export GOPATH=~/Projects/go-space/
+export GOPATH=~/Projects/go-space
 
 # Frameworks
 export GWT_HOME=/usr/local/gwt-2.4.0

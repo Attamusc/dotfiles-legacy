@@ -75,6 +75,9 @@ defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
 # Only use UTF-8 in Terminal.app
 defaults write com.apple.terminal StringEncodings -array 4
 
+# Never EVER show the stupid Dashboard
+defaults write com.apple.dashboard mcx-disabled -boolean true
+
 for app in Finder Dock Safari SystemUIServer; do
     killall "$app" > /dev/null 2>&1
 done

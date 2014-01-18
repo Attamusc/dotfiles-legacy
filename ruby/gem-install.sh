@@ -12,3 +12,6 @@ gem install sass
 gem install compass
 gem install bourbon
 gem install neat
+
+# Utilities
+gem install gem-ctags

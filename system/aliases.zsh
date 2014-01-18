@@ -34,7 +34,7 @@ alias update='sudo softwareupdate -i -a; brew update; brew upgrade; npm update n
 alias mux="tmuxifier"
 
 # ---Selenium Standalone Server---
-alias sel-start="java -jar /usr/local/opt/selenium-server-standalone/selenium-server-standalone-2.37.0.jar -p 4444"
+alias sel-start="java -jar /usr/local/opt/selenium-server-standalone/selenium-server-standalone-2.39.0.jar -p 4444"
 
 # ---Spotlight Stuff---
 # Disable/Enable spotlight indexing

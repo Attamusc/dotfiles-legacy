@@ -1,3 +1,5 @@
+runtime macros/matchit.vim
+
 " Enable Sytax highlighting for pretty colors
 syntax enable
 
@@ -11,27 +13,28 @@ call vundle#rc()
 Bundle "gmarik/vundle"
 
 " Utilities
-Bundle "Attamusc/vim-mocha"
 Bundle "Blackrush/vim-gocode"
 Bundle "bling/vim-airline"
-Bundle "drmingdrmer/xptemplate"
 Bundle "gre/play2vim"
 Bundle 'junegunn/vim-easy-align'
 Bundle "jgdavey/tslime.vim"
+Bundle "kana/vim-textobj-user"
 Bundle "kien/ctrlp.vim"
 Bundle "marijnh/tern_for_vim"
+Bundle "majutsushi/tagbar"
 Bundle "mattn/emmet-vim"
 Bundle "mhinz/vim-signify"
-Bundle "nathanaelkane/vim-indent-guides"
+Bundle "nelstrom/vim-textobj-rubyblock"
 Bundle "Raimondi/delimitMate"
 Bundle "scrooloose/nerdtree"
 Bundle "scrooloose/nerdcommenter"
 Bundle "scrooloose/syntastic"
 Bundle "Shougo/unite.vim"
 Bundle "Shougo/vimproc"
+Bundle "tpope/vim-bundler"
 Bundle "tpope/vim-endwise"
 Bundle "tpope/vim-fugitive"
-Bundle "tpope/vim-markdown"
+Bundle "tpope/vim-rake"
 Bundle "tpope/vim-repeat"
 Bundle "tpope/vim-surround"
 Bundle "tpope/vim-unimpaired"
@@ -40,24 +43,23 @@ Bundle "Valloric/YouCompleteMe"
 
 " Langs
 Bundle "cakebaker/scss-syntax.vim"
+Bundle "derekwyatt/vim-scala"
 Bundle "elixir-lang/vim-elixir"
-Bundle "jelera/vim-javascript-syntax"
-Bundle "pangloss/vim-javascript"
 Bundle "elzr/vim-json"
+Bundle "jelera/vim-javascript-syntax"
+Bundle "jnwhiteh/vim-golang"
 Bundle "juvenn/mustache.vim"
 Bundle "kchmck/vim-coffee-script"
 Bundle "othree/html5.vim"
+Bundle "pangloss/vim-javascript"
+Bundle "tpope/vim-liquid"
+Bundle "tpope/vim-markdown"
 Bundle "tpope/vim-rails"
+Bundle "vim-ruby/vim-ruby"
 Bundle "wavded/vim-stylus"
-Bundle "jnwhiteh/vim-golang"
-Bundle "derekwyatt/vim-scala"
 
 " Colors
-Bundle "baskerville/bubblegum"
 Bundle "nanotech/jellybeans.vim"
-Bundle "Pychimp/vim-luna"
-Bundle "szw/seoul256.vim"
-Bundle "noahfrederick/vim-hemisu"
 Bundle "jonathanfilip/vim-lucius"
 Bundle "w0ng/vim-hybrid"
 
@@ -137,22 +139,53 @@ let g:jellybeans_overrides = {
 \              'attr': 'bold' },
 \}
 
+" Show hidden files in NerdTree
+let NERDTreeShowHidden=1
+
+" TagBar configs
+" ---CoffeeScript---
+if executable('coffeetags')
+  let g:tagbar_type_coffee = {
+        \ 'ctagsbin' : 'coffeetags',
+        \ 'ctagsargs' : '',
+        \ 'kinds' : [
+        \ 'f:functions',
+        \ 'o:object',
+        \ ],
+        \ 'sro' : ".",
+        \ 'kind2scope' : {
+        \ 'f' : 'object',
+        \ 'o' : 'object',
+        \ }
+        \ }
+endif
+
 " ctrlp config
 let g:ctrlp_dotfiles = 1
 let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_custom_ignore = '\v[\/]((\.(git|hg|svn))|target|project|node_modules)$'
 
-" Show hidden files in NerdTree
-let NERDTreeShowHidden=1
-
 " Syntastic configs
 " Ignore HTML files since templating breaks it
-let g:syntastic_mode_map = { 'mode': 'active',
-	\ 'active_filetypes': [],
-	\ 'passive_filetypes': ['html'] }
+let g:syntastic_enable_highlighting = 0
+
 let g:syntastic_error_symbol = '✗'
 let g:syntastic_warning_symbol = '✗'
-let g:syntastic_enable_highlighting = 0
+let g:syntastic_style_error_symbol = '✗'
+let g:syntastic_style_warning_symbol = '✗'
+
+let g:syntastic_mode_map = { 
+  \ 'mode': 'active',
+	\ 'active_filetypes': [],
+	\ 'passive_filetypes': ['html', 'scala'] }
+
+" Checkers
+" --JavaScript--
+let g:syntastic_javascript_checkers=['jshint', 'jscs']
+
+" --PHP--
+let g:syntastic_php_checkers=['php', 'phpcs']
+let g:syntastic_php_phpcs_args='--standard=Behance --report=csv'
 
 " gocode
 let g:gocode_gofmt_tabs = ' -tabs=true'
@@ -239,18 +272,21 @@ if has("autocmd")
   augroup html
     au!
 
-    "au BufNewFile,BufRead *.hbs setfiletype html
-    "au BufNewFile,BufRead *.handlebars setfiletype html
-    "au BufNewFile,BufRead *.mustache setfiletype html
     au BufNewFile,BufRead *.ejs setfiletype html
   augroup END
 
   augroup java
-      au!
+    au!
 
-      au FileType java setlocal foldmethod=marker
-      au FileType java setlocal foldmarker={,}
-      au BufWritePre *.java call StripTrailing()
+    au FileType java setlocal foldmethod=marker
+    au FileType java setlocal foldmarker={,}
+    au BufWritePre *.java call StripTrailing()
+  augroup END
+
+  augroup scala
+    au!
+
+    au BufWritePre *.scala call StripTrailing()
   augroup END
 
   augroup json
@@ -277,6 +313,12 @@ if has("autocmd")
       au FileType javascript noremap <C-d> :TernDef<cr>
 
       au BufWritePre *.js,*.njs call StripTrailing()
+  augroup END
+
+  augroup coffee
+    au!
+
+    au BufWritePre *.coffee call StripTrailing()
   augroup END
 
   augroup css
@@ -307,6 +349,12 @@ if has("autocmd")
 
     au BufNewFile,BufRead Rakefile,Guardfile,Vagrantfile set ft=ruby
     au BufWritePre *.rb call StripTrailing()
+  augroup END
+
+  augroup php
+    au!
+
+    au BufWritePre *.php call StripTrailing()
   augroup END
 endif
 
@@ -339,26 +387,33 @@ endfunction " }}}
 set foldtext=MyFoldText()
 
 " Unite settings
-call unite#set_profile('files', 'smartcase', 1)
-"call unite#custom#profile('files', 'filters', 'sorter_rank')
-call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
-      \ 'ignore_pattern', join([
-      \ '\.git/',
-      \ ], '\|'))
-
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-call unite#filters#sorter_default#use(['sorter_rank'])
-
 let g:unite_winheight = 10
 let g:unite_data_directory='/Users/Sean/.vim/.cache/unite'
 let g:unite_enable_start_insert=1
 let g:unite_source_history_yank_enable=1
-let g:unite_source_rec_max_cache_files=5000
+let g:unite_source_rec_max_cache_files=30000
 let g:unite_source_file_rec_max_cache_files=30000
 let g:unite_prompt='» '
 let g:unite_source_grep_command='ag'
 let g:unite_source_grep_default_opts='--nocolor --nogroup --column'
 let g:unite_source_grep_recursive_opt=''
+
+call unite#set_profile('files', 'smartcase', 1)
+call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
+      \ 'ignore_pattern', join([
+      \ '\.git/',
+      \ '\.hg/',
+      \ '\.svn/',
+      \ 'node_modules/',
+      \ 'vendor/ruby',
+      \ 'classes/',
+      \ ], '\|'))
+
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+"call unite#filters#sorter_default#use(['sorter_length'])
+
+call unite#custom#source('file_mru,file_rec,file_rec/async,grepocate',
+        \ 'max_candidates', 30000)
 
 " Make Unite's window behave more like a preview window
 function! s:unite_settings()
@@ -370,10 +425,13 @@ function! s:unite_settings()
   imap <silent><buffer><expr> <C-t> unite#do_action('tabopen')
   imap <buffer> <C-j> <down>
   imap <buffer> <C-k> <up>
+  " Here so I don't constantly lookup the default key binding
+  "imap <buffer> <C-l> <plug>(unite_redraw)
 endfunction
 autocmd FileType unite call s:unite_settings()
 
 " Unite keybindings
+"nnoremap <D-t> :Unite -buffer-name=files file_rec/async:!<cr>
 nnoremap <leader>aa :Unite -no-quit -buffer-name=search grep:.<cr>
 
 nnoremap <space><space> :Unite -toggle -auto-resize -buffer-name=mixed file_rec/async buffer file_mru bookmark<cr>
@@ -383,11 +441,6 @@ nnoremap <space>l :Unite -auto-resize -buffer-name=line line<cr>
 nnoremap <space>b :Unite -auto-resize -buffer-name=buffers buffer<cr>
 nnoremap <space>m :Unite -auto-resize -buffer-name=mappings mapping<cr>
 nnoremap <space>s :Unite -quick-match buffer<cr>
-
-" Plugin key-mappings.
-imap <C-k> <Plug>(neosnippet_expand_or_jump)
-smap <C-k> <Plug>(neosnippet_expand_or_jump)
-xmap <C-k> <Plug>(neosnippet_expand_target)
 
 " For fast and east bundler installing
 nnoremap <Leader>bi :BundleInstall<cr>
@@ -431,6 +484,8 @@ vnoremap <silent> <Enter> :EasyAlign<Enter>
 
 " For rsyncing
 nmap <leader>rn :silent !rsync -rltz --executability --filter=':- .gitignore' -e ssh . sbelsky@dev17.be.lan:/var/www/vhosts/network/sandbox/<CR>
+nmap <leader>rin :silent !rsync -rltz --executability --filter=':- .gitignore' -e ssh src/ sbelsky@dev17.be.lan:/var/www/vhosts/inbox/sandbox/<CR>
+
 nmap <leader>rc :silent !osascript -e 'tell application "Google Chrome Canary" to tell the active tab of its last window to reload'<CR>
 
 " Quick access to vimrc for on-the-fly customizations
