@@ -62,6 +62,7 @@ Bundle "wavded/vim-stylus"
 Bundle "nanotech/jellybeans.vim"
 Bundle "jonathanfilip/vim-lucius"
 Bundle "w0ng/vim-hybrid"
+Bundle "reedes/vim-colors-pencil"
 
 filetype plugin indent on
 
@@ -202,7 +203,7 @@ autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 let g:ycm_autoclose_preview_window_after_completion = 1
 
 if has('gui_running')
-  set guifont=Source\ Code\ Pro\ For\ Powerline:h13
+  set guifont=Source\ Code\ Pro\ ExtraLight\ For\ Powerline:h13
   set background=dark
   colorscheme hybrid
   let g:airline_theme='lucius'
