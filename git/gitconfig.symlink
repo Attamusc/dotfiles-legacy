@@ -20,7 +20,6 @@
   dc = !"git diff --cached --no-color | tig"
   di = difftool
   dic = difftool --cached
-  ds = !"git diff --stat=160,120 --no-color | tig"
   dh1 = !"git diff HEAD~1 --no-color | tig"
 
   # Merge
@@ -52,19 +51,6 @@
 
   # For the lolz
   yolo = !git reset --hard HEAD^
-
-  # commands to link to various scripts
-  clean-merged = !$ZSH/bin/git-clean-merged
-  credit = !$ZSH/bin/git-credit
-  promote = !$ZSH/bin/git-promote
-  thanks = !$ZSH/bin/git-thanks
-  wtf = !$ZSH/bin/git-wtf
-  up = !$ZSH/bin/git-up
-  reup = !$ZSH/bin/git-reup
-  conflicts = !$ZSH/bin/git-conflicts
-  in = !$ZSH/bin/git-incoming
-  out = !$ZSH/bin/git-outgoing
-  pr = !$ZSH/bin/git-pr
 
   # Find FIXME, TODO, etc
   # Taken from @pengwynn

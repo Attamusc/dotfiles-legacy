@@ -4,8 +4,8 @@
 brew install coreutils grc gawk tree webkit2png git hub jq
 
 # ---Languages---
-# rbenv and ruby-build
-brew install rbenv ruby-build
+# rbenv and friends
+brew install rbenv ruby-build rbenv-gem-rehash
 
 # Scala and Typesafe Stack
 brew install scala sbt maven giter8
