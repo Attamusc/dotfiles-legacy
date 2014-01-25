@@ -20,10 +20,12 @@ if [ -z "$base" ]; then
 fi
 
 if [ -z "$head" ]; then
-  merge_url=`git pull-request -b $base`
+  merge_url=`hub pull-request -b $base`
   pbcopy $merge_url
+  echo merge_url
 else
-  merge_url=`git pull-request -b $base -h $head`
+  merge_url=`hub pull-request -b $base -h $head`
   pbcopy $merge_url
+  echo merge_url
 fi
 
