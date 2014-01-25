@@ -15,6 +15,10 @@ base=$1
 head=$2
 
 copy_and_open() {
+  if [ -z "$1" ]; then return; fi
+
+  echo "Created at '$1'"
+
   echo $1 | tr -d '\n' | pbcopy
   open $1
 }
@@ -27,13 +31,11 @@ fi
 if [ -z "$head" ]; then
   echo "Creating pull request..."
   merge_url=`hub pull-request -b $base`
-  echo "Created at '$merge_url'"
 
   copy_and_open $merge_url
 else
   echo "Creating pull request..."
   merge_url=`hub pull-request -b $base -h $head`
-  echo "Created at '$merge_url'"
 
   copy_and_open $merge_url
 fi
