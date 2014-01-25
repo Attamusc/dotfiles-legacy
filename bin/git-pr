@@ -1,216 +1,31 @@
-#!/usr/bin/env ruby
-
-# Work with GitHub Pull Requests from the comfort of the command line
-# Authenticates using a personal OAUTH token, or a stored password
+#!/bin/sh
 #
-# $ git pr
-# $ git pr list
-# => List of all open pull requests for the current repo
+# Open a pull request using `hub`, put the url into the clipboard,
+# and open the url in a browser.
 #
-# $ git pr details 14
-# => Show opener, description, and various details about pull request 14
+# Usage:
+# 
+# $ git pr master
+# # Pull request of {current_branch} created against master
 #
-# $ git pr commits 14
-# => Show the commits associated with pull request 14
-#
-# $ git pr merge 14
-# => Click the "Merge Button"™ for pull request 14
-#
-# $ git pr open 14
-# => Open default browser with pull request 14 discussion
+# $ git pr master feature-some-cool-thing
+# # Pull request of {current_branch} created against master
 
-GEM_DEPS = %w[commander/import octokit]
+base=$1
+head=$2
 
-GEM_DEPS.each do |gem|
-  begin
-    require "#{gem}"
-  rescue LoadError
-    puts "You must install the '#{gem}' gem in order to use git-pr"
-  end
-end
+if [ -z "$base" ]; then
+  echo "ERROR: A base branch is required."
+  exit 0
+fi
 
-class GHKeyChain
-  def self.get_crendentials
-    {:login => self.find_username, :password => self.find_password, :token => self.find_oauth_token}
-  end
+if [ -z "$head" ]; then
+  merge_url=`hub pull-request -b $base`
+  pbcopy $merge_url
+  echo merge_url
+else
+  merge_url=`hub pull-request -b $base -h $head`
+  pbcopy $merge_url
+  echo merge_url
+fi
 
-  def self.find_oauth_token
-    ENV['GH_TOKEN'] || ''
-  end
-
-  # NOTE: This will only work on OS X...also, it's super hacky :P
-  def self.find_password(*args)
-    output = quiet args.unshift('find-internet-password', '-g', '-s', 'github.com') 
-    output[/^password: "(.*)"$/, 1]
-  end
-
-  def self.find_username
-    output = `git config --get github.user`
-    output[/^(.*)\n$/, 1]
-  end
- 
-  private
-    def self.run(*args)
-      `security #{args.join(' ')}`
-    end
-    
-    def self.quiet(*args)
-      run args.unshift('2>&1 >/dev/null')
-    end
-end
-
-class GitPr
-  GIT_REPO_REGEXP = /(git:\/\/|https:\/\/|git@)([a-z0-9.]+)(\/|:)([a-zA-Z0-9\-_.]+)\/([a-zA-Z0-9\-_.]+)\.git/
-
-  def initialize(args = ARGV)
-    @args = args
-    @repo_name = repo_name
-  end
-
-  def repo_name
-    if `git remote -v` =~ GIT_REPO_REGEXP
-      "#{$4}/#{$5}"
-    end
-  end
-
-  def repo
-    Octokit::Repository.new(@repo_name)
-  end
-
-  def pull_num
-    @args[0].strip
-  end
-
-  def client
-    @client ||= Octokit::Client.new
-  end
-
-  def pull
-    @pull ||= client.pull(repo, pull_num)
-  end
-
-  def pulls
-    client.pulls(repo)
-  end
-
-  def commits
-    client.pull_commits(repo, pull_num)
-  end
-
-  def head
-    pull.head
-  end
-
-  def url
-    @url ||= pull.html_url
-  end
-
-  def open_repo
-    authenticate!
-    puts "Opening #{url}..."
-    `open #{url}`
-  end
-
-  def list
-    authenticate!
-    pulls.each do |pull|
-      puts "#{pull.number} - #{pull.title}"
-    end
-  end
-
-  def details 
-    authenticate!
-    puts <<EOF
-##{pull.number} - #{pull.title}
-Created By: #{pull.user.login}
-Status: #{pull.state.capitalize}
-
-#{pull.body}
-EOF
-  end
-
-  def show_commits
-    authenticate!
-    commits.each do |commit|
-      puts "#{commit.sha[0..8]} - #{commit.commit.message} (#{commit.commit.author.name} <#{commit.commit.author.email}>)"
-    end
-  end
-
-  def merge!(delete)
-    authenticate!
-    merge = client.merge_pull_request(repo, pull_num, get_message_from_editor('MERGE_MSG'))
-    
-    if merge.merged
-      puts "Successfully Merged pull request ##{pull_num} for repo '#{repo}'."
-    else
-      puts "Could not merge pull request ##{pull_num}. See '#{url}' for details."
-    end
-  end
-
-  def create!
-    authenticate!
-    pull = client
-  end
-
-  private
-    def authenticate!
-      credentials = GHKeyChain.get_crendentials
-      @client = if credentials[:token].empty?
-        Octokit::Client.new(:login => credentials[:login], :password => credentials[:password])
-      else
-        Octokit::Client.new(:login => credentials[:login], :access_token => credentials[:token])
-      end
-    end
-
-    def get_message_from_editor(filename)
-      `#{`git config --get core.editor`.chomp} /tmp/MERGE-MSG`
-      message = File.open("/tmp/#{filename}", 'r').read
-      File.delete("/tmp/#{filename}")
-      message
-    end
-end
-
-program :name, 'Git PR'
-program :version, '0.1.0'
-program :description, 'Work with GitHub Pull Requests from the comfort of the command line'
-default_command :list
-
-command :open do |c|
-  c.syntax = 'git pr open NUM'
-  c.description = 'Opens pull request number NUM in the browser'
-  c.action do |args, options|
-    GitPr.new(args).open_repo
-  end
-end
-
-command :list do |c|
-  c.syntax = 'git pr list'
-  c.description = 'List open pull requests'
-  c.action do |args, options|
-    GitPr.new(args).list
-  end
-end
-
-command :details do |c|
-  c.syntax = 'git pr details NUM'
-  c.description = 'Get details for pull request NUM'
-  c.action do |args, options|
-    GitPr.new(args).details
-  end
-end
-
-command :commits do |c|
-  c.syntax = 'git pr commits NUM'
-  c.description = 'Get commits associated with pull request NUM'
-  c.action do |args, options|
-    GitPr.new(args).show_commits
-  end
-end
-
-command :merge do |c|
-  c.syntax = 'git pr merge NUM'
-  c.description = 'Merge pull request NUM. Functionally equivalent to the "Merge Button".'
-  c.action do |args, options|
-    GitPr.new(args).merge!
-  end
-end
