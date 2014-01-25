@@ -34,7 +34,10 @@ export PATH=$TMUXIFIER_HOME/bin:$GOPATH/bin:$GO_HOME/bin:$POSTGRES_APP_HOME/bin:
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # Add tmuxifier, if we have/need it
-if which tmuxifier > /dev/null; then eval "$(tmuxifier init -)" ; fi
+if which tmuxifier > /dev/null; then eval "$(tmuxifier init -)"; fi
+
+# Add direnv, if we have/need it
+if which direnv > /dev/null; then eval eval "$(direnv hook zsh)"; fi
 
 # Set our MANPATH for `man`
 export MANPATH="/usr/share/man:/share/man:/usr/local/mysql/man:$MANPATH"

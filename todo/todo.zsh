@@ -1,4 +1,5 @@
 alias t='`brew --prefix`/bin/todo.sh -c -d $HOME/.todo.cfg'
+alias tl='t ls'
 alias tn='t ls +next'
 
 _t() {
