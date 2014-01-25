@@ -14,18 +14,27 @@
 base=$1
 head=$2
 
+copy_and_open() {
+  echo $1 | tr -d '\n' | pbcopy
+  open $1
+}
+
 if [ -z "$base" ]; then
   echo "ERROR: A base branch is required."
   exit 0
 fi
 
 if [ -z "$head" ]; then
+  echo "Creating pull request..."
   merge_url=`hub pull-request -b $base`
-  pbcopy $merge_url
-  echo merge_url
+  echo "Created at '$merge_url'"
+
+  copy_and_open $merge_url
 else
+  echo "Creating pull request..."
   merge_url=`hub pull-request -b $base -h $head`
-  pbcopy $merge_url
-  echo merge_url
+  echo "Created at '$merge_url'"
+
+  copy_and_open $merge_url
 fi
 
