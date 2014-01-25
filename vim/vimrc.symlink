@@ -13,6 +13,7 @@ call vundle#rc()
 Bundle "gmarik/vundle"
 
 " Utilities
+Bundle "alpaca-tc/vim-unite-watson.vim"
 Bundle "Blackrush/vim-gocode"
 Bundle "bling/vim-airline"
 Bundle "gre/play2vim"
@@ -63,6 +64,7 @@ Bundle "nanotech/jellybeans.vim"
 Bundle "jonathanfilip/vim-lucius"
 Bundle "w0ng/vim-hybrid"
 Bundle "reedes/vim-colors-pencil"
+Bundle "zeis/vim-kolor"
 
 filetype plugin indent on
 
@@ -167,14 +169,14 @@ let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_custom_ignore = '\v[\/]((\.(git|hg|svn))|target|project|node_modules)$'
 
 " Syntastic configs
-" Ignore HTML files since templating breaks it
 let g:syntastic_enable_highlighting = 0
 
 let g:syntastic_error_symbol = '✗'
-let g:syntastic_warning_symbol = '✗'
+let g:syntastic_warning_symbol = '⚠ '
 let g:syntastic_style_error_symbol = '✗'
-let g:syntastic_style_warning_symbol = '✗'
+let g:syntastic_style_warning_symbol = '⚠ '
 
+" Ignore HTML files since templating breaks it
 let g:syntastic_mode_map = { 
   \ 'mode': 'active',
 	\ 'active_filetypes': [],
@@ -185,7 +187,7 @@ let g:syntastic_mode_map = {
 let g:syntastic_javascript_checkers=['jshint', 'jscs']
 
 " --PHP--
-let g:syntastic_php_checkers=['php', 'phpcs']
+let g:syntastic_php_checkers=['phpcs']
 let g:syntastic_php_phpcs_args='--standard=Behance --report=csv'
 
 " gocode
@@ -216,8 +218,8 @@ if has('gui_running')
   let g:ctrlp_map = '<D-t>'
 else
   set background=dark
-  colorscheme jellybeans
-  let g:airline_theme='jellybeans'
+  colorscheme hybrid
+  let g:airline_theme='lucius'
   let g:ctrlp_map = '<C-p>'
 endif
 
@@ -442,6 +444,8 @@ nnoremap <space>l :Unite -auto-resize -buffer-name=line line<cr>
 nnoremap <space>b :Unite -auto-resize -buffer-name=buffers buffer<cr>
 nnoremap <space>m :Unite -auto-resize -buffer-name=mappings mapping<cr>
 nnoremap <space>s :Unite -quick-match buffer<cr>
+nnoremap <space>w :Unite -buffer-name=watson_current watson/current_file<CR>
+nnoremap <space>d :Unite -buffer-name=watson_dirty watson/dirty<CR>
 
 " For fast and east bundler installing
 nnoremap <Leader>bi :BundleInstall<cr>

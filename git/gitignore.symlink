@@ -99,7 +99,7 @@ Desktop.ini
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 
-# --vim Files--
+# --vim--
 .*.sw[a-z]
 *.un~
 Session.vim
@@ -107,5 +107,12 @@ Session.vim
 tags
 
 # --Javascript--
-.tern-project
 .tern-port
+.tern-project
+
+# --Watson--
+.watsonrc
+.watsonresults
+
+# --direnv--
+.envrc
