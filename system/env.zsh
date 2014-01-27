@@ -9,6 +9,7 @@ export LESS=FRSX
 # Languages
 export GROOVY_HOME=/usr/local/Cellar/groovy/1.8.0/libexec
 export DART_HOME=/Users/Atta/dart/dart-sdk
+export PHP_HOME=$(brew --prefix josegonzalez/php/php55)
 export GO_HOME=/usr/local/go
 
 export GOPATH=~/Projects/go-space
@@ -23,12 +24,13 @@ export BEES_HOME=/usr/local/cloudbees-sdk-0.7.1
 export GRADLE_HOME=/usr/local/gradle-1.0-milestone-6
 export POSTGRES_APP_HOME=/Applications/Postgres.app/Contents/MacOS
 export TMUXIFIER_HOME=/usr/local/tmuxifier
+export HEROKU_HOME=/usr/local/heroku
 
 # Set up our default PATH variable
 export PATH=$HOME/.dotfiles/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin
 
 # Add our special directories
-export PATH=$TMUXIFIER_HOME/bin:$GOPATH/bin:$GO_HOME/bin:$POSTGRES_APP_HOME/bin:$DART_HOME/bin:$PLAY_HOME:$GROOVY_HOME:$GRADLE_HOME/bin:$GRAILS_HOME/bin:$GWT_HOME:$BEES_HOME:$PATH
+export PATH=$PHP_HOME/bin:$HEROKU_HOME/bin:$TMUXIFIER_HOME/bin:$GOPATH/bin:$GO_HOME/bin:$POSTGRES_APP_HOME/bin:$DART_HOME/bin:$PLAY_HOME:$GROOVY_HOME:$GRADLE_HOME/bin:$GRAILS_HOME/bin:$GWT_HOME:$BEES_HOME:$PATH
 
 # Add rbenv, if we have/need it
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi

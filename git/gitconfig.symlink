@@ -47,10 +47,16 @@
   sp = stash pop
 
   # Grabbing SHA of latest commit
-  sha = !echo "Copying SHA..." | git rev-parse HEAD | pbcopy
+  sha = !"echo 'Copying HEAD SHA...' && git rev-parse HEAD | tr -d '\n' | pbcopy"
 
   # For the lolz
   yolo = !git reset --hard HEAD^
+
+  # Gotta be able to send those e-notes
+  e-note = pr
+
+  in = incoming
+  out = outgoing
 
   # Find FIXME, TODO, etc
   # Taken from @pengwynn
