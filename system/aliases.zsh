@@ -11,6 +11,9 @@ alias -- -="cd -"
 alias cdot="cd ~/.dotfiles"
 alias capps="cd /usr/local/etc/nginx/sites-available"
 
+# gifs for the lolz
+alias gifs="open ~/Projects/Fun/gifs"
+
 # Shortcuts
 alias m="mvim"
 alias v="vim"

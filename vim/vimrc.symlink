@@ -24,7 +24,6 @@ Bundle "kien/ctrlp.vim"
 Bundle "marijnh/tern_for_vim"
 Bundle "majutsushi/tagbar"
 Bundle "mattn/emmet-vim"
-Bundle "mhinz/vim-signify"
 Bundle "nelstrom/vim-textobj-rubyblock"
 Bundle "Raimondi/delimitMate"
 Bundle "scrooloose/nerdtree"
@@ -32,6 +31,7 @@ Bundle "scrooloose/nerdcommenter"
 Bundle "scrooloose/syntastic"
 Bundle "Shougo/unite.vim"
 Bundle "Shougo/vimproc"
+Bundle "thoughtbot/vim-rspec"
 Bundle "tpope/vim-bundler"
 Bundle "tpope/vim-endwise"
 Bundle "tpope/vim-fugitive"
@@ -41,6 +41,9 @@ Bundle "tpope/vim-surround"
 Bundle "tpope/vim-unimpaired"
 Bundle "Valloric/MatchTagAlways"
 Bundle "Valloric/YouCompleteMe"
+
+" Load last so other, more prominent, signs are not overwritten
+Bundle "mhinz/vim-signify"
 
 " Langs
 Bundle "cakebaker/scss-syntax.vim"
@@ -163,21 +166,25 @@ if executable('coffeetags')
         \ }
 endif
 
-" ctrlp config
+" ctrl-p config
 let g:ctrlp_dotfiles = 1
 let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_custom_ignore = '\v[\/]((\.(git|hg|svn))|target|project|node_modules)$'
 
 " Syntastic configs
 let g:syntastic_enable_highlighting = 0
+let g:syntastic_always_populate_loc_list=1
 
 let g:syntastic_error_symbol = '✗'
 let g:syntastic_warning_symbol = '⚠ '
 let g:syntastic_style_error_symbol = '✗'
 let g:syntastic_style_warning_symbol = '⚠ '
 
+" vim-signify config
+let g:signify_update_on_focusgained = 1
+
 " Ignore HTML files since templating breaks it
-let g:syntastic_mode_map = { 
+let g:syntastic_mode_map = {
   \ 'mode': 'active',
 	\ 'active_filetypes': [],
 	\ 'passive_filetypes': ['html', 'scala'] }
@@ -189,6 +196,9 @@ let g:syntastic_javascript_checkers=['jshint', 'jscs']
 " --PHP--
 let g:syntastic_php_checkers=['php', 'phpcs']
 let g:syntastic_php_phpcs_args='--standard=Behance --report=csv'
+
+" --Ruby--
+let g:syntastic_ruby_checkers=['rubocop']
 
 " gocode
 let g:gocode_gofmt_tabs = ' -tabs=true'
@@ -204,8 +214,11 @@ autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 " YCM Settings
 let g:ycm_autoclose_preview_window_after_completion = 1
 
+" vim-rspec command so that we send commands to tmux using vim-tslime
+let g:rspec_command = 'call Send_to_Tmux("rspec {spec}\n")'
+
 if has('gui_running')
-  set guifont=Source\ Code\ Pro\ ExtraLight\ For\ Powerline:h13
+  set guifont=Source\ Code\ Pro\ Light\ For\ Powerline:h13
   set background=dark
   colorscheme pencil
   let g:airline_theme='lucius'
@@ -462,8 +475,8 @@ map k gk
 
 " 'Bubble' the text up or down a line
 " These bindings require @tpope's unimpaired plugin
-nmap <C-Up> [e
-nmap <C-Down> ]e
+nmap <D-Up> [e
+nmap <D-Down> ]e
 
 " Make changing tags in HTML super easy
 nmap <leader>ct cst<
@@ -473,7 +486,7 @@ nnoremap <tab> >>
 vnoremap <s-tab> <gv
 vnoremap <tab> >gv
 
-nnoremap <CR> :nohlsearch<CR>
+nnoremap <leader>hw :nohlsearch<CR>
 
 nnoremap <space> za
 vnoremap <space> za
@@ -489,17 +502,14 @@ vnoremap <silent> <Enter> :EasyAlign<Enter>
 
 " For rsyncing
 nmap <leader>rn :silent !rsync -rltz --executability --filter=':- .gitignore' -e ssh . sbelsky@dev17.be.lan:/var/www/vhosts/network/sandbox/<CR>
-nmap <leader>rin :silent !rsync -rltz --executability --filter=':- .gitignore' -e ssh src/ sbelsky@dev17.be.lan:/var/www/vhosts/inbox/sandbox/<CR>
-
-nmap <leader>rc :silent !osascript -e 'tell application "Google Chrome Canary" to tell the active tab of its last window to reload'<CR>
 
 " Quick access to vimrc for on-the-fly customizations
 nmap <leader>ev :tabedit $MYVIMRC<CR>
 
-nmap <leader>rs :%s/\s\+$//<CR><CR>``
+nmap <leader>ss :%s/\s\+$//<CR><CR>``
 
 " Search and replace current word under cursor
-noremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
+noremap <Leader>sw :%s/\<<C-r><C-w>\>//g<Left><Left>
 
 map <leader>n :NERDTreeToggle<CR>
 map <leader>/ <plug>NERDCommenterToggle<CR>
@@ -539,11 +549,10 @@ function! RemoveRubyEval() range
   redraw
 endfunction
 
-" rspec mappings, taken from @thoughtbot's dotfiles
-" assumes using zeus in ruby projects
-"map <Leader>t :call RunCurrentSpecFile()<CR>
-"map <Leader>s :call RunNearestSpec()<CR>
-"map <Leader>l :call RunLastSpec()<CR>
+map <Leader>rt :call RunCurrentSpecFile()<CR>
+map <Leader>rs :call RunNearestSpec()<CR>
+map <Leader>rl :call RunLastSpec()<CR>
+map <Leader>ra :call RunAllSpecs()<CR>
 
 " Dash searching integration
 map <leader>d :call SearchDash()<CR>

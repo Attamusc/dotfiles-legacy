@@ -27,20 +27,28 @@
   me = mergetool
   mff = merge --ff
 
-  # Push/Pull
+  # Push
   pp = pull --prune
   pre = pull --rebase
-  pom = push origin master
-  ph = push origin HEAD
-  pup = push --set-upstream origin
 
-  # Logging/Status Shortcuts
-  h = !tig show HEAD
-  r = !tig -20
-  ra = !git r --all
-  lo = log --graph --pretty=format:'%C(bold red)%h%Creset%C(yellow)%d%Creset %s %Cgreen(%C(magenta)%an%Creset%Cgreen, %cr)%Creset' --abbrev-commit --date=relative
+  # Fetch
+  fu = fetch upstream
+
+  # Pull
+  p = push
+  pom = push origin master
+  puh = push upstream HEAD
+  poh = push origin HEAD
+
+  # tig shims
   l = !tig
+  r = !tig -20
+  h = !tig show HEAD
+
+  # Logging/Status
+  lo = log --graph --pretty=format:'%C(bold red)%h%Creset%C(yellow)%d%Creset %s %Cgreen(%C(magenta)%an%Creset%Cgreen, %cr)%Creset' --abbrev-commit --date=relative
   la = !git l --all
+  ra = !git r --all
 
   # Stashing and some shit
   s = stash
@@ -62,10 +70,11 @@
   # Taken from @pengwynn
   n = !"git ls-files | xargs notes | awk -F: '{ print $1,$2; print $3,$4; print $5}' | grcat conf.notes"
 
-  # Git Extra stuff
-  f = feature
-  ff = feature finish
-  db = delete-branch
+  # Git Workflow stuff
+  f = workflow -p feature
+  hotfix = workflow -p hotfix
+  pre = workflow -p pre
+  release = workflow -p release
 [core]
   editor = "mvim -f --nomru -c 'au VimLeave * !open -a iTerm'"
   excludesfile = ~/.gitignore
