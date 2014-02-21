@@ -40,7 +40,7 @@ module GitWorkflow
       end
 
       def new_branch?
-        `git branch --all | grep #{full_branch_name} | wc -l | sed -e 's/^[ \t]*//'` == '0'
+        `git branch --all | sed -e 's/^[ \t]*//' | grep ^#{full_branch_name}$ | wc -l`.to_i == 0
       end
 
       def checkout_branch!
