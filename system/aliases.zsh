@@ -1,7 +1,4 @@
-# Aliases that I like
-
-# Easier navigation: .., ..., ...., ....., ~ and -
-# Taken from @mathiasbynens's dotfiles
+# Easier navigation
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
@@ -34,7 +31,7 @@ alias la='ls -GA'
 alias update='sudo softwareupdate -i -a; brew update; brew upgrade; npm update npm -g; npm update -g'
 
 # ---tmuxifier---
-alias mux="tmuxifier"
+#alias mux="tmuxifier"
 
 # ---Selenium Standalone Server---
 alias sel-start="java -jar /usr/local/opt/selenium-server-standalone/selenium-server-standalone-2.39.0.jar -p 4444"

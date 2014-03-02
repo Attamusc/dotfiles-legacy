@@ -1,1 +1,1 @@
-Pry.config.editor = "subl -w"
+Pry.config.editor = "vim"

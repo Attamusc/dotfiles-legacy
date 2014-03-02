@@ -1,0 +1,18 @@
+#!/bin/sh
+
+if [ -z "$(command -v tmuxifier)" ]; then
+  echo "'tmuxifier' is required to use the 'mux' command"
+  exit 1
+fi
+
+if [ -n "$1" ]; then
+  current_directory=$1
+else
+  current_directory=${PWD##*/}
+fi
+
+if [ "$(tmuxifier list-sessions | grep ^$current_directory$ | wc -l)" -gt 0 ]; then
+  tmuxifier load-session $current_directory
+else
+  tmuxifier new-session $current_directory
+fi

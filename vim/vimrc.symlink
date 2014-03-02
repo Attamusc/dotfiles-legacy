@@ -3,16 +3,21 @@ runtime macros/matchit.vim
 " Enable Sytax highlighting for pretty colors
 syntax enable
 
-" Vundle setup for plugin management
 set nocompatible
 filetype off
 
+highlight clear SignColumn
+
+let mapleader=","
+
+" Vundle {{{
+" Vundle setup for plugin management
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
+" Bundles {{{
 Bundle "gmarik/vundle"
-
-" Utilities
+" Utilities {{{
 Bundle "alpaca-tc/vim-unite-watson.vim"
 Bundle "Blackrush/vim-gocode"
 Bundle "bling/vim-airline"
@@ -32,6 +37,7 @@ Bundle "scrooloose/syntastic"
 Bundle "Shougo/unite.vim"
 Bundle "Shougo/vimproc"
 Bundle "thoughtbot/vim-rspec"
+Bundle "tommcdo/vim-exchange"
 Bundle "tpope/vim-bundler"
 Bundle "tpope/vim-endwise"
 Bundle "tpope/vim-fugitive"
@@ -44,8 +50,8 @@ Bundle "Valloric/YouCompleteMe"
 
 " Load last so other, more prominent, signs are not overwritten
 Bundle "mhinz/vim-signify"
-
-" Langs
+" }}}
+" Langs {{{
 Bundle "cakebaker/scss-syntax.vim"
 Bundle "derekwyatt/vim-scala"
 Bundle "elixir-lang/vim-elixir"
@@ -61,17 +67,19 @@ Bundle "tpope/vim-markdown"
 Bundle "tpope/vim-rails"
 Bundle "vim-ruby/vim-ruby"
 Bundle "wavded/vim-stylus"
-
-" Colors
+" }}}
+" Colors {{{
 Bundle "nanotech/jellybeans.vim"
 Bundle "jonathanfilip/vim-lucius"
 Bundle "w0ng/vim-hybrid"
 Bundle "reedes/vim-colors-pencil"
 Bundle "zeis/vim-kolor"
+" }}}
+" }}}
 
 filetype plugin indent on
-
-" Various sets to make stuff better
+" }}}
+" General Settings {{{
 set visualbell
 set t_vb=
 set hidden
@@ -81,6 +89,7 @@ set autoindent
 set smartindent
 set cursorline
 set splitright
+set modelines=1
 set synmaxcol=400
 set formatoptions=qrn1
 set cmdheight=2
@@ -102,7 +111,6 @@ set nobackup
 set showmatch
 set incsearch
 set hlsearch
-set foldlevelstart=0
 
 " Better Completion
 set omnifunc=syntaxcomplete#Complete
@@ -130,13 +138,12 @@ set wildignore+=*.orig
 set wildignore+=*/classes/*,*/tmp*,*/node_modules,*/vendor/*ruby
 
 set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
-
-let mapleader=","
-
-" vim-json config
+" }}}
+" Plugin Settings {{{
+" vim-json {{{
 let g:vim_json_syntax_conceal = 0
-
-" vim-airline config
+" }}}
+" vim-airline {{{
 let g:airline_powerline_fonts = 1
 
 let g:jellybeans_overrides = {
@@ -144,11 +151,12 @@ let g:jellybeans_overrides = {
 \              'ctermfg': 'Yellow',
 \              'attr': 'bold' },
 \}
-
+" }}}
+" NerdTree {{{
 " Show hidden files in NerdTree
 let NERDTreeShowHidden=1
-
-" TagBar configs
+" }}}
+" TagBar {{{
 " ---CoffeeScript---
 if executable('coffeetags')
   let g:tagbar_type_coffee = {
@@ -165,13 +173,45 @@ if executable('coffeetags')
         \ }
         \ }
 endif
-
-" ctrl-p config
+" }}}
+" ctrl-p {{{
 let g:ctrlp_dotfiles = 1
 let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_custom_ignore = '\v[\/]((\.(git|hg|svn))|target|project|node_modules)$'
+" }}}
+" Unite {{{
+let g:unite_winheight = 10
+let g:unite_data_directory='/Users/Sean/.vim/.cache/unite'
+let g:unite_enable_start_insert=1
+let g:unite_source_history_yank_enable=1
+let g:unite_source_rec_max_cache_files=30000
+let g:unite_source_file_rec_max_cache_files=30000
+let g:unite_prompt='» '
+let g:unite_source_grep_command='ag'
+let g:unite_source_grep_default_opts='--nocolor --nogroup --column'
+let g:unite_source_grep_recursive_opt=''
 
-" Syntastic configs
+call unite#set_profile('files', 'smartcase', 1)
+call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
+      \ 'ignore_pattern', join([
+      \ '\.git/',
+      \ '\.hg/',
+      \ '\.svn/',
+      \ 'node_modules/',
+      \ 'vendor/ruby',
+      \ 'classes/',
+      \ ], '\|'))
+
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_length'])
+
+call unite#custom#source('file_mru,file_rec,file_rec/async,grepocate',
+        \ 'max_candidates', 30000)
+" }}}
+" vim-signify {{{
+let g:signify_update_on_focusgained = 1
+" }}}
+" Syntastic {{{
 let g:syntastic_enable_highlighting = 0
 let g:syntastic_always_populate_loc_list=1
 
@@ -180,18 +220,18 @@ let g:syntastic_warning_symbol = '⚠ '
 let g:syntastic_style_error_symbol = '✗'
 let g:syntastic_style_warning_symbol = '⚠ '
 
-" vim-signify config
-let g:signify_update_on_focusgained = 1
-
 " Ignore HTML files since templating breaks it
 let g:syntastic_mode_map = {
   \ 'mode': 'active',
 	\ 'active_filetypes': [],
 	\ 'passive_filetypes': ['html', 'scala'] }
 
-" Checkers
+" Checkers {{{
 " --JavaScript--
 let g:syntastic_javascript_checkers=['jshint', 'jscs']
+
+" --CSS--
+let g:syntastic_css_checkers=[]
 
 " --PHP--
 let g:syntastic_php_checkers=['php', 'phpcs']
@@ -199,23 +239,22 @@ let g:syntastic_php_phpcs_args='--standard=Behance --report=csv'
 
 " --Ruby--
 let g:syntastic_ruby_checkers=['rubocop']
+" }}}
+" }}}
 
-" gocode
+" gocode {{{
 let g:gocode_gofmt_tabs = ' -tabs=true'
 let g:gocode_gofmt_tabwidth = ' -tabwidth=4'
+" }}}
 
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-
-" YCM Settings
+" YouCompleteMe {{{
 let g:ycm_autoclose_preview_window_after_completion = 1
+" }}}
 
+" vim-rspec {{{
 " vim-rspec command so that we send commands to tmux using vim-tslime
 let g:rspec_command = 'call Send_to_Tmux("rspec {spec}\n")'
+" }}}
 
 if has('gui_running')
   set guifont=Source\ Code\ Pro\ Light\ For\ Powerline:h13
@@ -235,9 +274,8 @@ else
   let g:airline_theme='lucius'
   let g:ctrlp_map = '<C-p>'
 endif
-
-highlight clear SignColumn
-
+" }}}
+" Autocommands {{{
 " Only do this part when compiled with support for autocommands
 if has("autocmd")
   augroup common
@@ -252,10 +290,6 @@ if has("autocmd")
     " Cursor Highlight in Insert mode is annoying
     au WinLeave,InsertEnter * set nocursorline
     au WinEnter,InsertLeave * set cursorline
-
-    " I like having the option of folding, but I don't like everything
-    " folded when I open the file
-    au BufWinEnter,BufRead * normal zR
   augroup END
 
   augroup git
@@ -287,6 +321,9 @@ if has("autocmd")
 
   augroup html
     au!
+
+    au FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
     au BufNewFile,BufRead *.ejs setfiletype html
   augroup END
@@ -343,6 +380,7 @@ if has("autocmd")
     au BufNewFile,BufRead *.styl setfiletype stylus
     au BufNewFile,BufRead *.roo setfiletype stylus
 
+    au FileType css setlocal omnifunc=csscomplete#CompleteCSS
     au Filetype css,sass,scss,less,stylus setlocal foldmethod=marker
     au Filetype css,sass,scss,less,stylus setlocal foldmarker={,}
     au Filetype css,sass,scss,less,stylus setlocal omnifunc=csscomplete#CompleteCSS
@@ -363,6 +401,8 @@ if has("autocmd")
   augroup ruby
     au!
 
+    au FileType ruby setlocal omnifunc=rubycomplete#Complete
+
     au BufNewFile,BufRead Rakefile,Guardfile,Vagrantfile set ft=ruby
     au BufWritePre *.rb call StripTrailing()
   augroup END
@@ -372,8 +412,15 @@ if has("autocmd")
 
     au BufWritePre *.php call StripTrailing()
   augroup END
-endif
 
+  augroup python
+    au!
+
+    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+  augroup END
+endif
+" }}}
+" Functions {{{
 " thanks to http://vimcasts.org/e/4
 function! StripTrailing()
   let previous_search=@/
@@ -402,37 +449,8 @@ function! MyFoldText() " {{{
 endfunction " }}}
 set foldtext=MyFoldText()
 
-" Unite settings
-let g:unite_winheight = 10
-let g:unite_data_directory='/Users/Sean/.vim/.cache/unite'
-let g:unite_enable_start_insert=1
-let g:unite_source_history_yank_enable=1
-let g:unite_source_rec_max_cache_files=30000
-let g:unite_source_file_rec_max_cache_files=30000
-let g:unite_prompt='» '
-let g:unite_source_grep_command='ag'
-let g:unite_source_grep_default_opts='--nocolor --nogroup --column'
-let g:unite_source_grep_recursive_opt=''
-
-call unite#set_profile('files', 'smartcase', 1)
-call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
-      \ 'ignore_pattern', join([
-      \ '\.git/',
-      \ '\.hg/',
-      \ '\.svn/',
-      \ 'node_modules/',
-      \ 'vendor/ruby',
-      \ 'classes/',
-      \ ], '\|'))
-
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-"call unite#filters#sorter_default#use(['sorter_length'])
-
-call unite#custom#source('file_mru,file_rec,file_rec/async,grepocate',
-        \ 'max_candidates', 30000)
-
 " Make Unite's window behave more like a preview window
-function! s:unite_settings()
+function! s:unite_settings() "{{{
   nmap <buffer> Q <plug>(unite_exit)
   nmap <buffer> <esc> <plug>(unite_exit)
   imap <buffer> <esc> <plug>(unite_exit)
@@ -443,9 +461,53 @@ function! s:unite_settings()
   imap <buffer> <C-k> <up>
   " Here so I don't constantly lookup the default key binding
   "imap <buffer> <C-l> <plug>(unite_redraw)
-endfunction
+endfunction "}}}
 autocmd FileType unite call s:unite_settings()
 
+function! RemoveRubyEval() range
+  let begv = a:firstline
+  let endv = a:lastline
+  normal Hmt
+  set lz
+  execute ":" . begv . "," . endv . 's/\s*# \(=>\|!!\).*$//e'
+  normal 'tzt`s
+  set nolz
+  redraw
+endfunction
+
+function! SearchDash()
+  let s:browser = "/usr/bin/open"
+  let s:wordUnderCursor = expand("<cword>")
+
+  " Get the filetype (everything after the first ., for special cases
+  " such as index.html.haml or abc.css.scss.erb)
+  let s:fileType = substitute(expand("%"),"^[^.]*\.","",1)
+
+  " Match it and set the searchType
+  if match(s:fileType, "js") != -1
+    let s:searchType = "js:"
+  elseif match(s:fileType, "css") != -1
+    let s:searchType = "css:"
+  elseif match(s:fileType, "html") != -1
+    let s:searchType = "html:"
+  elseif match(s:fileType, "rb") != -1
+    let s:searchType = "rb:"
+  elseif match(s:fileType, "php") != -1
+    let s:searchType = "php:"
+  elseif match(s:fileType, "py") != -1
+    let s:searchType = "python:"
+  else
+    let s:searchType = ""
+  endif
+
+  " Run it
+  let s:url = "dash://".s:searchType.s:wordUnderCursor
+  let s:cmd ="silent ! " . s:browser . " " . s:url
+  execute s:cmd
+  redraw!
+endfunction
+" }}}
+" Keybindings {{{
 " Unite keybindings
 "nnoremap <D-t> :Unite -buffer-name=files file_rec/async:!<cr>
 nnoremap <leader>aa :Unite -no-quit -buffer-name=search grep:.<cr>
@@ -538,17 +600,6 @@ vmap <silent> <leader>rd ms:call RemoveRubyEval()<CR>
 nmap <silent> <leader>rd V<leader>rd
 imap <silent> <leader>rd <ESC><leader>rda
 
-function! RemoveRubyEval() range
-  let begv = a:firstline
-  let endv = a:lastline
-  normal Hmt
-  set lz
-  execute ":" . begv . "," . endv . 's/\s*# \(=>\|!!\).*$//e'
-  normal 'tzt`s
-  set nolz
-  redraw
-endfunction
-
 map <Leader>rt :call RunCurrentSpecFile()<CR>
 map <Leader>rs :call RunNearestSpec()<CR>
 map <Leader>rl :call RunLastSpec()<CR>
@@ -556,35 +607,6 @@ map <Leader>ra :call RunAllSpecs()<CR>
 
 " Dash searching integration
 map <leader>d :call SearchDash()<CR>
+" }}}
 
-function! SearchDash()
-  let s:browser = "/usr/bin/open"
-  let s:wordUnderCursor = expand("<cword>")
-
-  " Get the filetype (everything after the first ., for special cases
-  " such as index.html.haml or abc.css.scss.erb)
-  let s:fileType = substitute(expand("%"),"^[^.]*\.","",1)
-
-  " Match it and set the searchType
-  if match(s:fileType, "js") != -1
-    let s:searchType = "js:"
-  elseif match(s:fileType, "css") != -1
-    let s:searchType = "css:"
-  elseif match(s:fileType, "html") != -1
-    let s:searchType = "html:"
-  elseif match(s:fileType, "rb") != -1
-    let s:searchType = "rb:"
-  elseif match(s:fileType, "php") != -1
-    let s:searchType = "php:"
-  elseif match(s:fileType, "py") != -1
-    let s:searchType = "python:"
-  else
-    let s:searchType = ""
-  endif
-
-  " Run it
-  let s:url = "dash://".s:searchType.s:wordUnderCursor
-  let s:cmd ="silent ! " . s:browser . " " . s:url
-  execute s:cmd
-  redraw!
-endfunction
+" vim:foldmethod=marker:foldlevel=0
