@@ -5,6 +5,8 @@
 gem install pry
 gem install pry-doc
 
+# Framework
+gem install rails
+
 # Utilities
 gem install gem-ctags
-gem install trevi

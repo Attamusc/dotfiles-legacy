@@ -1,13 +1,6 @@
 #!/usr/bin/env sh
 # All the global npm stuff I like
 
-# CoffeeScript
-npm install -g coffee-script
-
-# Testing Tools
-npm install -g mocha
-npm install -g karma
-
 # Nodejitsu's cli
 npm install -g jitsu
 

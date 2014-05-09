@@ -29,7 +29,7 @@
 
   # Push
   pp = pull --prune
-  pre = pull --rebase
+  preb = pull --rebase
 
   # Fetch
   fu = fetch upstream

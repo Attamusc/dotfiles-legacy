@@ -1,0 +1,13 @@
+#!/bin/sh
+##
+# Keep local path in sync with remote path on server.
+# Ignore .git metadata.
+#
+# Usage:
+# $ watcher ~/Projects/Fun/moonbeam/ vagrant@my_remote:/vagrant/
+
+local=$1
+remote=$2
+
+cd "$local" && echo "Watching '$(pwd)' and syncing to '$remote'"
+fswatch . "date +%H:%M:%S && rsync -tziru --exclude .git --exclude-from=.gitignore . $remote"

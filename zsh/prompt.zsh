@@ -95,7 +95,7 @@ function todo_prompt() {
 
 
 set_prompt () {
-  export PROMPT='%{$fg[cyan]%}%c $(git_prompt_info)$(git_time_since_commit)%{$fg_bold[red]%}$ %{$reset_color%}'
+  export PROMPT='%{$fg[cyan]%}%c $(git_prompt_info)$(git_time_since_commit)%{$fg_bold[red]%}❯ %{$reset_color%}'
   #export RPROMPT="%{$fg_bold[blue]%}$(notes_prompt TODO)%{$reset_color%}%{$fg_bold[yellow]%}$(notes_prompt HACK)%{$reset_color%}%{$fg_bold[red]%}$(notes_prompt FIXME)%{$reset_color%}"
   #export RPROMPT="%{$fg_bold[blue]%}$(todo_prompt +next)%{$reset_color%}"
 }

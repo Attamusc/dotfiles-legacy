@@ -24,5 +24,3 @@ for config_file ($ZSH/**/completion.sh) source $config_file
 
 # Load z
 . /usr/local/z/z.sh
-
-nvm ls default &>/dev/null && nvm use default >/dev/null

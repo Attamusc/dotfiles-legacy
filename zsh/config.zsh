@@ -38,11 +38,10 @@ setopt NO_COMPLETE_ALIASES
 
 zle -N newtab
 
-bindkey '^[^[[D' backward-word
-bindkey '^[^[[C' forward-word
-bindkey '^[[5D' beginning-of-line
-bindkey '^[[5C' end-of-line
-bindkey '^[[3~' delete-char
-bindkey '^[^N' newtab
-bindkey '^?' backward-delete-char
+bindkey "^A" beginning-of-line
+bindkey "^E" end-of-line
 bindkey '^R' history-incremental-pattern-search-backward
+bindkey "^P" history-search-backward
+bindkey "^Y" accept-and-hold
+bindkey "^N" insert-last-word
+bindkey '^?' backward-delete-char
