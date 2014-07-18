@@ -1,9 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =7
-let g:netrw_dirhist_1='/Users/Sean/.dotfiles'
-let g:netrw_dirhist_2='/Users/Sean/Projects/Experiments/prosite-test-meteorite'
-let g:netrw_dirhist_3='/Users/Sean/Projects/Fun/bewitch'
-let g:netrw_dirhist_4='/Users/Sean/Projects/Work/scheduler'
-let g:netrw_dirhist_5='/Users/Sean/Projects/Fun/bewitch'
-let g:netrw_dirhist_6='/Users/Sean/Projects/Experiments/parties'
-let g:netrw_dirhist_7='/Users/Sean/Projects/Work/scheduler'

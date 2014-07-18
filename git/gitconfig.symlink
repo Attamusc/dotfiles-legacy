@@ -126,3 +126,5 @@
   feature = feature
   hotfix = hotfix
   refactor = refactor
+[url "https://"]
+	insteadOf = git://

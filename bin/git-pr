@@ -24,8 +24,7 @@ copy_and_open() {
 }
 
 if [ -z "$base" ]; then
-  echo "ERROR: A base branch is required."
-  exit 0
+  base="master"
 fi
 
 if [ -z "$head" ]; then

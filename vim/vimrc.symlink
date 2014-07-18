@@ -6,85 +6,86 @@ syntax enable
 set nocompatible
 filetype off
 
-highlight clear SignColumn
-
-let mapleader=","
-
 " Vundle {{{
 " Vundle setup for plugin management
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
 " Bundles {{{
-Bundle "gmarik/vundle"
+Plugin 'gmarik/Vundle.vim'
 " Utilities {{{
-Bundle "alpaca-tc/vim-unite-watson.vim"
-"Bundle "Blackrush/vim-gocode"
-Bundle "bling/vim-airline"
-Bundle "gre/play2vim"
-Bundle 'junegunn/vim-easy-align'
-Bundle "jgdavey/tslime.vim"
-Bundle "kana/vim-textobj-user"
-Bundle "kien/ctrlp.vim"
-Bundle "marijnh/tern_for_vim"
-Bundle "majutsushi/tagbar"
-Bundle "mattn/emmet-vim"
-Bundle "nelstrom/vim-textobj-rubyblock"
-Bundle "Raimondi/delimitMate"
-Bundle "scrooloose/nerdtree"
-Bundle "scrooloose/nerdcommenter"
-Bundle "scrooloose/syntastic"
-Bundle "Shougo/neomru.vim"
-Bundle "Shougo/unite.vim"
-Bundle "Shougo/vimproc"
-Bundle "thoughtbot/vim-rspec"
-Bundle "tommcdo/vim-exchange"
-Bundle "tpope/vim-bundler"
-Bundle "tpope/vim-endwise"
-Bundle "tpope/vim-fugitive"
-Bundle "tpope/vim-rake"
-Bundle "tpope/vim-repeat"
-Bundle "tpope/vim-surround"
-Bundle "tpope/vim-unimpaired"
-Bundle "Valloric/MatchTagAlways"
-Bundle "Valloric/YouCompleteMe"
+Plugin 'alpaca-tc/vim-unite-watson.vim'
+Plugin 'Attamusc/vim-mocha'
+Plugin 'bling/vim-airline'
+Plugin 'gre/play2vim'
+Plugin 'honza/vim-snippets'
+Plugin 'junegunn/vim-easy-align'
+Plugin 'jgdavey/tslime.vim'
+Plugin 'kana/vim-textobj-user'
+Plugin 'malkomalko/projections.vim'
+Plugin 'marijnh/tern_for_vim'
+Plugin 'majutsushi/tagbar'
+Plugin 'mattn/emmet-vim'
+Plugin 'nelstrom/vim-textobj-rubyblock'
+Plugin 'Raimondi/delimitMate'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/syntastic'
+Plugin 'SirVer/ultisnips'
+Plugin 'Shougo/neomru.vim'
+Plugin 'Shougo/unite.vim'
+Plugin 'Shougo/vimproc'
+Plugin 'thoughtbot/vim-rspec'
+Plugin 'tommcdo/vim-exchange'
+Plugin 'tpope/vim-bundler'
+Plugin 'tpope/vim-endwise'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-rake'
+Plugin 'tpope/vim-rbenv'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'Valloric/MatchTagAlways'
+Plugin 'Valloric/YouCompleteMe'
 
 " Load last so other, more prominent, signs are not overwritten
-Bundle "mhinz/vim-signify"
+Plugin 'mhinz/vim-signify'
 " }}}
 " Langs {{{
-Bundle "cakebaker/scss-syntax.vim"
-Bundle "derekwyatt/vim-scala"
-Bundle "elixir-lang/vim-elixir"
-Bundle "elzr/vim-json"
-Bundle "fatih/vim-go"
-Bundle "hhvm/vim-hack"
-Bundle "jelera/vim-javascript-syntax"
-Bundle "juvenn/mustache.vim"
-Bundle "kchmck/vim-coffee-script"
-Bundle "othree/html5.vim"
-Bundle "pangloss/vim-javascript"
-Bundle "tpope/vim-liquid"
-Bundle "tpope/vim-markdown"
-Bundle "tpope/vim-rails"
-Bundle "vim-ruby/vim-ruby"
-Bundle "wavded/vim-stylus"
+Plugin 'cakebaker/scss-syntax.vim'
+Plugin 'derekwyatt/vim-scala'
+Plugin 'elixir-lang/vim-elixir'
+Plugin 'elzr/vim-json'
+Plugin 'fatih/vim-go'
+Plugin 'hhvm/vim-hack'
+Plugin 'jelera/vim-javascript-syntax'
+Plugin 'juvenn/mustache.vim'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'mxw/vim-jsx'
+Plugin 'othree/html5.vim'
+Plugin 'pangloss/vim-javascript'
+Plugin 'tpope/vim-liquid'
+Plugin 'tpope/vim-markdown'
+Plugin 'tpope/vim-rails'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'wavded/vim-stylus'
 " }}}
 " Colors {{{
-Bundle "morhetz/gruvbox"
-Bundle "nanotech/jellybeans.vim"
-Bundle "jonathanfilip/vim-lucius"
-Bundle "w0ng/vim-hybrid"
-Bundle "reedes/vim-colors-pencil"
-Bundle "zeis/vim-kolor"
+Plugin 'chriskempson/base16-vim'
+Plugin 'morhetz/gruvbox'
+Plugin 'nanotech/jellybeans.vim'
+Plugin 'w0ng/vim-hybrid'
+Plugin 'reedes/vim-colors-pencil'
 " }}}
 " }}}
 
+call vundle#end() 
 filetype plugin indent on
+
+let mapleader=","
 " }}}
 " General Settings {{{
 set visualbell
-set t_vb=
 set hidden
 set rnu
 set showcmd
@@ -92,6 +93,8 @@ set autoindent
 set smartindent
 set cursorline
 set splitright
+set autoread
+set t_vb=
 set modelines=1
 set synmaxcol=400
 set formatoptions=qrn1
@@ -100,12 +103,15 @@ set laststatus=2
 set scrolloff=5
 set switchbuf=useopen
 set backspace=indent,eol,start
-set autoread
 set t_Co=256
 set tags=tags;/
 
+" folding
+set foldlevel=10
+
 " Use the same symbols as TextMate for tabstops and EOLs
 set listchars=tab:▸\ ,eol:¬,trail:·
+
 set ts=2 sts=2 sw=2 expandtab
 
 set noswapfile
@@ -119,10 +125,6 @@ set hlsearch
 set omnifunc=syntaxcomplete#Complete
 set complete=.,w,b,u,t
 set completeopt+=longest,menuone,preview
-
-hi Pmenu  guifg=#000000 guibg=#F8F8F8 ctermfg=black ctermbg=Lightgray
-hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
-hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
 
 set wildmenu
 set wildmode=list:longest
@@ -138,7 +140,7 @@ set wildignore+=*.luac
 set wildignore+=migrations
 set wildignore+=*.pyc
 set wildignore+=*.orig
-set wildignore+=*/classes/*,*/tmp*,*/node_modules,*/vendor/*ruby
+set wildignore+=*/classes/*,*/tmp*
 
 set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 " }}}
@@ -147,7 +149,8 @@ set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 let g:vim_json_syntax_conceal = 0
 " }}}
 " vim-airline {{{
-let g:airline_powerline_fonts = 1
+let g:airline_left_sep=''
+let g:airline_right_sep=''
 
 let g:jellybeans_overrides = {
 \    'Todo': { 'guifg': 'f0f000',
@@ -177,39 +180,37 @@ if executable('coffeetags')
         \ }
 endif
 " }}}
-" ctrl-p {{{
-let g:ctrlp_dotfiles = 1
-let g:ctrlp_match_window_bottom = 0
-let g:ctrlp_custom_ignore = '\v[\/]((\.(git|hg|svn))|target|project|node_modules)$'
-" }}}
 " Unite {{{
-let g:unite_winheight = 10
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_length'])
+
+call unite#custom#source('file_mru,file_rec,file_rec/async,grepocate',
+        \ 'max_candidates', 30000)
+"call unite#custom#source('file_rec,file_rec/async,file_mru,file,buffer,grep',
+      "\ 'ignore_pattern', join([
+      "\ '\.git/',
+      "\ '\.hg/',
+      "\ '\.svn/',
+      "\ ], '\|'))
+
+if executable('ag')
+  let g:unite_source_rec_async_command='ag --nocolor --nogroup --ignore ".hg" --ignore ".svn" --ignore ".git" --ignore ".bzr" --hidden -g ""'
+endif
+
+let g:unite_winheight=10
 let g:unite_data_directory='/Users/Sean/.vim/.cache/unite'
 let g:unite_enable_start_insert=1
 let g:unite_source_history_yank_enable=1
 let g:unite_source_rec_max_cache_files=30000
 let g:unite_source_file_rec_max_cache_files=30000
 let g:unite_prompt='» '
-let g:unite_source_grep_command='ag'
-let g:unite_source_grep_default_opts='--nocolor --nogroup --column'
-let g:unite_source_grep_recursive_opt=''
 
-call unite#set_profile('files', 'smartcase', 1)
-call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
-      \ 'ignore_pattern', join([
-      \ '\.git/',
-      \ '\.hg/',
-      \ '\.svn/',
-      \ 'node_modules/',
-      \ 'vendor/ruby',
-      \ 'classes/',
-      \ ], '\|'))
-
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-call unite#filters#sorter_default#use(['sorter_length'])
-
-call unite#custom#source('file_mru,file_rec,file_rec/async,grepocate',
-        \ 'max_candidates', 30000)
+call unite#custom#profile('files', 'smartcase', 1)
+" }}}
+" ultisnips {{{
+let g:UltiSnipsExpandTrigger="<c-k>"
+let g:UltiSnipsJumpForwardTrigger="<c-k>"
+let g:UltiSnipsJumpBackwardTrigger="<c-j>"
 " }}}
 " vim-signify {{{
 let g:signify_update_on_focusgained = 1
@@ -242,6 +243,9 @@ let g:syntastic_php_phpcs_args='--standard=Behance --report=csv'
 
 " --Ruby--
 let g:syntastic_ruby_checkers=['rubocop']
+
+" --Go--
+let g:syntastic_go_checkers=['golint', 'govet']
 " }}}
 " }}}
 
@@ -256,14 +260,19 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 
 " vim-rspec {{{
 " vim-rspec command so that we send commands to tmux using vim-tslime
-let g:rspec_command = 'call Send_to_Tmux("bundle exec rspec {spec}\n")'
+let g:rspec_command = 'call Send_to_Tmux("rspec {spec}\n")'
+" }}}
+
+" vim-mocha {{{
+" vim-mocha command so that we send commands to tmux using vim-tslime
+let g:mocha_command = 'call Send_to_Tmux("./node_modules/.bin/mocha --growl {spec}\n")'
 " }}}
 
 if has('gui_running')
-  set guifont=Source\ Code\ Pro\ Light\ For\ Powerline:h13
+  set guifont=M+\ 1m\ light:h14
   set background=dark
-  colorscheme hybrid
-  let g:airline_theme='hybrid'
+  colorscheme attamusc
+  let g:airline_theme='base16'
   set go-=T
   set go-=l
   set go-=L
@@ -273,9 +282,8 @@ if has('gui_running')
   let g:ctrlp_map = '<D-t>'
 else
   set background=dark
-  colorscheme hybrid
-  let g:airline_theme='hybrid'
-  let g:ctrlp_map = '<C-p>'
+  colorscheme attamusc
+  let g:airline_theme='base16'
 endif
 " }}}
 " Autocommands {{{
@@ -316,7 +324,6 @@ if has("autocmd")
     au FileType python setlocal ts=4 sts=4 sw=4 expandtab
 
     " Customisations based on personal preferences
-    au FileType html setlocal ts=2 sts=2 sw=2 expandtab
     au FileType css setlocal ts=2 sts=2 sw=2 expandtab
 
     au BufNewFile,BufRead *.zsh* setfiletype zsh
@@ -324,6 +331,8 @@ if has("autocmd")
 
   augroup html
     au!
+
+    au FileType html setlocal ts=2 sts=2 sw=2 expandtab
 
     au FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
     au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
@@ -349,16 +358,17 @@ if has("autocmd")
     au!
 
     au BufNewFile,BufRead .tern-project setfiletype json
+    au BufNewFile,BufRead .jshintrc setfiletype json
+    au BufNewFile,BufRead .jscsrc setfiletype json
   augroup end
 
   augroup javascript
       au!
 
-      au BufNewFile,BufRead .jshintrc setfiletype javascript
       au BufNewFile,BufRead *.njs setfiletype javascript
 
-      "au FileType javascript setlocal foldmethod=marker
-      "au FileType javascript setlocal foldmarker={,}
+      au FileType javascript setlocal foldmethod=marker
+      au FileType javascript setlocal foldmarker={,}
       au FileType javascript setlocal ts=2 sts=2 sw=2 expandtab
 
       " Tern Bindings
@@ -367,6 +377,17 @@ if has("autocmd")
 
       au FileType javascript noremap <C-d> <esc>:TernDef<cr>
       au FileType javascript noremap <C-d> :TernDef<cr>
+
+      " Mocha runner bindings
+      au FileType javascript inoremap <C-t> <esc>:TernType<cr>a
+      au FileType javascript nnoremap <C-t> :TernType<cr>
+      au FileType javascript noremap <C-d> <esc>:TernDef<cr>
+      au FileType javascript noremap <C-d> :TernDef<cr>
+
+      au FileType javascript map <leader>rt :call mocha#RunCurrentSpecFile()<CR>
+      au FileType javascript map <leader>rs :call mocha#RunNearestSpec()<CR>
+      au FileType javascript map <leader>rl :call mocha#RunLastSpec()<CR>
+      au FileType javascript map <leader>ra :call mocha#RunAllSpecs()<CR>
 
       au BufWritePre *.js,*.njs call StripTrailing()
   augroup END
@@ -408,6 +429,25 @@ if has("autocmd")
 
     au BufNewFile,BufRead Rakefile,Guardfile,Vagrantfile set ft=ruby
     au BufWritePre *.rb call StripTrailing()
+
+    " xmpfilter mappings for poorman's insta-repl
+    "nmap <silent> <leader>ra mzggVG!xmpfilter -a<cr>'z
+    "imap <silent> <leader>ra <ESC><leader>ra
+
+    " add # => marker
+    "vmap <silent> <leader>rm !xmpfilter -m<cr>
+    "nmap <silent> <leader>rm V<leader>rm
+    "imap <silent> <leader>rm <ESC><leader>rma
+
+    " remove # => marker
+    "vmap <silent> <leader>rd ms:call RemoveRubyEval()<CR>
+    "nmap <silent> <leader>rd V<leader>rd
+    "imap <silent> <leader>rd <ESC><leader>rda
+
+    au FileType ruby map <leader>rt :call RunCurrentSpecFile()<CR>
+    au FileType ruby map <leader>rs :call RunNearestSpec()<CR>
+    au FileType ruby map <leader>rl :call RunLastSpec()<CR>
+    au FileType ruby map <leader>ra :call RunAllSpecs()<CR>
   augroup END
 
   augroup php
@@ -512,11 +552,11 @@ endfunction
 " }}}
 " Keybindings {{{
 " Unite keybindings
-"nnoremap <D-t> :Unite -buffer-name=files file_rec/async:!<cr>
+nnoremap <D-t> :Unite -buffer-name=files -profile-name=files file_rec/async:!<cr>
 nnoremap <leader>aa :Unite -no-quit -buffer-name=search grep:.<cr>
 
 nnoremap <space><space> :Unite -toggle -auto-resize -buffer-name=mixed file_rec/async buffer file_mru bookmark<cr>
-nnoremap <space>r :Unite -toggle -auto-resize -buffer-name=files file_mru<cr>
+nnoremap <space>r :Unite -toggle -auto-resize -buffer-name=files -profile-name=files file_mru<cr>
 nnoremap <space>y :Unite -buffer-name=yanks history/yank<cr>
 nnoremap <space>l :Unite -auto-resize -buffer-name=line line<cr>
 nnoremap <space>b :Unite -auto-resize -buffer-name=buffers buffer<cr>
@@ -526,7 +566,7 @@ nnoremap <space>w :Unite -buffer-name=watson_current watson/current_file<CR>
 nnoremap <space>d :Unite -buffer-name=watson_dirty watson/dirty<CR>
 
 " For fast and east bundler installing
-nnoremap <Leader>bi :BundleInstall<cr>
+nnoremap <Leader>pi :PluginInstall!<cr>
 
 " Show TagBar
 nnoremap <Leader>ts :TagbarToggle<CR>
@@ -554,7 +594,7 @@ nnoremap <tab> >>
 vnoremap <s-tab> <gv
 vnoremap <tab> >gv
 
-nnoremap <leader>hw :nohlsearch<CR>
+nnoremap <leader><space> :nohlsearch<CR>
 
 nnoremap <space> za
 vnoremap <space> za
@@ -598,25 +638,6 @@ nnoremap <c-l> <c-w>l
 " uppercase/lowercase a word
 nmap <leader>uc mQviwU`Q
 nmap <leader>lc mQviwu`Q
-
-" xmpfilter mappings for poorman's insta-repl
-nmap <silent> <leader>ra mzggVG!xmpfilter -a<cr>'z
-imap <silent> <leader>ra <ESC><leader>ra
-
-" add # => marker
-vmap <silent> <leader>rm !xmpfilter -m<cr>
-nmap <silent> <leader>rm V<leader>rm
-imap <silent> <leader>rm <ESC><leader>rma
-
-" remove # => marker
-vmap <silent> <leader>rd ms:call RemoveRubyEval()<CR>
-nmap <silent> <leader>rd V<leader>rd
-imap <silent> <leader>rd <ESC><leader>rda
-
-map <leader>rt :call RunCurrentSpecFile()<CR>
-map <leader>rs :call RunNearestSpec()<CR>
-map <leader>rl :call RunLastSpec()<CR>
-map <leader>ra :call RunAllSpecs()<CR>
 
 " Dash searching integration
 map <leader>d :call SearchDash()<CR>
