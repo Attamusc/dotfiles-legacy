@@ -10,7 +10,8 @@ module GitWorkflow
         separator: '/',
         prefix: 'feature',
         suffix: '',
-        branch: ''
+        branch: '',
+        upstream: 'upstream/master'
       }
       @options_parser = make_option_parser
     end
@@ -46,6 +47,7 @@ module GitWorkflow
       def checkout_branch!
         cmd = "git checkout -b #{full_branch_name}"
         cmd << " #{@options[:branch]}" unless @options[:branch].empty?
+        cmd << " --track #{@options[:upstream]}" unless @options[:upstream].empty?
         `#{cmd}`
       end
 
@@ -67,6 +69,8 @@ module GitWorkflow
                   'Source branch, if not the current branch') { |branch| @options[:branch] = branch }
           opts.on('-s SEPARATOR', '--separator SEPARATOR',
                   'Separator between type and feature name') { |separator| @options[:separator] = separator }
+          opts.on('-u UPSTREAM', '--upstream UPSTREAM',
+                  'Upstream branch to track for feature') { |upstream| @options[:upstream] = upstream }
         end
       end
 
