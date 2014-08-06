@@ -8,6 +8,7 @@
 
 local=$1
 remote=$2
+cmd="rsync -tziru --exclude .git $local $remote"
 
-cd "$local" && echo "Watching '$(pwd)' and syncing to '$remote'"
-fswatch . "date +%H:%M:%S && rsync -tziru --exclude .git --exclude-from=.gitignore . $remote"
+echo "Watching '$local' and syncing to '$remote'"
+fswatch -o . | xargs -n1 -I{} $cmd

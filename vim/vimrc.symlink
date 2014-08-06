@@ -269,7 +269,9 @@ let g:mocha_command = 'call Send_to_Tmux("./node_modules/.bin/mocha --growl {spe
 " }}}
 
 if has('gui_running')
-  set guifont=M+\ 1m\ light:h14
+  "set guifont=M+\ 1m\ light:h14
+  set guifont=InputMonoCondensed\ Thin:h13
+  set linespace=4
   set background=dark
   colorscheme attamusc
   let g:airline_theme='base16'
