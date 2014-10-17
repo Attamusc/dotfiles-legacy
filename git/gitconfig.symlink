@@ -50,6 +50,9 @@
   la = !git l --all
   ra = !git r --all
 
+  # Resetting
+  undo-last = reset --soft HEAD~1
+
   # Stashing and some shit
   s = stash
   sp = stash pop

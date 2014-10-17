@@ -34,50 +34,63 @@ module GitWorkflow
 
     private
 
-      def error_out
-        puts '[ERROR] - A branch name is required'
-        @options_parser.help
-        exit 1
-      end
+    def error_out
+      puts '[ERROR] - A branch name is required'
+      @options_parser.help
+      exit 1
+    end
 
-      def new_branch?
-        `git branch --all | sed -e 's/^[ \t]*//' | grep ^#{full_branch_name}$ | wc -l`.to_i == 0
-      end
+    def new_branch?
+      `git branch --all | sed -e 's/^[ \t]*//' | grep ^#{full_branch_name}$ | wc -l`.to_i == 0
+    end
 
-      def checkout_branch!
-        cmd = "git checkout -b #{full_branch_name}"
-        cmd << " #{@options[:branch]}" unless @options[:branch].empty?
-        cmd << " --track #{@options[:upstream]}" unless @options[:upstream].empty?
-        `#{cmd}`
-      end
+    def checkout_branch!
+      checkout_cmd = "git checkout -b #{full_branch_name}"
+      checkout_cmd << " #{@options[:branch]}" unless @options[:branch].empty?
 
-      def checkout_branch
-        `git checkout #{full_branch_name}`
-      end
+      upstream_cmd = "git branch -u #{upstream_branch}"
+      `#{checkout_cmd} && #{upstream_cmd}`
+    end
 
-      def banner
-        'Usage: git-workflow [options] feature_name'
-      end
+    def checkout_branch
+      `git checkout #{full_branch_name}`
+    end
 
-      def make_option_parser
-        OptionParser.new do |opts|
-          opts.banner = banner
+    def banner
+      'Usage: git-workflow [options] feature_name'
+    end
 
-          opts.on('-p PREFIX', '--prefix PREFIX',
-                  'Prefix for the branch') { |prefix| @options[:prefix] = prefix }
-          opts.on('-b BRANCH', '--branch BRANCH',
-                  'Source branch, if not the current branch') { |branch| @options[:branch] = branch }
-          opts.on('-s SEPARATOR', '--separator SEPARATOR',
-                  'Separator between type and feature name') { |separator| @options[:separator] = separator }
-          opts.on('-u UPSTREAM', '--upstream UPSTREAM',
-                  'Upstream branch to track for feature') { |upstream| @options[:upstream] = upstream }
-        end
-      end
-
-      def full_branch_name
-        "#{@options[:prefix]}#{@options[:separator]}#{@feature_name}#{@options[:suffix]}"
+    def upstream_branch
+      if upstream?
+        'upstream/master'
+      else
+        'origin/master'
       end
     end
+
+    def upstream?
+      `git remote | grep upstream | wc -l`.to_i != 0
+    end
+
+    def full_branch_name
+      "#{@options[:prefix]}#{@options[:separator]}#{@feature_name}#{@options[:suffix]}"
+    end
+
+    def make_option_parser
+      OptionParser.new do |opts|
+        opts.banner = banner
+
+        opts.on('-p PREFIX', '--prefix PREFIX',
+                'Prefix for the branch') { |prefix| @options[:prefix] = prefix }
+        opts.on('-b BRANCH', '--branch BRANCH',
+                'Source branch, if not the current branch') { |branch| @options[:branch] = branch }
+        opts.on('-s SEPARATOR', '--separator SEPARATOR',
+                'Separator between type and feature name') { |separator| @options[:separator] = separator }
+        opts.on('-u UPSTREAM', '--upstream UPSTREAM',
+                'Upstream branch to track for feature') { |upstream| @options[:upstream] = upstream }
+      end
+    end
+  end
 end
 
 GitWorkflow::CLI.new.tap do |cli|
