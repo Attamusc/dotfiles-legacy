@@ -131,3 +131,9 @@
   refactor = refactor
 [url "https://"]
 	insteadOf = git://
+[filter "media"]
+	required = true
+	clean = git media clean %f
+	smudge = git media smudge %f
+[url "https://github.com/"]
+	insteadOf = git://github.com/

@@ -8,7 +8,13 @@ export LSCOLORS="exfxcxdxbxegedabagacad"
 export CLICOLOR=true
 export DISABLE_AUTO_TITLE=true
 
+# Add custom functions
 fpath=($ZSH/zsh/functions $fpath)
+
+# Add brew installed zsh completions
+if [ -d "/usr/local/share/zsh-completions" ]; then
+  fpath=(/usr/local/share/zsh-completions $fpath)
+fi
 
 autoload -U $ZSH/zsh/functions/*(:t)
 

@@ -14,8 +14,6 @@ then
   source ~/.localrc
 fi
 
-fpath=(/usr/local/share/zsh-completions $fpath)
-
 # initialize autocomplete here, otherwise functions won't be loaded
 autoload -U compinit && compinit
 

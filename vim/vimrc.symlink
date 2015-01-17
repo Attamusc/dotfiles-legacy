@@ -17,11 +17,17 @@ Plug 'Attamusc/vim-mocha'
 Plug 'Attamusc/vim-rspec'
 Plug 'bling/vim-airline'
 Plug 'craigemery/vim-autotag'
+Plug 'guns/vim-clojure-highlight'
+Plug 'guns/vim-clojure-static'
+Plug 'guns/vim-sexp'
 Plug 'gre/play2vim'
 Plug 'honza/vim-snippets'
+Plug 'junegunn/limelight.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'jgdavey/tslime.vim'
 Plug 'kana/vim-textobj-user'
+Plug 'kien/ctrlp.vim'
+Plug 'kien/rainbow_parentheses.vim'
 Plug 'malkomalko/projections.vim'
 Plug 'marijnh/tern_for_vim', { 'do': 'npm install' }
 Plug 'majutsushi/tagbar'
@@ -38,16 +44,21 @@ Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimproc', { 'do': 'make' }
 Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-bundler'
+Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-fireplace'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-leiningen'
 Plug 'tpope/vim-rake'
 Plug 'tpope/vim-rbenv'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-sexp-mappings-for-regular-people'
 Plug 'tpope/vim-unimpaired'
 Plug 'Valloric/MatchTagAlways'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.sh --clang-completer' }
+Plug 'wting/rust.vim'
+Plug 'guns/vim-clojure-highlight'
 
 " Load last so other, more prominent, signs are not overwritten
 Plug 'mhinz/vim-signify'
@@ -55,9 +66,11 @@ Plug 'mhinz/vim-signify'
 " Langs {{{
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'derekwyatt/vim-scala'
+Plug 'ekalinin/Dockerfile.vim'
 Plug 'elixir-lang/vim-elixir'
 Plug 'elzr/vim-json'
 Plug 'fatih/vim-go'
+Plug 'Glench/Vim-Jinja2-Syntax'
 Plug 'jelera/vim-javascript-syntax'
 Plug 'joshtronic/php.vim'
 Plug 'juvenn/mustache.vim'
@@ -73,11 +86,13 @@ Plug 'wavded/vim-stylus'
 Plug 'xsbeats/vim-blade'
 " }}}
 " Colors {{{
+Plug 'blerins/flattown'
+Plug 'baskerville/bubblegum'
 Plug 'chriskempson/base16-vim'
-Plug 'morhetz/gruvbox'
+Plug 'joshhartigan/banana'
 Plug 'nanotech/jellybeans.vim'
+Plug 'trusktr/seti.vim'
 Plug 'w0ng/vim-hybrid'
-Plug 'reedes/vim-colors-pencil'
 " }}}
 " }}}
 
@@ -96,6 +111,8 @@ set smartindent
 set cursorline
 set splitright
 set autoread
+set exrc
+set secure
 set t_vb=
 set modelines=1
 set synmaxcol=400
@@ -107,6 +124,10 @@ set switchbuf=useopen
 set backspace=indent,eol,start
 set t_Co=256
 set tags=./tags;/
+
+" Split setting that make way more sense
+set splitbelow
+set splitright
 
 " folding
 set foldlevel=10
@@ -147,8 +168,22 @@ set wildignore+=*/classes/*,*/tmp*
 set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 " }}}
 " Plugin Settings {{{
+" base16 {{{
+let base16colorspace=256
+" }}}
+" ctrl-p {{{		
+let g:ctrlp_user_command = 'ag %s -i --nocolor --no-group --hidden -g ""'
+let g:ctrlp_open_new_file = 'r'
+let g:ctrlp_dont_split = 'NERD'
+" }}}
+" vim-go {{{
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+" }}}
 " vim-json {{{
 let g:vim_json_syntax_conceal = 0
+" }}}
 " }}}
 " vim-airline {{{
 let g:airline_left_sep=''
@@ -188,15 +223,9 @@ call unite#filters#sorter_default#use(['sorter_length'])
 
 call unite#custom#source('file_mru,file_rec,file_rec/async,grepocate',
         \ 'max_candidates', 30000)
-"call unite#custom#source('file_rec,file_rec/async,file_mru,file,buffer,grep',
-      "\ 'ignore_pattern', join([
-      "\ '\.git/',
-      "\ '\.hg/',
-      "\ '\.svn/',
-      "\ ], '\|'))
 
 if executable('ag')
-  let g:unite_source_rec_async_command='ag --nocolor --nogroup --ignore ".hg" --ignore ".svn" --ignore ".git" --ignore ".bzr" --hidden -g ""'
+  let g:unite_source_rec_async_command='ag --nocolor --nogroup --hidden -g ""'
 endif
 
 let g:unite_winheight=10
@@ -227,6 +256,18 @@ let g:syntastic_error_symbol = '✗'
 let g:syntastic_warning_symbol = '⚠ '
 let g:syntastic_style_error_symbol = '✗'
 let g:syntastic_style_warning_symbol = '⚠ '
+" The Silver Search overrides {{{
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+" }}}
 
 " Ignore HTML files since templating breaks it
 let g:syntastic_mode_map = {
@@ -271,22 +312,27 @@ let g:rspec_command = 'call Send_to_Tmux("clear && rspec {spec}\n")'
 " vim-mocha {{{
 " vim-mocha command so that we send commands to tmux using vim-tslime
 let g:mocha_command = 'call Send_to_Tmux("./node_modules/.bin/mocha --growl {spec}\n")'
-" }}}
 
 if has('gui_running')
   set guifont=M+\ 1m\ light:h14
   set background=dark
-  colorscheme attamusc
-  let g:airline_theme='base16'
+  colorscheme flattown
+  hi SignColumn ctermfg=243 ctermbg=235 cterm=NONE guifg=#757777 guibg=#282a2b gui=NONE
+  hi SignifySignAdd ctermfg=188 ctermbg=64 cterm=bold guifg=#43800a guibg=NONE gui=bold
+  hi SignifySignDelete ctermfg=88 ctermbg=NONE cterm=NONE guifg=#870505 guibg=NONE gui=NONE
+  hi SignifySignChange ctermfg=188 ctermbg=23 cterm=NONE guifg=#1a3150 guibg=NONE gui=NONE
+  let g:airline_theme="flattown"
   set go-=T
   set go-=l
   set go-=L
   set go-=r
   set go-=R
+  let g:ctrlp_map = '<D-t>'
 else
   set background=dark
-  colorscheme attamusc
-  let g:airline_theme='base16'
+  colorscheme base16-flat
+  let g:airline_theme="base16"
+  let g:ctrlp_map = '<C-p>'
 endif
 " }}}
 " vim-rhubarb {{{
@@ -344,6 +390,15 @@ if has("autocmd")
     au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
     au BufNewFile,BufRead *.ejs setfiletype html
+  augroup END
+
+  augroup clojure
+    au!
+
+    au Filetype clojure RainbowParenthesesActivate
+    au FileType clojure RainbowParenthesesLoadRound
+    au FileType clojure RainbowParenthesesLoadSquare
+    au FileType clojure RainbowParenthesesLoadBraces
   augroup END
 
   augroup java
@@ -570,7 +625,7 @@ endfunction
 " }}}
 " Keybindings {{{
 " Unite keybindings
-nnoremap <D-t> :Unite -buffer-name=files file_rec/async:!<cr>
+"nnoremap <D-t> :Unite -buffer-name=files file_rec/async:!<cr>
 nnoremap <leader>aa :Unite -no-quit -buffer-name=search grep:.<cr>
 
 nnoremap <space><space> :Unite -toggle -auto-resize -buffer-name=mixed file_rec/async buffer file_mru bookmark<cr>
@@ -653,6 +708,9 @@ nnoremap <c-l> <c-w>l
 " uppercase/lowercase a word
 nmap <leader>uc mQviwU`Q
 nmap <leader>lc mQviwu`Q
+
+" Limelight toggle
+nmap <leader>h :Limelight!!0.8<CR>
 
 " Dash searching integration
 map <leader>d :call SearchDash()<CR>

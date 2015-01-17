@@ -30,13 +30,13 @@ alias la='ls -GA'
 
 alias update='sudo softwareupdate -i -a; brew update; brew upgrade; npm update npm -g; npm update -g'
 
-# ---tmuxifier---
-#alias mux="tmuxifier"
-
 # ---Selenium Standalone Server---
 alias sel-server="brew services start selenium-server-standalone"
 # Old alias without homebrew services
 # alias sel-start="java -jar /usr/local/opt/selenium-server-standalone/selenium-server-standalone-2.39.0.jar -p 4444"
+
+# ---JenkinsCI---
+alias jenkins="java -jar /usr/local/opt/jenkins/libexec/jenkins.war"
 
 # ---Spotlight Stuff---
 # Disable/Enable spotlight indexing
