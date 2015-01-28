@@ -8,7 +8,7 @@ export LESS=FRSX
 # Languages
 export GROOVY_HOME=$(brew --prefix groovy)/libexec
 export DART_HOME=/Users/Atta/dart/dart-sdk
-export PHP_HOME=$(brew --prefix php55)
+export PHP_HOME=$(brew --prefix php56)
 export GO_HOME=$(brew --prefix go)/libexec
 
 export GOPATH=~/Projects/go-space

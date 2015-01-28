@@ -89,6 +89,7 @@ Plug 'xsbeats/vim-blade'
 Plug 'blerins/flattown'
 Plug 'baskerville/bubblegum'
 Plug 'chriskempson/base16-vim'
+Plug 'flazz/vim-colorschemes'
 Plug 'joshhartigan/banana'
 Plug 'nanotech/jellybeans.vim'
 Plug 'trusktr/seti.vim'
@@ -278,9 +279,13 @@ let g:syntastic_mode_map = {
 " Checkers {{{
 " --JavaScript--
 let g:syntastic_javascript_checkers=['jshint', 'jscs']
+let g:syntastic_javascript_jscs_args="--esnext"
 
 " --CSS--
 let g:syntastic_css_checkers=[]
+
+" --Sass--
+let g:syntastic_sass_checkers=['scss_lint']
 
 " --PHP--
 let g:syntastic_php_checkers=['php', 'phpcs']
@@ -399,6 +404,8 @@ if has("autocmd")
     au FileType clojure RainbowParenthesesLoadRound
     au FileType clojure RainbowParenthesesLoadSquare
     au FileType clojure RainbowParenthesesLoadBraces
+
+    au Filetype clojure let b:loaded_delimitMate=1
   augroup END
 
   augroup java
@@ -643,6 +650,9 @@ nnoremap <Leader>pi :PlugInstall<cr>
 
 " Show TagBar
 nnoremap <Leader>ts :TagbarOpenAutoClose<CR>
+
+" Show CtrlP with Tag search
+nnoremap <leader>. :CtrlPTag<CR>
 
 " Shortcut to rapidly toggle `set list`
 nnoremap <leader>lt :set list!<CR>
