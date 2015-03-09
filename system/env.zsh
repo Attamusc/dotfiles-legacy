@@ -10,13 +10,14 @@ export GROOVY_HOME=$(brew --prefix groovy)/libexec
 export DART_HOME=/Users/Atta/dart/dart-sdk
 export PHP_HOME=$(brew --prefix php56)
 export GO_HOME=$(brew --prefix go)/libexec
+export COMPOSER_HOME=/Users/Sean/.composer
 
 export GOPATH=~/Projects/go-space
 
 # Frameworks
 export GWT_HOME=/usr/local/gwt-2.4.0
 export GRAILS_HOME=/usr/local/grails-2.0.0
-export PLAY_HOME=/usr/local/play
+export ACTIVATOR_HOME=/usr/local/opt/typesafe-activator
 
 # Tools
 export BEES_HOME=/usr/local/cloudbees-sdk-0.7.1
@@ -29,7 +30,7 @@ export HEROKU_HOME=/usr/local/heroku
 export PATH=$HOME/.dotfiles/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin
 
 # Add our special directories
-export PATH=$PHP_HOME/bin:$HEROKU_HOME/bin:$TMUXIFIER_HOME/bin:$GOPATH/bin:$GO_HOME/bin:$POSTGRES_APP_HOME/bin:$DART_HOME/bin:$PLAY_HOME:$GROOVY_HOME:$GRADLE_HOME/bin:$GRAILS_HOME/bin:$GWT_HOME:$BEES_HOME:$PATH
+export PATH=$PHP_HOME/bin:$HEROKU_HOME/bin:$TMUXIFIER_HOME/bin:$GOPATH/bin:$GO_HOME/bin:$POSTGRES_APP_HOME/bin:$DART_HOME/bin:$ACTIVATOR_HOME/bin:$GROOVY_HOME:$GRADLE_HOME/bin:$GRAILS_HOME/bin:$GWT_HOME:$BEES_HOME:$COMPOSER_HOME/vendor/bin:$PATH
 
 # Add direnv
 if which direnv > /dev/null; then eval eval "$(direnv hook zsh)"; fi

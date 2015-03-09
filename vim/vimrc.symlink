@@ -13,8 +13,6 @@ call plug#begin('~/.vim/plugged')
 " Bundles {{{
 " Utilities {{{
 Plug 'alpaca-tc/vim-unite-watson.vim'
-Plug 'Attamusc/vim-mocha'
-Plug 'Attamusc/vim-rspec'
 Plug 'bling/vim-airline'
 Plug 'craigemery/vim-autotag'
 Plug 'guns/vim-clojure-highlight'
@@ -22,6 +20,7 @@ Plug 'guns/vim-clojure-static'
 Plug 'guns/vim-sexp'
 Plug 'gre/play2vim'
 Plug 'honza/vim-snippets'
+Plug 'janko-m/vim-test'
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'jgdavey/tslime.vim'
@@ -173,11 +172,14 @@ set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 let base16colorspace=256
 " }}}
 " ctrl-p {{{		
-let g:ctrlp_user_command = 'ag %s -i --nocolor --no-group --hidden -g ""'
 let g:ctrlp_open_new_file = 'r'
 let g:ctrlp_dont_split = 'NERD'
+let g:ctrlp_show_hidden = 1
+let g:ctrlp_switch_buffer = 1
 " }}}
 " vim-go {{{
+let g:go_fmt_fail_silently = 1
+
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1
@@ -248,8 +250,10 @@ let g:UltiSnipsJumpBackwardTrigger="<c-j>"
 " }}}
 " vim-signify {{{
 let g:signify_update_on_focusgained = 1
+let g:signify_sign_overwrite = 0
 " }}}
 " Syntastic {{{
+let g:syntastic_aggregate_errors = 1
 let g:syntastic_enable_highlighting = 0
 let g:syntastic_always_populate_loc_list=1
 
@@ -263,7 +267,12 @@ if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
 
   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
+    \ --ignore .git
+    \ --ignore .svn
+    \ --ignore .hg
+    \ --ignore .DS_Store
+    \ -g ""'
 
   " ag is fast enough that CtrlP doesn't need to cache
   let g:ctrlp_use_caching = 0
@@ -295,8 +304,7 @@ let g:syntastic_php_phpcs_args='--standard=Behance --report=csv'
 let g:syntastic_ruby_checkers=['rubocop']
 
 " --Go--
-let g:syntastic_go_checkers=['golint', 'govet']
-" }}}
+let g:syntastic_go_checkers=['golint', 'gofmt', 'govet']
 " }}}
 
 " gocode {{{
@@ -308,15 +316,13 @@ let g:gocode_gofmt_tabwidth = ' -tabwidth=4'
 let g:ycm_autoclose_preview_window_after_completion = 1
 " }}}
 
-" vim-rspec {{{
-" vim-rspec command so that we send commands to tmux using vim-tslime
-let g:rspec_use_external_runner=0
-let g:rspec_command = 'call Send_to_Tmux("clear && rspec {spec}\n")'
+" vim-test {{{
+let g:test#strategy = 'tslime'
 " }}}
-
-" vim-mocha {{{
-" vim-mocha command so that we send commands to tmux using vim-tslime
-let g:mocha_command = 'call Send_to_Tmux("./node_modules/.bin/mocha --growl {spec}\n")'
+" vim-rhubarb {{{
+let g:RHUBARB_TOKEN=$GH_TOKEN
+" }}}
+" }}}
 
 if has('gui_running')
   set guifont=M+\ 1m\ light:h14
@@ -325,7 +331,7 @@ if has('gui_running')
   hi SignColumn ctermfg=243 ctermbg=235 cterm=NONE guifg=#757777 guibg=#282a2b gui=NONE
   hi SignifySignAdd ctermfg=188 ctermbg=64 cterm=bold guifg=#43800a guibg=NONE gui=bold
   hi SignifySignDelete ctermfg=88 ctermbg=NONE cterm=NONE guifg=#870505 guibg=NONE gui=NONE
-  hi SignifySignChange ctermfg=188 ctermbg=23 cterm=NONE guifg=#1a3150 guibg=NONE gui=NONE
+  hi SignifySignChange ctermfg=188 ctermbg=23 cterm=NONE guifg=#6189D4 guibg=NONE gui=NONE
   let g:airline_theme="flattown"
   set go-=T
   set go-=l
@@ -339,10 +345,6 @@ else
   let g:airline_theme="base16"
   let g:ctrlp_map = '<C-p>'
 endif
-" }}}
-" vim-rhubarb {{{
-let g:RHUBARB_TOKEN=$GH_TOKEN
-" }}}
 " Autocommands {{{
 " Only do this part when compiled with support for autocommands
 if has("autocmd")
@@ -452,11 +454,6 @@ if has("autocmd")
       au FileType javascript noremap <C-d> <esc>:TernDef<cr>
       au FileType javascript noremap <C-d> :TernDef<cr>
 
-      au FileType javascript map <leader>rt :call mocha#RunCurrentSpecFile()<CR>
-      au FileType javascript map <leader>rs :call mocha#RunNearestSpec()<CR>
-      au FileType javascript map <leader>rl :call mocha#RunLastSpec()<CR>
-      au FileType javascript map <leader>ra :call mocha#RunAllSpecs()<CR>
-
       au BufWritePre *.js,*.njs call StripTrailing()
   augroup END
 
@@ -490,8 +487,6 @@ if has("autocmd")
 
     au BufWritePre *.go :silent GoImports
     au BufWritePre *.go call StripTrailing()
-
-    au FileType go map <leader>t :GoTest<CR>
   augroup END
 
   augroup ruby
@@ -515,11 +510,6 @@ if has("autocmd")
     "vmap <silent> <leader>rd ms:call RemoveRubyEval()<CR>
     "nmap <silent> <leader>rd V<leader>rd
     "imap <silent> <leader>rd <ESC><leader>rda
-
-    au FileType ruby map <leader>rt :call RunCurrentSpecFile()<CR>
-    au FileType ruby map <leader>rs :call RunNearestSpec()<CR>
-    au FileType ruby map <leader>rl :call RunLastSpec()<CR>
-    au FileType ruby map <leader>ra :call RunAllSpecs()<CR>
 
     " Quick, vertical 'goto file' (gf) to compliment <c-w>f (horizontal split)
     au FileType ruby nnoremap <leader>f <plug>RailsVSplitFind
@@ -645,6 +635,13 @@ nnoremap <space>s :Unite -quick-match buffer<cr>
 nnoremap <space>w :Unite -buffer-name=watson_current watson/current_file<CR>
 nnoremap <space>d :Unite -buffer-name=watson_dirty watson/dirty<CR>
 
+
+" vim-test runner commands
+nnoremap <silent> <leader>tt :TestNearest<CR>
+nnoremap <silent> <leader>tf :TestFile<CR>
+nnoremap <silent> <leader>ta :TestSuite<CR>
+nnoremap <silent> <leader>tl :TestLast<CR>
+
 " For fast and east bundler installing
 nnoremap <Leader>pi :PlugInstall<cr>
 
@@ -714,6 +711,9 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
+
+" bind K to grep word under cursor
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " uppercase/lowercase a word
 nmap <leader>uc mQviwU`Q

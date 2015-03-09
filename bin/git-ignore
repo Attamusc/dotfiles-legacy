@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+#
+# Easily add ignore patterns to a .gitignore from the commandline
+# $ git ignore dist
+#
+# Taken from: https://github.com/tj/git-extras/blob/master/bin/git-ignore
+
+function show_contents {
+  if [ -f "$2" ]; then
+    echo "$1 gitignore: $2" && cat "$2"
+  else
+    echo "There is no $1 .gitignore yet"
+  fi
+}
+
+function show_global {
+  show_contents Global `git config --global core.excludesfile`
+}
+
+function add_global {
+  add_patterns `git config --global core.excludesfile` "$@"
+}
+
+function show_local {
+  cd "$(git_root)"
+  show_contents Local .gitignore
+}
+
+function add_local {
+  cd "$(git_root)"
+  add_patterns .gitignore "$@"
+}
+
+function add_patterns {
+  echo "Adding pattern(s) to: $1"
+  for pattern in "${@:2}"; do
+    echo "... adding '$pattern'"
+    (test -f "$1" && test "$pattern" && grep -q "$pattern" "$1") || echo "$pattern" >> "$1"
+  done
+}
+
+function git_root() {
+  git rev-parse --show-toplevel
+}
+
+if test $# -eq 0; then
+   show_global
+   echo "---------------------------------"
+   show_local
+else
+  case "$1" in
+    -l|--local)
+      test $# -gt 1 && add_local "${@:2}" && echo
+      show_local
+      ;;
+    -g|--global)
+      test $# -gt 1 && add_global "${@:2}" && echo
+      show_global
+      ;;
+    *)
+      add_local "$@"
+      ;;
+  esac
+fi
