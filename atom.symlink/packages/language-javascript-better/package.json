@@ -1,0 +1,34 @@
+{
+  "name": "language-javascript-better",
+  "version": "1.3.0",
+  "description": "Alternative JavaScript language support with ES6 features in Atom",
+  "engines": {
+    "atom": "*",
+    "node": "*"
+  },
+  "homepage": "https://atom.io/packages/language-javascript-better",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AMalininHere/language-javascript-better.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AMalininHere/language-javascript-better/issues"
+  },
+  "readme": "# Alternative JavaScript language support in Atom [![Build Status](https://travis-ci.org/AMalininHere/language-javascript-better.svg?branch=master)](https://travis-ci.org/AMalininHere/language-javascript-better)\n\nAdds syntax highlighting and snippets to JavaScript file in Atom.\n\nThis package highlights all properties and methods of object.\n\n### Supported ES6 features\n- Arrows\n- Classes\n- Generators\n- Template strings\n- `for..of`\n- `yield` and `yield*`\n- `import..as` and `import..from`\n",
+  "readmeFilename": "README.md",
+  "_id": "language-javascript-better@1.3.0",
+  "_shasum": "ffa93e871bd74094751fcb98e0bc5e446e7d76b5",
+  "_resolved": "file:../d-115310-37755-17uhj7j/package.tgz",
+  "_from": "../d-115310-37755-17uhj7j/package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
+}

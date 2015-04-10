@@ -1,0 +1,19 @@
+'.source':
+  'editor':
+    'increaseIndentPattern': '(^.*(\\{[^}]*|\\([^)]*)$|^.*\\=\\s*$)'
+    'decreaseIndentPattern': '^\\s*(\\}|\\))'
+    'commentStart': '//'
+'.keyword.other.documentation.scaladoc.scala':
+  'editor':
+    'completions': [
+      'author'
+      'version'
+      'param'
+      'return'
+      'exception'
+      'see'
+      'since'
+      'serial'
+      'deprecated'
+      'link'
+    ]

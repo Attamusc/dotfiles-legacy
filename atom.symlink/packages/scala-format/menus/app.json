@@ -1,0 +1,18 @@
+{
+  "menu": [
+    {
+      "label": "Packages",
+      "submenu": [
+        {
+          "label": "scala-format",
+          "submenu": [
+            {
+              "label": "Format File",
+              "command": "scala-format:format"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

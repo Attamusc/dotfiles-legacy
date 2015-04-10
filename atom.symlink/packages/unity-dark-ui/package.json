@@ -1,0 +1,41 @@
+{
+  "name": "unity-dark-ui",
+  "theme": "ui",
+  "version": "1.1.0",
+  "main": "./lib/unity-ui",
+  "private": false,
+  "description": "An Atom theme for a more native experience on OS X.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rschiang/unity-dark-ui"
+  },
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "readme": "# Unity Dark UI\n\nA dark alternative Atom theme for a more native experience on OS X.\n\nHere's how it looks like on Mavericks:\n\n![Screenshot](https://github.com/rschiang/unity-dark-ui/raw/gh-pages/screenshot.png)\n\nYosemite style also available on OS X 10.10 or higher.\n\n## Installing\n\nYou could get Unity Dark UI by searching `unity-dark-ui` package in Atom.\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/rschiang/unity-dark-ui/issues"
+  },
+  "homepage": "https://github.com/rschiang/unity-dark-ui",
+  "_id": "unity-dark-ui@1.1.0",
+  "dist": {
+    "shasum": "98f5bde25b0b85622dc940b567eccb876d538736"
+  },
+  "_resolved": "/private/var/folders/r6/lt1vx37j6dd4w6z5hl1jdzj00000gn/T/d-114119-44352-ya0zdl/package.tgz",
+  "_from": "/private/var/folders/r6/lt1vx37j6dd4w6z5hl1jdzj00000gn/T/d-114119-44352-ya0zdl/package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".coffee": [
+        "lib/unity-ui.coffee"
+      ],
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
+}

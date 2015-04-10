@@ -1,0 +1,443 @@
+'scopeName': 'source.js'
+'fileTypes': [
+  'js'
+  'htc'
+  '_js'
+  'es'
+  'es6'
+]
+'firstLineMatch': '^#!.*\\b(node|iojs)'
+'name': 'JavaScript ES6'
+'patterns': [
+  {
+    'begin': '(?<!\\.)\\b(import)(?!\\s*:)\\b'
+    'beginCaptures':
+      '1':
+        'name': 'keyword.control.js'
+    'patterns': [
+      {
+        'include': '#strings'
+      }
+      {
+        'match': '\\b(as|from)\\b',
+        'name': 'keyword.control.js'
+      }
+      {
+        'match': '\\b([a-zA-Z_$][a-zA-Z_$0-9]*)\\b'
+      }
+      {
+        'match': ','
+        'name': 'meta.delimiter.object.comma.js'
+      }
+      {
+        'match': '\\{|\\}'
+        'name': 'meta.brace.curly.js'
+      }
+    ]
+    'end': '(;)?$'
+    'endCaptures':
+      '1':
+        'name': 'punctuation.terminator.statement.js'
+    'name': 'meta.import.js'
+  }
+  {
+    'include': '#functions'
+  }
+  {
+    'include': '#methods'
+  }
+  {
+    'match': '\\b(class)(?:(?:\\s+(extends)\\s+(\\w+(?:\\.\\w*)?))|(?:(?:\\s+(\\w+(?:\\.\\w*)?))(?:\\s+(extends)\\s+(\\w+(?:\\.\\w*)?))?))'
+    'captures':
+      '1':
+        'name': 'storage.type.class.js'
+      '2':
+        'name': 'storage.modifier.js',
+      '3':
+        'name': 'entity.name.type.js'
+      '4':
+        'name': 'entity.name.type.js'
+      '5':
+        'name': 'storage.modifier.js',
+      '6':
+        'name': 'entity.name.type.js'
+    'name': 'meta.class.js'
+  }
+  {
+    'captures':
+      '1':
+        'name': 'keyword.operator.new.js'
+      '2':
+        'name': 'entity.name.type.instance.js'
+    'match': '(new)\\s+(\\w+(?:\\.\\w*)?)'
+    'name': 'meta.class.instance.constructor'
+  }
+  {
+    'match': '\\b((0(x|X)[0-9a-fA-F]+)|(0(b|B)[01]+)|(0(o|O)[0-7]+)|([0-9]+(\\.[0-9]+)?)((e|E)[+-]?[0-9]+)?)\\b'
+    'name': 'constant.numeric.js'
+  }
+  {
+    'include': '#strings'
+  }
+  {
+    'include': '#comments'
+  }
+  {
+    'begin': '(^[ \\t]+)?(?=//)'
+    'beginCaptures':
+      '1':
+        'name': 'punctuation.whitespace.comment.leading.js'
+    'end': '(?!\\G)'
+    'patterns': [
+      {
+        'begin': '//'
+        'beginCaptures':
+          '0':
+            'name': 'punctuation.definition.comment.js'
+        'end': '\\n'
+        'name': 'comment.line.double-slash.js'
+      }
+    ]
+  }
+  {
+    'match': '(?<!\\.)\\b(yield)(?!\\s*:)\\b(?:\\s*(\\*))?',
+    'captures':
+      '1':
+        'name': 'keyword.control.js'
+      '2':
+        'name': 'storage.modifier.js'
+    'name': 'meta.control.yield.js'
+  }
+  {
+    'captures':
+      '0':
+        'name': 'punctuation.definition.comment.html.js'
+      '2':
+        'name': 'punctuation.definition.comment.html.js'
+    'match': '(<!--|-->)'
+    'name': 'comment.block.html.js'
+  }
+  {
+    'match': '=>',
+    'name': 'storage.type.arrow.js'
+  }
+  {
+    'match': '(?<!\\.)\\b(class|enum|function|interface)(?!\\s*:)\\b'
+    'name': 'storage.type.js'
+  }
+  {
+    'match': '(?<!\\.)\\b(const|extends|implements|let|private|protected|public|static|var|get|set)(?!\\s*:)\\b'
+    'name': 'storage.modifier.js'
+  }
+  {
+    'match': '(?<!\\.)\\b(break|case|catch|continue|do|else|finally|for|if|export|import|package|return|switch|throw|try|while|with|await)(?!\\s*:)\\b'
+    'name': 'keyword.control.js'
+  }
+  {
+    'match': '(?<!\\.)\\b(default)\\b'
+    'name': 'keyword.control.js'
+  }
+  {
+    'match': '(?<!\\.)\\b(delete|in|of|instanceof|new|typeof|void)(?!\\s*:)\\b'
+    'name': 'keyword.operator.js'
+  }
+  {
+    'match': '(?<!\\.)\\btrue(?!\\s*:)\\b'
+    'name': 'constant.language.boolean.true.js'
+  }
+  {
+    'match': '(?<!\\.)\\bfalse(?!\\s*:)\\b'
+    'name': 'constant.language.boolean.false.js'
+  }
+  {
+    'match': '(?<!\\.)\\bnull(?!\\s*:)\\b'
+    'name': 'constant.language.null.js'
+  }
+  {
+    'match': '(?:(?<!\\.)|(?<=\\.\\.\\.))\\b(super|this)(?!\\s*:)\\b'
+    'name': 'variable.language.js'
+  }
+  {
+    'match': '(?<!\\.)\\b(debugger)(?!\\s*:)\\b'
+    'name': 'keyword.other.js'
+  }
+  {
+    'match': '\\b(Anchor|Applet|Area|Array|Boolean|Button|Checkbox|Date|document|event|FileUpload|Form|Frame|Function|Hidden|History|Image|JavaArray|JavaClass|JavaObject|JavaPackage|java|Layer|Link|Location|Math|MimeType|Number|navigator|netscape|Object|Option|Packages|Password|Plugin|Radio|RegExp|Reset|Select|String|Style|Submit|screen|sun|Text|Textarea|window|XMLHttpRequest)\\b'
+    'name': 'support.class.js'
+  }
+  {
+    'match': '(?<!\\.\\.)(?<=\\.)([a-zA-Z_$][a-zA-Z_$0-9]*)'
+    'name': 'entity.name.property.js'
+  }
+  {
+    'match': '\\b(ELEMENT_NODE|ATTRIBUTE_NODE|TEXT_NODE|CDATA_SECTION_NODE|ENTITY_REFERENCE_NODE|ENTITY_NODE|PROCESSING_INSTRUCTION_NODE|COMMENT_NODE|DOCUMENT_NODE|DOCUMENT_TYPE_NODE|DOCUMENT_FRAGMENT_NODE|NOTATION_NODE|INDEX_SIZE_ERR|DOMSTRING_SIZE_ERR|HIERARCHY_REQUEST_ERR|WRONG_DOCUMENT_ERR|INVALID_CHARACTER_ERR|NO_DATA_ALLOWED_ERR|NO_MODIFICATION_ALLOWED_ERR|NOT_FOUND_ERR|NOT_SUPPORTED_ERR|INUSE_ATTRIBUTE_ERR)\\b'
+    'name': 'support.constant.dom.js'
+  }
+  {
+    'match': '\\bon(R(ow(s(inserted|delete)|e(nter|xit))|e(s(ize(start|end)?|et)|adystatechange))|Mouse(o(ut|ver)|down|up|move)|B(efore(cut|deactivate|u(nload|pdate)|p(aste|rint)|editfocus|activate)|lur)|S(croll|top|ubmit|elect(start|ionchange)?)|H(over|elp)|C(hange|ont(extmenu|rolselect)|ut|ellchange|l(ick|ose))|D(eactivate|ata(setc(hanged|omplete)|available)|r(op|ag(start|over|drop|en(ter|d)|leave)?)|blclick)|Unload|P(aste|ropertychange)|Error(update)?|Key(down|up|press)|Focus|Load|A(ctivate|fter(update|print)|bort))\\b'
+    'name': 'support.function.event-handler.js'
+  }
+  {
+    'match': '(?<!\\.)\\b(__filename|__dirname)(?!\\s*:)\\b'
+    'name': 'support.variable.js'
+  }
+  {
+    'match': '!|%|&|\\*|\\-\\-|\\-|\\+\\+|\\+|~|===|==|=|!=|!==|<=|>=|<<=|>>=|>>>=|<>|<|>|!|&&|\\|\\||\\?|\\:|\\*=|(?<!\\()/=|%=|\\+=|\\-=|&=|\\^=|\\^'
+    'name': 'keyword.operator.js'
+  }
+  {
+    'match': '\\b(Infinity|NaN|undefined)\\b'
+    'name': 'constant.language.js'
+  }
+  {
+    'begin': '(?<=[\\[=(:+,!]|^|return|&&|\\|\\|)\\s*(/)(?![/*+{}?])(?=.*/)'
+    'beginCaptures':
+      '1':
+        'name': 'punctuation.definition.string.begin.js'
+    'end': '(/)[gimuy]*'
+    'endCaptures':
+      '1':
+        'name': 'punctuation.definition.string.end.js'
+    'name': 'string.regexp.js'
+    'patterns': [
+      {
+        'include': 'source.js.regexp'
+      }
+    ]
+  }
+  {
+    'match': '\\;'
+    'name': 'punctuation.terminator.statement.js'
+  }
+  {
+    'match': ','
+    'name': 'meta.delimiter.object.comma.js'
+  }
+  {
+    'match': '\\.'
+    'name': 'meta.delimiter.method.period.js'
+  }
+  {
+    'captures':
+      '1':
+        'name': 'punctuation.section.scope.begin.js'
+      '2':
+        'name': 'punctuation.section.scope.end.js'
+    'comment': 'Allows the special return snippet to fire.'
+    'match': '(\\{)(\\})'
+  }
+  {
+    'match': '\\{|\\}'
+    'name': 'meta.brace.curly.js'
+  }
+  {
+    'match': '\\(|\\)'
+    'name': 'meta.brace.round.js'
+  }
+  {
+    'match': '\\[|\\]'
+    'name': 'meta.brace.square.js'
+  }
+  {
+    'match': '\\A#!.*$'
+    'name': 'comment.line.shebang.js'
+  }
+]
+'repository':
+  'strings':
+    'patterns': [
+      {
+        'begin': '\''
+        'beginCaptures':
+          '0':
+            'name': 'punctuation.definition.string.begin.js'
+        'end': '\''
+        'endCaptures':
+          '0':
+            'name': 'punctuation.definition.string.end.js'
+        'name': 'string.quoted.single.js'
+        'patterns': [
+          {
+            'match': '\\\\(x\\h{2}|[0-2][0-7]{,2}|3[0-6][0-7]?|37[0-7]?|[4-7][0-7]?|.)'
+            'name': 'constant.character.escape.js'
+          }
+        ]
+      }
+      {
+        'begin': '"'
+        'beginCaptures':
+          '0':
+            'name': 'punctuation.definition.string.begin.js'
+        'end': '"'
+        'endCaptures':
+          '0':
+            'name': 'punctuation.definition.string.end.js'
+        'name': 'string.quoted.double.js'
+        'patterns': [
+          {
+            'match': '\\\\(x\\h{2}|[0-2][0-7]{,2}|3[0-6][0-7]|37[0-7]?|[4-7][0-7]?|.)'
+            'name': 'constant.character.escape.js'
+          }
+        ]
+      }
+      {
+        'begin': '`'
+        'beginCaptures':
+          '0':
+            'name': 'punctuation.definition.string.begin.js'
+        'end': '`'
+        'endCaptures':
+          '0':
+            'name': 'punctuation.definition.string.end.js'
+        'name': 'string.quoted.template.js'
+        'patterns': [
+          {
+            'match': '\\\\(x\\h{2}|[0-2][0-7]{,2}|3[0-6][0-7]?|37[0-7]?|[4-7][0-7]?|.)'
+            'name': 'constant.character.escape.js'
+          }
+          {
+            'include': '#interpolated_js'
+          }
+        ]
+      }
+    ]
+  'function-params':
+    'patterns': [
+      {
+        'begin': '(?=[\\p{L}\\p{Nl}$_])'
+        'end': '(?=[,)])'
+
+        'patterns': [
+          {
+            'match': '\\G\\b[\\p{L}\\p{Nl}$_][\\p{L}\\p{Nl}$\\p{Mn}\\p{Mc}\\p{Nd}\\p{Pc}\\x{200C}\\x{200D}]*'
+            '\G[\p{L}\p{Nl}$_]'
+            'name': 'variable.parameter.function.js'
+          }
+          {
+            'include': '#strings'
+          }
+          {
+            'include': '$base'
+          }
+        ]
+      }
+      {
+        'include': '#comments'
+      }
+    ]
+  'methods':
+    'patterns': [
+      {
+        'name': 'meta.method.js'
+        'comment': 'match regular function like: function myFunc(arg) { … }'
+
+        'begin': '\\b((?!(?:break|case|catch|continue|do|else|finally|for|function|if|export|import|package|return|switch|throw|try|while|with)[\\s\\(])(?:[a-zA-Z_$][a-zA-Z_$0-9]*))\\s*(\\()(?=(?:[^\\(\\)]*)?\\)\\s*\\{)'
+        'beginCaptures':
+          '1':
+            'name': 'entity.name.function.js'
+          '2':
+            'name': 'punctuation.definition.parameters.begin.js'
+
+        'patterns': [
+          {
+            'include': '#function-params'
+          }
+        ]
+
+        'end': '(\\))'
+        'endCaptures':
+          '1':
+            'name': 'punctuation.definition.parameters.end.js'
+      }
+    ]
+  'functions':
+    'patterns': [
+      {
+        'begin': '\\b(?:(async)(?:\\s+))?(function)(?:(?:(?:\\s*)(\\*))|(?:(?:(?:\\s*)(\\*)(?:\\s+)|(?:\\s+)(\\*)(?:\\s*)|(?:\\s+))([a-zA-Z_$][a-zA-Z_$0-9]*)))?\\s*(\\()'
+        'beginCaptures':
+          '1':
+            'name': 'storage.modifier.js'
+          '2':
+            'name': 'storage.type.function.js'
+          '3':
+            'name': 'storage.modifier.js'
+          '4':
+            'name': 'storage.modifier.js'
+          '5':
+            'name': 'storage.modifier.js'
+          '6':
+            'name': 'entity.name.function.js'
+          '7':
+            'name': 'punctuation.definition.parameters.begin.js'
+        'comment': 'match regular function like: function myFunc(arg) { … }'
+        'end': '(\\))'
+        'endCaptures':
+          '1':
+            'name': 'punctuation.definition.parameters.end.js'
+        'name': 'meta.function.js'
+        'patterns': [
+          {
+            'include': '#function-params'
+          }
+        ]
+      }
+      {
+        'name': 'meta.function.arrow.js'
+
+        'begin': '(?<![A-Za-z0-9])(\\()(?=(?:[^\\(\\)]*)?\\)\\s*=>)'
+        'beginCaptures':
+          '0':
+            'name': 'punctuation.definition.parameters.begin.js'
+
+        'end': '(\\))(?=\\s*=>)'
+        'endCaptures':
+          '0':
+            'name': 'punctuation.definition.parameters.end.js'
+
+        'patterns': [
+          {
+            'include': '#function-params'
+          }
+        ]
+      }
+    ]
+  'interpolated_js':
+    'patterns': [
+      {
+        'begin': '(\\$)(\\{)'
+        'beginCaptures':
+          '1':
+            'name': 'punctuation.section.embedded.begin.js'
+          '2':
+            'name': 'punctuation.section.embedded.js.meta.curly.brace'
+        'end': '(\\})'
+        'endCaptures':
+          '0':
+            'name': 'punctuation.section.embedded.js.meta.curly.brace'
+        'name': 'source.js.embedded.source'
+        'patterns': [
+          {
+            'include': '$self'
+          }
+        ]
+      }
+    ]
+  'comments':
+    'patterns': [
+      {
+        'begin': '/\\*\\*(?!/)'
+        'captures':
+          '0':
+            'name': 'punctuation.definition.comment.js'
+        'end': '\\*/'
+        'name': 'comment.block.documentation.js'
+      }
+      {
+        'begin': '/\\*'
+        'captures':
+          '0':
+            'name': 'punctuation.definition.comment.js'
+        'end': '\\*/'
+        'name': 'comment.block.js'
+      }
+    ]

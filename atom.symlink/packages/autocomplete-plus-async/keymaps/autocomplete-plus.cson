@@ -1,0 +1,8 @@
+".autocomplete-plus-async input.hidden-input":
+  "tab": "autocomplete-plus-async:confirm"
+  "down": "autocomplete-plus-async:select-next"
+  "up": "autocomplete-plus-async:select-previous"
+  "escape": "autocomplete-plus-async:cancel"
+
+".editor":
+  "ctrl-shift-space": "autocomplete-plus-async:activate"

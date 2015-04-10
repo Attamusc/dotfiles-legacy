@@ -1,0 +1,7 @@
+{
+  "context-menu": {
+    "atom-workspace": {
+      "Format Scala File": "scala-format:format"
+    }
+  }
+}

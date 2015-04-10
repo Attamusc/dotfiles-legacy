@@ -1,0 +1,26 @@
+.editor .vertical-scrollbar {
+    transform: translateX(-2px) !important;
+}
+
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background: rgba(255,255,255,0);
+    transition: background cubic-bezier(0.4, 0, 0.2, 1) 0.28s;
+
+    &:hover { background: rgba(255,255,255,0.13); }
+}
+
+::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}

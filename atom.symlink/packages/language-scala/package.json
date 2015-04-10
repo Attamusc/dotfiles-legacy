@@ -1,0 +1,34 @@
+{
+  "name": "language-scala",
+  "version": "1.1.0",
+  "description": "Scala language support in Atom",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jroesch/language-scala"
+  },
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {},
+  "readme": "# Language support for Scala in Atom.\n\nConverted from the [Scala TextMate bundle](https://github.com/mads379/scala.tmbundle)\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/jroesch/language-scala/issues"
+  },
+  "homepage": "https://github.com/jroesch/language-scala",
+  "_id": "language-scala@1.1.0",
+  "_shasum": "d37a05a90c3afd56ec091f4907c87cffdfa55165",
+  "_resolved": "file:../d-115310-11232-v5nlbw/package.tgz",
+  "_from": "../d-115310-11232-v5nlbw/package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
+}

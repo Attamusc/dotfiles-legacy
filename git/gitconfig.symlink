@@ -76,7 +76,6 @@
   # Git Workflow stuff
   f = workflow -p feature
   hotfix = workflow -p hotfix
-  pre = workflow -p pre
   release = workflow -p release
 [core]
   editor = "mvim -f --nomru -c 'au VimLeave * !open -a iTerm'"
@@ -129,11 +128,7 @@
   feature = feature
   hotfix = hotfix
   refactor = refactor
-[url "https://"]
-	insteadOf = git://
 [filter "media"]
 	required = true
 	clean = git media clean %f
 	smudge = git media smudge %f
-[url "https://github.com/"]
-	insteadOf = git://github.com/

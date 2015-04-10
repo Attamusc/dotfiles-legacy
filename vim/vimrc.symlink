@@ -13,6 +13,7 @@ call plug#begin('~/.vim/plugged')
 " Bundles {{{
 " Utilities {{{
 Plug 'alpaca-tc/vim-unite-watson.vim'
+Plug 'AndrewRadev/splitjoin.vim'
 Plug 'bling/vim-airline'
 Plug 'craigemery/vim-autotag'
 Plug 'guns/vim-clojure-highlight'
