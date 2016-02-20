@@ -9,6 +9,7 @@
   ci = commit -m
   ce = commit -e
   cia = commit -a -m
+  fix = !"git commit -a --amend --no-edit && git push origin +HEAD"
 
   # Checkout
   co = checkout
@@ -39,6 +40,7 @@
   pom = push origin master
   puh = push upstream HEAD
   poh = push origin HEAD
+  pof = push origin +HEAD
 
   # tig shims
   l = !tig
@@ -73,10 +75,11 @@
   # Taken from @pengwynn
   n = !"git ls-files | xargs notes | awk -F: '{ print $1,$2; print $3,$4; print $5}' | grcat conf.notes"
 
-  # Git Workflow stuff
+  # GitHub Workflow stuff
   f = workflow -p feature
   hotfix = workflow -p hotfix
   release = workflow -p release
+  own = !"hub fork && git remote rename origin upstream && git remote rename Attamusc origin"
 [core]
   editor = "mvim -f --nomru -c 'au VimLeave * !open -a iTerm'"
   excludesfile = ~/.gitignore
@@ -132,3 +135,9 @@
 	required = true
 	clean = git media clean %f
 	smudge = git media smudge %f
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
+[url "https://"]
+	insteadOf = git://

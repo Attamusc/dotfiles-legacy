@@ -41,23 +41,8 @@ if which rbenv > /dev/null; then eval "$(rbenv init - zsh)"; fi
 # Add tmuxifier
 if which tmuxifier > /dev/null; then eval "$(tmuxifier init -)"; fi
 
-# Add boot2docker
-if which boot2docker > /dev/null; then
-  eval "$(boot2docker shellinit &> /dev/null)"
-
-  # Set variables to connect to boot2docker machine
-  export DOCKER_HOST=tcp://127.0.0.1:2376
-  export DOCKER_CERT_PATH=/Users/Sean/.boot2docker/certs/boot2docker-vm
-  export DOCKER_TLS_VERIFY=1
-fi
-
 # Load jenv
-if which jenv > /dev/null; then eval "$(jenv init -)"; fi
-
-# Load halcyon
-#if [ -f /app/halcyon/halcyon ]; then
-  #eval "$(/app/halcyon/halcyon paths)"
-#fi
+#if which jenv > /dev/null; then eval "$(jenv init -)"; fi
 
 # Load nvm shims
 nvm ls default &>/dev/null && nvm use default &>/dev/null

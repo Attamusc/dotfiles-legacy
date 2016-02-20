@@ -12,7 +12,7 @@ else
 fi
 
 if [ "$(tmuxifier list-sessions | grep ^$current_directory$ | wc -l)" -gt 0 ]; then
-  tmuxifier load-session $current_directory
+  tmuxifier load-session ~/.tmuxifier/layouts/$current_directory.session.sh
 else
   tmuxifier new-session $current_directory
 fi

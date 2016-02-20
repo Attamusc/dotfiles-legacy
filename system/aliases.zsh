@@ -30,8 +30,11 @@ alias la='ls -GA'
 
 alias update='sudo softwareupdate -i -a; brew update; brew upgrade; npm update npm -g; npm update -g'
 
+# ---Happier command correction---
+alias fuck='$(thefuck $(fc -ln -1))'
+
 # ---Selenium Standalone Server---
-alias sel-server="brew services start selenium-server-standalone"
+alias sel-server="selenium-server -p 4444"
 # Old alias without homebrew services
 # alias sel-start="java -jar /usr/local/opt/selenium-server-standalone/selenium-server-standalone-2.39.0.jar -p 4444"
 

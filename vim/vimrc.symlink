@@ -26,6 +26,7 @@ Plug 'junegunn/limelight.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'jgdavey/tslime.vim'
 Plug 'kana/vim-textobj-user'
+Plug 'kennethzfeng/vim-raml'
 Plug 'kien/ctrlp.vim'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'malkomalko/projections.vim'
@@ -41,6 +42,7 @@ Plug 'scrooloose/syntastic'
 Plug 'SirVer/ultisnips'
 Plug 'Shougo/neomru.vim'
 Plug 'Shougo/unite.vim'
+Plug 'Shougo/unite-outline'
 Plug 'Shougo/vimproc', { 'do': 'make' }
 Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-bundler'
@@ -55,6 +57,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sexp-mappings-for-regular-people'
 Plug 'tpope/vim-unimpaired'
+Plug 'tsukkee/unite-tag'
 Plug 'Valloric/MatchTagAlways'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.sh --clang-completer' }
 Plug 'wting/rust.vim'
@@ -131,7 +134,7 @@ set splitbelow
 set splitright
 
 " folding
-set foldlevel=10
+set foldlevel=20
 
 " Use the same symbols as TextMate for tabstops and EOLs
 set listchars=tab:▸\ ,eol:¬,trail:·
@@ -160,6 +163,7 @@ set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest
 set wildignore+=*.spl
 set wildignore+=*.sw?
 set wildignore+=*.DS_Store
+set wildignore+=Godeps/
 set wildignore+=*.luac
 set wildignore+=migrations
 set wildignore+=*.pyc
@@ -188,7 +192,6 @@ let g:go_highlight_structs = 1
 " vim-json {{{
 let g:vim_json_syntax_conceal = 0
 " }}}
-" }}}
 " vim-airline {{{
 let g:airline_left_sep=''
 let g:airline_right_sep=''
@@ -202,6 +205,10 @@ let g:jellybeans_overrides = {
 " NerdTree {{{
 " Show hidden files in NerdTree
 let NERDTreeShowHidden=1
+" }}}
+" NerdCommenter {{{
+" Add a padding space to comments
+let NERDSpaceDelims=1
 " }}}
 " TagBar {{{
 " ---CoffeeScript---
@@ -253,15 +260,6 @@ let g:UltiSnipsJumpBackwardTrigger="<c-j>"
 let g:signify_update_on_focusgained = 1
 let g:signify_sign_overwrite = 0
 " }}}
-" Syntastic {{{
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_enable_highlighting = 0
-let g:syntastic_always_populate_loc_list=1
-
-let g:syntastic_error_symbol = '✗'
-let g:syntastic_warning_symbol = '⚠ '
-let g:syntastic_style_error_symbol = '✗'
-let g:syntastic_style_warning_symbol = '⚠ '
 " The Silver Search overrides {{{
 if executable('ag')
   " Use ag over grep
@@ -269,6 +267,7 @@ if executable('ag')
 
   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
   let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
+    \ --ignore Godeps
     \ --ignore .git
     \ --ignore .svn
     \ --ignore .hg
@@ -279,6 +278,15 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 " }}}
+" Syntastic {{{
+let g:syntastic_aggregate_errors = 1
+let g:syntastic_enable_highlighting = 0
+let g:syntastic_always_populate_loc_list=1
+
+let g:syntastic_error_symbol = '✗'
+let g:syntastic_warning_symbol = '⚠ '
+let g:syntastic_style_error_symbol = '✗'
+let g:syntastic_style_warning_symbol = '⚠ '
 
 " Ignore HTML files since templating breaks it
 let g:syntastic_mode_map = {
@@ -320,6 +328,7 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 " vim-test {{{
 let g:test#strategy = 'tslime'
 " }}}
+
 " vim-rhubarb {{{
 let g:RHUBARB_TOKEN=$GH_TOKEN
 " }}}
@@ -713,6 +722,9 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
+" pretty format json in the buffer
+nnoremap <leader>fj :%!python -m json.tool<CR>
+
 " bind K to grep word under cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
@@ -725,4 +737,8 @@ nmap <leader>h :Limelight!!0.8<CR>
 
 " Dash searching integration
 map <leader>d :call SearchDash()<CR>
+
+" VERY MAGIC EVERYWHERE
+nnoremap / /\v
+cnoremap %s/ %s/\v
 " }}}

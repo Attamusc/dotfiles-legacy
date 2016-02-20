@@ -1,5 +1,0 @@
-{
-  "atom-workspace": {
-    "cmd-ctrl-s": "scala-format:format"
-  }
-}
