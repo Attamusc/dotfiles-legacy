@@ -20,9 +20,3 @@ autoload -U compinit && compinit
 
 # load every completion after autocomplete loads
 for config_file ($ZSH/**/completion.sh) source $config_file
-
-# Load z
-. /usr/local/z/z.sh
-
-# added by travis gem
-[ -f /Users/Sean/.travis/travis.sh ] && source /Users/Sean/.travis/travis.sh

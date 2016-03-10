@@ -14,7 +14,6 @@ call plug#begin('~/.vim/plugged')
 " Utilities {{{
 Plug 'alpaca-tc/vim-unite-watson.vim'
 Plug 'AndrewRadev/splitjoin.vim'
-Plug 'bling/vim-airline'
 Plug 'craigemery/vim-autotag'
 Plug 'guns/vim-clojure-highlight'
 Plug 'guns/vim-clojure-static'
@@ -27,7 +26,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'jgdavey/tslime.vim'
 Plug 'kana/vim-textobj-user'
 Plug 'kennethzfeng/vim-raml'
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'malkomalko/projections.vim'
 Plug 'marijnh/tern_for_vim', { 'do': 'npm install' }
@@ -59,7 +58,9 @@ Plug 'tpope/vim-sexp-mappings-for-regular-people'
 Plug 'tpope/vim-unimpaired'
 Plug 'tsukkee/unite-tag'
 Plug 'Valloric/MatchTagAlways'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.sh --clang-completer' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --omnisharp-completer --gocode-completer --tern-completer --racer-completer' }
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'wting/rust.vim'
 Plug 'guns/vim-clojure-highlight'
 

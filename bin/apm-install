@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+apm install --packages-file $ZSH/atom/package-list.txt

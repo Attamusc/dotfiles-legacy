@@ -1,0 +1,90 @@
+"*":
+  "advanced-open-file":
+    createDirectories: true
+    createFileInstantly: true
+  "atom-material-ui":
+    colors:
+      abaseColor:
+        red: 128
+        green: 222
+        blue: 234
+        alpha: 1
+      accentColor:
+        red: 82
+        green: 140
+        blue: 148
+        alpha: 1
+      predefinedColor: "Cyan"
+    fonts: {}
+    tabs:
+      compactTabs: true
+    treeView:
+      compactList: true
+    ui:
+      panelContrast: true
+  "autocomplete-plus":
+    useCoreMovementCommands: false
+  autosave:
+    enabled: true
+  core:
+    audioBeep: false
+    projectHome: "/Users/atta/Projects/Fun"
+    themes: [
+      "atom-material-ui"
+      "atom-material-syntax-dark"
+    ]
+  editor:
+    invisibles: {}
+    preferredLineLength: 120
+    showIndentGuide: true
+    softWrap: true
+    softWrapHangingIndent: 4
+  "exception-reporting":
+    userId: "94e745e9-e915-f841-b20d-53e208182164"
+  fonts:
+    fontFamily: "M+ Light"
+    preview: "The quick brown fox"
+  "fuzzy-finder":
+    searchAllPanes: true
+  "language-babel": {}
+  linter:
+    lintOnFly: false
+    statusIconPosition: "Right"
+  "linter-rubocop":
+    command: "/Users/atta/.rbenv/shims/bundle exec rubocop"
+  "omnisharp-atom":
+    codeFormat: false
+    codeLens: false
+    enhancedHighlighting: true
+  "ruby-test":
+    rspecAllCommand: "/Users/atta/.rbenv/shims/bundle exec rspec --tty spec"
+    rspecFileCommand: "/Users/atta/.rbenv/shims/bundle exec rspec --tty {relative_path}"
+    rspecSingleCommand: "/Users/atta/.rbenv/shims/bundle exec rspec --tty {relative_path}:{line_number}"
+    shell: "/bin/zsh"
+    specFramework: "rspec"
+  "tree-view":
+    hideIgnoredNames: true
+    hideVcsIgnoredFiles: true
+  "vim-mode-plus":
+    incrementalSearch: true
+    useSmartcaseForSearch: true
+  welcome:
+    showOnStartup: false
+".babel.regexp.source":
+  editor:
+    preferredLineLength: 120
+    softWrapHangingIndent: 4
+".erb.html.text":
+  editor:
+    preferredLineLength: 120
+    softWrapHangingIndent: 4
+".js.jsx.source":
+  editor:
+    preferredLineLength: 120
+    softWrapHangingIndent: 4
+  whitespace:
+    removeTrailingWhitespace: true
+".ruby.source":
+  editor:
+    preferredLineLength: 120
+    softWrapHangingIndent: 4

@@ -6,7 +6,6 @@
 # to make sure you're on the latest and greatest.
 
 # Set OS X defaults
-$ZSH/osx/set-defaults.sh
 
 # Upgrade homebrew
 brew update
@@ -15,7 +14,7 @@ brew update
 #$ZSH/brew/install.sh 2>&1
 
 # Install ruby stuff
-$ZSH/ruby/gem-install.sh
+# $ZSH/ruby/gem-install.sh
 
 # Install node stuff
-$ZSH/node/npm-install.sh
+# $ZSH/node/npm-install.sh

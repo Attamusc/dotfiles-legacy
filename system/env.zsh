@@ -6,17 +6,13 @@ export EDITOR="mvim"
 export LESS=FRSX
 
 # Languages
-export GROOVY_HOME=$(brew --prefix groovy)/libexec
-export DART_HOME=/Users/Atta/dart/dart-sdk
 export PHP_HOME=$(brew --prefix php56)
 export GO_HOME=$(brew --prefix go)/libexec
-export COMPOSER_HOME=/Users/Sean/.composer
+export COMPOSER_HOME=/Users/atta/.composer
 
 export GOPATH=~/Projects/go-space
 
 # Frameworks
-export GWT_HOME=/usr/local/gwt-2.4.0
-export GRAILS_HOME=/usr/local/grails-2.0.0
 export ACTIVATOR_HOME=/usr/local/opt/typesafe-activator
 
 # Tools
@@ -30,7 +26,7 @@ export HEROKU_HOME=/usr/local/heroku
 export PATH=$HOME/.dotfiles/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin
 
 # Add our special directories
-export PATH=$PHP_HOME/bin:$HEROKU_HOME/bin:$TMUXIFIER_HOME/bin:$GOPATH/bin:$GO_HOME/bin:$POSTGRES_APP_HOME/bin:$DART_HOME/bin:$ACTIVATOR_HOME/bin:$GROOVY_HOME:$GRADLE_HOME/bin:$GRAILS_HOME/bin:$GWT_HOME:$BEES_HOME:$COMPOSER_HOME/vendor/bin:$PATH
+export PATH=$PHP_HOME/bin:$HEROKU_HOME/bin:$TMUXIFIER_HOME/bin:$GOPATH/bin:$GO_HOME/bin:$POSTGRES_APP_HOME/bin:$ACTIVATOR_HOME/bin:$GRADLE_HOME/bin:$BEES_HOME:$COMPOSER_HOME/vendor/bin:$PATH
 
 # Add direnv
 if which direnv > /dev/null; then eval eval "$(direnv hook zsh)"; fi
@@ -41,14 +37,8 @@ if which rbenv > /dev/null; then eval "$(rbenv init - zsh)"; fi
 # Add tmuxifier
 if which tmuxifier > /dev/null; then eval "$(tmuxifier init -)"; fi
 
-# Load jenv
-#if which jenv > /dev/null; then eval "$(jenv init -)"; fi
-
 # Load nvm shims
 nvm ls default &>/dev/null && nvm use default &>/dev/null
-
-# travis gem config
-[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
 
 # mkdir .git/safe in the root of repositories you trust
 export PATH=".git/safe/../../bin:$PATH"

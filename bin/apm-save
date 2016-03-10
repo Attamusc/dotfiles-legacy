@@ -1,0 +1,3 @@
+#!/bin/sh
+apm list --installed --bare > $ZSH/atom/package-list.txt
+echo "Atom Packages Saved to $ZSH/atom/package-list.txt!"

@@ -9,7 +9,7 @@
   ci = commit -m
   ce = commit -e
   cia = commit -a -m
-  fix = !"git commit -a --amend --no-edit && git push origin +HEAD"
+  oops = !"git commit --amend --no-edit && git push origin +HEAD"
 
   # Checkout
   co = checkout
