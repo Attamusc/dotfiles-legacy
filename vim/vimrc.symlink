@@ -3,7 +3,10 @@ runtime macros/matchit.vim
 " Enable Sytax highlighting for pretty colors
 syntax enable
 
-set nocompatible
+if !has('nvim')
+  set nocompatible
+endif
+
 filetype off
 
 " vim-plug {{{
@@ -12,9 +15,10 @@ call plug#begin('~/.vim/plugged')
 
 " Bundles {{{
 " Utilities {{{
-Plug 'alpaca-tc/vim-unite-watson.vim'
 Plug 'AndrewRadev/splitjoin.vim'
+Plug 'benekastah/neomake'
 Plug 'craigemery/vim-autotag'
+Plug 'edkolev/tmuxline.vim'
 Plug 'guns/vim-clojure-highlight'
 Plug 'guns/vim-clojure-static'
 Plug 'guns/vim-sexp'
@@ -26,22 +30,20 @@ Plug 'junegunn/vim-easy-align'
 Plug 'jgdavey/tslime.vim'
 Plug 'kana/vim-textobj-user'
 Plug 'kennethzfeng/vim-raml'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'malkomalko/projections.vim'
-Plug 'marijnh/tern_for_vim', { 'do': 'npm install' }
 Plug 'majutsushi/tagbar'
 Plug 'mattn/emmet-vim'
 Plug 'myusuf3/numbers.vim'
 Plug 'nelstrom/vim-textobj-rubyblock'
+Plug 'Quramy/tsuquyomi'
 Plug 'Raimondi/delimitMate'
+Plug 'ryanoasis/vim-devicons'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/syntastic'
 Plug 'SirVer/ultisnips'
 Plug 'Shougo/neomru.vim'
-Plug 'Shougo/unite.vim'
-Plug 'Shougo/unite-outline'
 Plug 'Shougo/vimproc', { 'do': 'make' }
 Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-bundler'
@@ -56,16 +58,17 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sexp-mappings-for-regular-people'
 Plug 'tpope/vim-unimpaired'
-Plug 'tsukkee/unite-tag'
 Plug 'Valloric/MatchTagAlways'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --omnisharp-completer --gocode-completer --tern-completer --racer-completer' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'wincent/ferret'
 Plug 'wting/rust.vim'
 Plug 'guns/vim-clojure-highlight'
 
 " Load last so other, more prominent, signs are not overwritten
-Plug 'mhinz/vim-signify'
+" Plug 'mhinz/vim-signify'
+
+Plug 'airblade/vim-gitgutter'
 " }}}
 " Langs {{{
 Plug 'cakebaker/scss-syntax.vim'
@@ -75,13 +78,18 @@ Plug 'elixir-lang/vim-elixir'
 Plug 'elzr/vim-json'
 Plug 'fatih/vim-go'
 Plug 'Glench/Vim-Jinja2-Syntax'
-Plug 'jelera/vim-javascript-syntax'
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'isRuslan/vim-es6'
 Plug 'joshtronic/php.vim'
 Plug 'juvenn/mustache.vim'
 Plug 'kchmck/vim-coffee-script'
+Plug 'leafgarland/typescript-vim'
 Plug 'mxw/vim-jsx'
+Plug 'othree/es.next.syntax.vim'
 Plug 'othree/html5.vim'
+Plug 'othree/yajs.vim'
 Plug 'pangloss/vim-javascript'
+Plug 'posva/vim-vue'
 Plug 'tpope/vim-liquid'
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-rails'
@@ -94,15 +102,44 @@ Plug 'blerins/flattown'
 Plug 'baskerville/bubblegum'
 Plug 'chriskempson/base16-vim'
 Plug 'flazz/vim-colorschemes'
+Plug 'jdkanani/vim-material-theme'
 Plug 'joshhartigan/banana'
+Plug 'kristijanhusak/vim-hybrid-material'
+Plug 'mhartington/oceanic-next'
 Plug 'nanotech/jellybeans.vim'
+Plug 'NLKNguyen/papercolor-theme'
 Plug 'trusktr/seti.vim'
+Plug 'tyrannicaltoucan/vim-deep-space'
+Plug 'tyrannicaltoucan/vim-quantum'
 Plug 'w0ng/vim-hybrid'
+Plug 'zenorocha/dracula-theme', {'rtp': 'vim/'}
+" }}}
+
+if has('nvim')
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+  Plug 'junegunn/fzf.vim'
+  
+  " Async autocomplete library
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'Shougo/echodoc.vim'
+
+  " autocompletion plugins for deoplete
+  Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+  Plug 'awetzel/elixir.nvim', { 'do': 'yes \| ./install.sh' }
+  Plug 'mhartington/deoplete-typescript', { 'do': 'npm install -g typescript' }
+  Plug 'fishbullet/deoplete-ruby'
+else
+  Plug 'ctrlpvim/ctrlp.vim'
+  Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
+endif
 " }}}
 " }}}
 
+
 call plug#end()
 filetype plugin indent on
+
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
 let mapleader=","
 " }}}
@@ -129,6 +166,16 @@ set switchbuf=useopen
 set backspace=indent,eol,start
 set t_Co=256
 set tags=./tags;/
+set clipboard=unnamed
+set lazyredraw
+
+" Key delays are just the worst
+set timeoutlen=1000
+set ttimeoutlen=0
+
+if has("nvim")
+  set termguicolors
+end
 
 " Split setting that make way more sense
 set splitbelow
@@ -177,6 +224,18 @@ set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 " base16 {{{
 let base16colorspace=256
 " }}}
+" fzf.vim {{{
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-h': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+let g:fzf_command_prefix = 'Fzf'
+let g:fzf_layout = { 'down': '~25%' }
+" }}}
+" neomake {{{
+let g:neomake_javascript_enabled_makers = ['eslint']
+" }}}
 " ctrl-p {{{		
 let g:ctrlp_open_new_file = 'r'
 let g:ctrlp_dont_split = 'NERD'
@@ -193,10 +252,34 @@ let g:go_highlight_structs = 1
 " vim-json {{{
 let g:vim_json_syntax_conceal = 0
 " }}}
+" vim-jsx {{{
+let g:jsx_ext_required = 0
+" }}}
 " vim-airline {{{
-let g:airline_left_sep=''
-let g:airline_right_sep=''
+" let g:airline_left_sep=''
+" let g:airline_right_sep=''
+let g:airline_powerline_fonts = 1
 
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#tab_min_count = 2
+
+let g:airline#extensions#tmuxline#enabled = 1
+" }}
+
+" tmuxline {{{
+let g:tmuxline_powerline_separators = 1
+
+let g:tmuxline_preset = {
+      \'a'    : '#S',
+      \'b'    : '#W',
+      \'win'  : '#I #W',
+      \'cwin' : '#I #W',
+      \'x'    : '%a',
+      \'y'    : '%R',
+      \'z'    : '#H'}
+" }}}
+" jellybeans syntax overrides
 let g:jellybeans_overrides = {
 \    'Todo': { 'guifg': 'f0f000',
 \              'ctermfg': 'Yellow',
@@ -228,29 +311,6 @@ if executable('coffeetags')
         \ }
         \ }
 endif
-" }}}
-" Unite {{{
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-call unite#filters#sorter_default#use(['sorter_length'])
-
-call unite#custom#source('file_mru,file_rec,file_rec/async,grepocate',
-        \ 'max_candidates', 30000)
-
-if executable('ag')
-  let g:unite_source_rec_async_command='ag --nocolor --nogroup --hidden -g ""'
-endif
-
-let g:unite_winheight=10
-let g:unite_data_directory='/Users/Sean/.vim/.cache/unite'
-let g:unite_enable_start_insert=1
-let g:unite_source_history_yank_enable=1
-let g:unite_source_rec_max_cache_files=30000
-let g:unite_source_file_rec_max_cache_files=30000
-let g:unite_prompt='» '
-
-call unite#custom#profile('default', 'context', {
-  \   'smartcase': 1
-  \ })
 " }}}
 " ultisnips {{{
 let g:UltiSnipsExpandTrigger="<c-k>"
@@ -285,9 +345,9 @@ let g:syntastic_enable_highlighting = 0
 let g:syntastic_always_populate_loc_list=1
 
 let g:syntastic_error_symbol = '✗'
-let g:syntastic_warning_symbol = '⚠ '
+let g:syntastic_warning_symbol = '>>'
 let g:syntastic_style_error_symbol = '✗'
-let g:syntastic_style_warning_symbol = '⚠ '
+let g:syntastic_style_warning_symbol = '>>'
 
 " Ignore HTML files since templating breaks it
 let g:syntastic_mode_map = {
@@ -297,8 +357,11 @@ let g:syntastic_mode_map = {
 
 " Checkers {{{
 " --JavaScript--
-let g:syntastic_javascript_checkers=['jshint', 'jscs']
-let g:syntastic_javascript_jscs_args="--esnext"
+let g:syntastic_javascript_checkers=['eslint']
+
+" --TypeScript--
+let g:tsuquyomi_disable_quickfix = 1
+let g:syntastic_typescript_checkers = ['tsuquyomi']
 
 " --CSS--
 let g:syntastic_css_checkers=[]
@@ -322,12 +385,29 @@ let g:gocode_gofmt_tabs = ' -tabs=true'
 let g:gocode_gofmt_tabwidth = ' -tabwidth=4'
 " }}}
 
+" deoplete {{{
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#auto_completion_start_length = 1
+let g:deoplete#file#enable_buffer_path = 1
+let g:deoplete#omni_patterns = {}
+let g:deoplete#omni_patterns.javascript = '[^. *\t]\.\w*'
+" }}}
+
 " YouCompleteMe {{{
 let g:ycm_autoclose_preview_window_after_completion = 1
+
+if !exists("g:ycm_semantic_triggers")
+  let g:ycm_semantic_triggers = {}
+endif
+let g:ycm_semantic_triggers['typescript'] = ['.']
 " }}}
 
 " vim-test {{{
-let g:test#strategy = 'tslime'
+if has('nvim')
+  let g:test#strategy = 'neovim'
+else
+  let g:test#strategy = 'tslime'
+endif
 " }}}
 
 " vim-rhubarb {{{
@@ -335,26 +415,106 @@ let g:RHUBARB_TOKEN=$GH_TOKEN
 " }}}
 " }}}
 
-if has('gui_running')
-  set guifont=M+\ 1m\ light:h14
+if exists('neovim_dot_app')
+  " neovim specific settings
+  " Reduce that input and draw lag duuuuuude
+  set noshowcmd 
+  set nolazyredraw
+
+  " Not sure this actually does anything just yet
+  set guifont=mononoki:h16
+
   set background=dark
-  colorscheme flattown
-  hi SignColumn ctermfg=243 ctermbg=235 cterm=NONE guifg=#757777 guibg=#282a2b gui=NONE
+  let g:enable_bold_font = 1
+  colorscheme hybrid_material
+  let g:airline_theme="hybrid"
+
+  " hybrid_material is insane and doens't use traditional green = additon / red = subtraction
+  " coloring. Address that with color linking
+  hi! link diffRemoved Special
+  hi! link diffAdded String
+
+  hi SignColumn ctermfg=243 ctermbg=235 cterm=NONE guifg=#757777 guibg=NONE gui=NONE
   hi SignifySignAdd ctermfg=188 ctermbg=64 cterm=bold guifg=#43800a guibg=NONE gui=bold
   hi SignifySignDelete ctermfg=88 ctermbg=NONE cterm=NONE guifg=#870505 guibg=NONE gui=NONE
   hi SignifySignChange ctermfg=188 ctermbg=23 cterm=NONE guifg=#6189D4 guibg=NONE gui=NONE
-  let g:airline_theme="flattown"
+
+  " Unbind conflicting menu bindings
+  call MacMenu("Window.New Tab", "")
+
+  let g:ctrlp_map = 'C-p'
+
+  " Fzf Commands
+  " Only neovim can open fzf searches in a split terminal windows. Macvim requires the
+  " search to happen in an iterm window and the full screen shift if really unpleasant,
+  " so we only bind these when we're using neovim
+  nnoremap <D-t> :FzfFiles<CR>
+  nnoremap <space>a :FzfAg<space>
+elseif has('gui_running')
+  " gui specific settings
+  " set guifont=M+\ 1m\ light:h14
+  " set guifont=Sudo:h18
+  set guifont=mononoki:h16
+
+  set background=dark
+
+  " let g:enable_bold_font = 1
+  " colorscheme hybrid_material
+  " let g:airline_theme="hybrid"
+
+  let g:deepspace_italics = 1
+  colorscheme deep-space
+  let g:airline_theme="deep_space"
+
+  " hybrid_material is insane and doens't use traditional green = additon / red = subtraction
+  " coloring. Address that with color linking
+  " hi! link diffRemoved Special
+  " hi! link diffAdded String
+
+  hi SignColumn ctermfg=243 ctermbg=235 cterm=NONE guifg=#757777 guibg=NONE gui=NONE
+  hi SignifySignAdd ctermfg=188 ctermbg=64 cterm=bold guifg=#43800a guibg=NONE gui=bold
+  hi SignifySignDelete ctermfg=88 ctermbg=NONE cterm=NONE guifg=#870505 guibg=NONE gui=NONE
+  hi SignifySignChange ctermfg=188 ctermbg=23 cterm=NONE guifg=#6189D4 guibg=NONE gui=NONE
+
   set go-=T
   set go-=l
   set go-=L
   set go-=r
   set go-=R
+
   let g:ctrlp_map = '<D-t>'
 else
   set background=dark
-  colorscheme base16-flat
-  let g:airline_theme="base16"
-  let g:ctrlp_map = '<C-p>'
+
+  " let g:enable_bold_font = 1
+  " colorscheme hybrid_material
+  " let g:airline_theme="hybrid"
+  " let g:deepspace_italics = 1
+  " colorscheme deep-space
+  " let g:airline_theme="deep_space"
+  colorscheme quantum
+  let g:airline_theme="quantum"
+
+  " hybrid_material is insane and doens't use traditional green = additon / red = subtraction
+  " coloring. Address that with color linking
+  hi! link diffRemoved Special
+  hi! link diffAdded String
+
+  hi SignColumn ctermfg=243 ctermbg=235 cterm=NONE guifg=#757777 guibg=NONE gui=NONE
+  hi SignifySignAdd ctermfg=188 ctermbg=64 cterm=bold guifg=#43800a guibg=NONE gui=bold
+  hi SignifySignDelete ctermfg=88 ctermbg=NONE cterm=NONE guifg=#870505 guibg=NONE gui=NONE
+  hi SignifySignChange ctermfg=188 ctermbg=23 cterm=NONE guifg=#6189D4 guibg=NONE gui=NONE
+
+  if has('nvim')
+    " Fzf Commands
+    " Only neovim can open fzf searches in a split terminal windows. Macvim requires the
+    " search to happen in an iterm window and the full screen shift if really unpleasant,
+    " so we only bind these when we're using neovim
+    nnoremap <C-p> :FzfFiles<CR>
+    nnoremap <space>a :FzfAg<space>
+  else
+    let g:ctrlp_map = '<C-p>'
+  end
 endif
 " Autocommands {{{
 " Only do this part when compiled with support for autocommands
@@ -371,6 +531,9 @@ if has("autocmd")
     " Cursor Highlight in Insert mode is annoying
     au WinLeave,InsertEnter * set nocursorline
     au WinEnter,InsertLeave * set cursorline
+
+    " Autoclose preview window on autocomplete finish
+    autocmd CompleteDone * pclose!
   augroup END
 
   augroup git
@@ -386,6 +549,8 @@ if has("autocmd")
 
     " Auto-source the .vimrc file when it is saved
     au BufWritePost *vimrc* source $MYVIMRC
+    " Auto-source the init.vim file when it is saved
+    au BufWritePost *init.vim* source $MYVIMRC
 
     " Syntax of these languages is fussy over tabs Vs spaces
     au FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
@@ -459,13 +624,18 @@ if has("autocmd")
       au FileType javascript noremap <C-d> <esc>:TernDef<cr>
       au FileType javascript noremap <C-d> :TernDef<cr>
 
-      " Mocha runner bindings
       au FileType javascript inoremap <C-t> <esc>:TernType<cr>a
       au FileType javascript nnoremap <C-t> :TernType<cr>
       au FileType javascript noremap <C-d> <esc>:TernDef<cr>
       au FileType javascript noremap <C-d> :TernDef<cr>
 
       au BufWritePre *.js,*.njs call StripTrailing()
+  augroup END
+
+  augroup typescript
+    au!
+
+    au FileType typescript setlocal completeopt+=menu,preview
   augroup END
 
   augroup coffee
@@ -573,21 +743,6 @@ function! MyFoldText() " {{{
 endfunction " }}}
 set foldtext=MyFoldText()
 
-" Make Unite's window behave more like a preview window
-function! s:unite_settings() "{{{
-  nmap <buffer> Q <plug>(unite_exit)
-  nmap <buffer> <esc> <plug>(unite_exit)
-  imap <buffer> <esc> <plug>(unite_exit)
-  imap <buffer> <C-j> <down>
-  imap <buffer> <C-k> <up>
-  inoremap <silent><buffer><expr> <C-h> unite#do_action('split')
-  inoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
-  inoremap <silent><buffer><expr> <C-t> unite#do_action('tabopen')
-  " Here so I don't constantly lookup the default key binding
-  "imap <buffer> <C-l> <plug>(unite_redraw)
-endfunction "}}}
-autocmd FileType unite call s:unite_settings()
-
 function! RemoveRubyEval() range
   let begv = a:firstline
   let endv = a:lastline
@@ -634,17 +789,17 @@ endfunction
 " Keybindings {{{
 " Unite keybindings
 "nnoremap <D-t> :Unite -buffer-name=files file_rec/async:!<cr>
-nnoremap <leader>aa :Unite -no-quit -buffer-name=search grep:.<cr>
+" nnoremap <leader>aa :Unite -no-quit -buffer-name=search grep:.<cr>
 
-nnoremap <space><space> :Unite -toggle -auto-resize -buffer-name=mixed file_rec/async buffer file_mru bookmark<cr>
-nnoremap <space>r :Unite -toggle -auto-resize -buffer-name=files file_mru<cr>
-nnoremap <space>y :Unite -buffer-name=yanks history/yank<cr>
-nnoremap <space>l :Unite -auto-resize -buffer-name=line line<cr>
-nnoremap <space>b :Unite -auto-resize -buffer-name=buffers buffer<cr>
-nnoremap <space>m :Unite -auto-resize -buffer-name=mappings mapping<cr>
-nnoremap <space>s :Unite -quick-match buffer<cr>
-nnoremap <space>w :Unite -buffer-name=watson_current watson/current_file<CR>
-nnoremap <space>d :Unite -buffer-name=watson_dirty watson/dirty<CR>
+" nnoremap <space><space> :Unite -toggle -auto-resize -buffer-name=mixed file_rec/async buffer file_mru bookmark<cr>
+" nnoremap <space>r :Unite -toggle -auto-resize -buffer-name=files file_mru<cr>
+" nnoremap <space>y :Unite -buffer-name=yanks history/yank<cr>
+" nnoremap <space>l :Unite -auto-resize -buffer-name=line line<cr>
+" nnoremap <space>b :Unite -auto-resize -buffer-name=buffers buffer<cr>
+" nnoremap <space>m :Unite -auto-resize -buffer-name=mappings mapping<cr>
+" nnoremap <space>s :Unite -quick-match buffer<cr>
+" nnoremap <space>w :Unite -buffer-name=watson_current watson/current_file<CR>
+" nnoremap <space>d :Unite -buffer-name=watson_dirty watson/dirty<CR>
 
 
 " vim-test runner commands
@@ -665,6 +820,8 @@ nnoremap <leader>. :CtrlPTag<CR>
 " Shortcut to rapidly toggle `set list`
 nnoremap <leader>lt :set list!<CR>
 
+" Quickly show a blame of the current file
+nnoremap <leader>gb :Gblame<CR>
 " Quickly show a diff of the current file
 nnoremap <leader>gd :Gdiff<CR>
 
@@ -700,10 +857,7 @@ map <Down> <Nop>
 vnoremap <silent> <Enter> :EasyAlign<Enter>
 
 " Quick access to vimrc for on-the-fly customizations
-nmap <leader>ev :tabedit $MYVIMRC<CR>
-
-" For saving to feel like Emacs and every other editor
-nnoremap <leader>s :w<CR>
+nmap <leader>rc :tabedit $MYVIMRC<CR>
 
 " Make switching tabs less shitty
 nnoremap <leader>k :tabn<CR>
@@ -718,13 +872,29 @@ map <leader>n :NERDTreeToggle<CR>
 map <leader>/ <plug>NERDCommenterToggle<CR>
 imap <leader>/ <esc><plug>NERDCommenterToggle<CR>
 
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
+" Easier multi-pane commands
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+
+nnoremap <C-D-j> <C-w>J
+nnoremap <C-D-k> <C-w>K
+nnoremap <C-D-h> <C-w>H
+nnoremap <C-D-l> <C-w>L
+
+" Force tab cycling when popup menu is visible (ex. deoplete suggestions)
+inoremap <silent><expr> <tab>
+  \ pumvisible() ? "\<C-n>" : "\<tab>"
+
+inoremap <silent><expr> <S-tab>
+  \ pumvisible() ? "\<C-p>" : "\<S-tab>"
 
 " pretty format json in the buffer
 nnoremap <leader>fj :%!python -m json.tool<CR>
+
+" quick open new file based on current buffer
+map <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 
 " bind K to grep word under cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
@@ -738,6 +908,9 @@ nmap <leader>h :Limelight!!0.8<CR>
 
 " Dash searching integration
 map <leader>d :call SearchDash()<CR>
+
+" Just like...save ok
+nnoremap <leader>w :wa<CR>
 
 " VERY MAGIC EVERYWHERE
 nnoremap / /\v

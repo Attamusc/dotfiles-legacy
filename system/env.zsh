@@ -2,8 +2,16 @@
 # Fix for cgo on Mavericks
 export CC=clang
 
-export EDITOR="mvim"
+# Make sure colors work in neovim in tmux
+export NVIM_TUI_ENABLE_TRUE_COLOR=1
+
+# Additional options for tmuxifier to call tmux with
+# -2 forces tmux into 256 color mode
+export TMUXIFIER_TMUX_OPTS="-2"
+
+export EDITOR="nvim"
 export LESS=FRSX
+export FZF_DEFAULT_COMMAND='ag -g ""'
 
 # Languages
 export PHP_HOME=$(brew --prefix php56)
@@ -18,7 +26,7 @@ export ACTIVATOR_HOME=/usr/local/opt/typesafe-activator
 # Tools
 export BEES_HOME=/usr/local/cloudbees-sdk-0.7.1
 export GRADLE_HOME=/usr/local/gradle-1.0-milestone-6
-export POSTGRES_APP_HOME=/Applications/Postgres.app/Contents/Versions/9.3
+export POSTGRES_APP_HOME=/Applications/Postgres.app/Contents/Versions/latest
 export TMUXIFIER_HOME=~/.tmuxifier
 export HEROKU_HOME=/usr/local/heroku
 
@@ -41,7 +49,7 @@ if which tmuxifier > /dev/null; then eval "$(tmuxifier init -)"; fi
 nvm ls default &>/dev/null && nvm use default &>/dev/null
 
 # mkdir .git/safe in the root of repositories you trust
-export PATH=".git/safe/../../bin:$PATH"
+export PATH=".git/safe/../../bin:.git/safe/../../node_modules/.bin:$PATH"
 
 # Set our MANPATH for `man`
 export MANPATH="/usr/share/man:/share/man:/usr/local/mysql/man:$MANPATH"

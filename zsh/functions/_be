@@ -1,0 +1,2 @@
+#compdef be
+_files -W $PROJECTS/Work/behance -/

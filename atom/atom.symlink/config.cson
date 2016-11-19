@@ -4,16 +4,8 @@
     createFileInstantly: true
   "atom-material-ui":
     colors:
-      abaseColor:
-        red: 128
-        green: 222
-        blue: 234
-        alpha: 1
-      accentColor:
-        red: 82
-        green: 140
-        blue: 148
-        alpha: 1
+      abaseColor: "#80deea"
+      accentColor: "#528c94"
       predefinedColor: "Cyan"
     fonts: {}
     tabs:
@@ -23,39 +15,75 @@
     ui:
       panelContrast: true
   "autocomplete-plus":
+    backspaceTriggersAutocomplete: true
+    confirmCompletion: "tab"
+    minimumWordLength: 2
     useCoreMovementCommands: false
   autosave:
     enabled: true
   core:
     audioBeep: false
+    customFileTypes:
+      "source.ini": [
+        ".buckconfig"
+        ".flowconfig"
+        ".hgrc"
+      ]
+      "source.json": [
+        ".arcconfig"
+        "BUCK.autodeps"
+      ]
+      "source.python": [
+        "BUCK"
+      ]
+    disabledPackages: [
+      "tree-view"
+    ]
     projectHome: "/Users/atta/Projects/Fun"
+    telemetryConsent: "limited"
     themes: [
       "atom-material-ui"
       "atom-material-syntax-dark"
     ]
   editor:
+    fontSize: 16
     invisibles: {}
     preferredLineLength: 120
     showIndentGuide: true
-    softWrap: true
-    softWrapHangingIndent: 4
   "exception-reporting":
     userId: "94e745e9-e915-f841-b20d-53e208182164"
   fonts:
-    fontFamily: "M+ Light"
+    fontFamily: "Mononoki"
     preview: "The quick brown fox"
   "fuzzy-finder":
     searchAllPanes: true
+  "git-blame": {}
   "language-babel": {}
   linter:
     lintOnFly: false
     statusIconPosition: "Right"
+  "linter-eslint":
+    disableFSCache: true
+  "linter-jscs":
+    esnext: true
+    onlyConfig: true
+  "linter-jshint":
+    disableWhenNoJshintrcFileInPath: true
   "linter-rubocop":
-    command: "/Users/atta/.rbenv/shims/bundle exec rubocop"
+    command: "bundle exec rubocop"
+  "linter-sass-lint":
+    noConfigDisable: true
+  nuclide:
+    "nuclide-home":
+      showHome: false
   "omnisharp-atom":
     codeFormat: false
     codeLens: false
     enhancedHighlighting: true
+  "ruby-block":
+    highlightLine: false
+    highlightLineNumber: true
+    showBottomPanel: false
   "ruby-test":
     rspecAllCommand: "/Users/atta/.rbenv/shims/bundle exec rspec --tty spec"
     rspecFileCommand: "/Users/atta/.rbenv/shims/bundle exec rspec --tty {relative_path}"
@@ -70,11 +98,27 @@
     useSmartcaseForSearch: true
   welcome:
     showOnStartup: false
+".ansi.text":
+  editor:
+    preferredLineLength: 120
+    softWrapHangingIndent: 4
 ".babel.regexp.source":
   editor:
     preferredLineLength: 120
     softWrapHangingIndent: 4
 ".erb.html.text":
+  editor:
+    preferredLineLength: 120
+    softWrapHangingIndent: 4
+".hack.html.text":
+  editor:
+    preferredLineLength: 120
+    softWrapHangingIndent: 4
+".hackfragment.source":
+  editor:
+    preferredLineLength: 120
+    softWrapHangingIndent: 4
+".hg-commit.text":
   editor:
     preferredLineLength: 120
     softWrapHangingIndent: 4

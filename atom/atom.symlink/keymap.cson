@@ -34,17 +34,41 @@
 'body':
   # --- FAKE LEADER COMMANDS ---
   ', n': 'tree-view:toggle'
+  ', n': 'nuclide-file-tree:toggle'
 
 # --- GENERAL OVERRIDES ---
+# workspace
+'.platform-darwin atom-workspace':
+  'cmd-k j': 'nuclide-move-pane:move-tab-to-new-pane-down'
+  'cmd-k k': 'nuclide-move-pane:move-tab-to-new-pane-up'
+  'cmd-k h': 'nuclide-move-pane:move-tab-to-new-pane-left'
+  'cmd-k l': 'nuclide-move-pane:move-tab-to-new-pane-right'
+
 # autocomplete
 'body atom-text-editor.autocomplete-active':
   'ctrl-k': 'autocomplete-plus:move-up'
   'ctrl-j': 'autocomplete-plus:move-down'
 
+# nuclide file tree
+'.nuclide-file-tree':
+  'ctrl-v': 'pane:split-right'
+  'ctrl-s': 'pane:split-down'
+  'ctrl-k': 'core:move-up'
+  'ctrl-j': 'core:move-down'
+
+# nuclide omnisearch
+'.omnisearch-modal atom-text-editor':
+  'ctrl-v': 'pane:split-right'
+  'ctrl-s': 'pane:split-down'
+  'ctrl-k': 'core:move-up'
+  'ctrl-j': 'core:move-down'
+
 # fuzzy-finder
 '.fuzzy-finder atom-text-editor[mini]':
   'ctrl-v': 'pane:split-right'
   'ctrl-s': 'pane:split-down'
+  'ctrl-k': 'core:move-up'
+  'ctrl-j': 'core:move-down'
 
 # vim-mode-plus
 'atom-text-editor.vim-mode-plus:not(.insert-mode)':

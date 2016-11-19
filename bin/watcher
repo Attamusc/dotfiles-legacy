@@ -8,8 +8,8 @@
 
 local=$1
 remote=$2
-cmd="rsync -tziru --exclude .git $local $remote"
+cmd="rsync -avz --copy-links --exclude .git $local $remote"
 # Add "--exclude-from=.gitignore" to ignore files in gitignore
 
 echo "Watching '$local' and syncing to '$remote'"
-fswatch -o . | xargs -n1 -I{} $cmd
+fswatch -o . -e .git -Lr -m poll_monitor | xargs -n1 -I{} $cmd

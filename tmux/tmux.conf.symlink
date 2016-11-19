@@ -13,6 +13,12 @@ bind-key N   command-prompt 'rename-session "%%"'
 
 bind-key r   source-file $HOME/.tmux.conf \; display "Config Reload!"
 
+# Force tmux into 256 color mode
+set-option -ga terminal-overrides ",xterm-256color:Tc"
+
+# Make escape keys instant
+set -s escape-time 0
+
 # Use vim keybindings in copy mode
 setw -g mode-keys vi
 

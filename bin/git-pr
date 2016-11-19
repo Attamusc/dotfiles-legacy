@@ -38,4 +38,3 @@ else
 
   copy_and_open $merge_url
 fi
-
