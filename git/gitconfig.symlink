@@ -1,6 +1,6 @@
 [user]
-  name = Sean Dunn
-  email = sedunn@adobe.com
+	name = Sean Dunn
+	email = sedunn@adobe.com
 [alias]
   # Add
   aa = add --all
@@ -78,6 +78,7 @@
 
   # GitHub Workflow stuff
   f = workflow -p feature
+  bug = workflow -p bugfix
   hotfix = workflow -p hotfix
   release = workflow -p release
   own = !"hub fork && git remote rename origin upstream && git remote rename Attamusc origin"
@@ -138,8 +139,9 @@
 	clean = git media clean %f
 	smudge = git media smudge %f
 [filter "lfs"]
-	clean = git-lfs clean %f
-	smudge = git-lfs smudge %f
 	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
 [url "https://"]
 	insteadOf = git://

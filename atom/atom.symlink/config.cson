@@ -36,9 +36,6 @@
       "source.python": [
         "BUCK"
       ]
-    disabledPackages: [
-      "tree-view"
-    ]
     projectHome: "/Users/atta/Projects/Fun"
     telemetryConsent: "limited"
     themes: [
@@ -46,7 +43,7 @@
       "atom-material-syntax-dark"
     ]
   editor:
-    fontSize: 16
+    fontFamily: "Knack Nerd Font"
     invisibles: {}
     preferredLineLength: 120
     showIndentGuide: true
@@ -59,9 +56,7 @@
     searchAllPanes: true
   "git-blame": {}
   "language-babel": {}
-  linter:
-    lintOnFly: false
-    statusIconPosition: "Right"
+  linter: {}
   "linter-eslint":
     disableFSCache: true
   "linter-jscs":

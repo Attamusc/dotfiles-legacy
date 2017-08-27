@@ -16,15 +16,15 @@ call plug#begin('~/.vim/plugged')
 " Bundles {{{
 " Utilities {{{
 Plug 'AndrewRadev/splitjoin.vim'
-Plug 'benekastah/neomake'
 Plug 'craigemery/vim-autotag'
-Plug 'edkolev/tmuxline.vim'
+" Plug 'edkolev/tmuxline.vim'
 Plug 'guns/vim-clojure-highlight'
 Plug 'guns/vim-clojure-static'
 Plug 'guns/vim-sexp'
 Plug 'gre/play2vim'
 Plug 'honza/vim-snippets'
 Plug 'janko-m/vim-test'
+Plug 'joereynolds/gtags-scope'
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'jgdavey/tslime.vim'
@@ -34,17 +34,16 @@ Plug 'kien/rainbow_parentheses.vim'
 Plug 'malkomalko/projections.vim'
 Plug 'majutsushi/tagbar'
 Plug 'mattn/emmet-vim'
-Plug 'myusuf3/numbers.vim'
 Plug 'nelstrom/vim-textobj-rubyblock'
 Plug 'Quramy/tsuquyomi'
 Plug 'Raimondi/delimitMate'
 Plug 'ryanoasis/vim-devicons'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/syntastic'
 Plug 'SirVer/ultisnips'
 Plug 'Shougo/neomru.vim'
 Plug 'Shougo/vimproc', { 'do': 'make' }
+Plug 'terryma/vim-expand-region'
 Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-bundler'
 Plug 'tpope/vim-dispatch'
@@ -61,6 +60,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'Valloric/MatchTagAlways'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'wellle/targets.vim'
 Plug 'wincent/ferret'
 Plug 'wting/rust.vim'
 Plug 'guns/vim-clojure-highlight'
@@ -98,6 +98,7 @@ Plug 'wavded/vim-stylus'
 Plug 'xsbeats/vim-blade'
 " }}}
 " Colors {{{
+Plug 'ayu-theme/ayu-vim'
 Plug 'blerins/flattown'
 Plug 'baskerville/bubblegum'
 Plug 'chriskempson/base16-vim'
@@ -105,19 +106,21 @@ Plug 'flazz/vim-colorschemes'
 Plug 'jdkanani/vim-material-theme'
 Plug 'joshhartigan/banana'
 Plug 'kristijanhusak/vim-hybrid-material'
+Plug 'morhetz/gruvbox'
 Plug 'mhartington/oceanic-next'
 Plug 'nanotech/jellybeans.vim'
-Plug 'NLKNguyen/papercolor-theme'
 Plug 'trusktr/seti.vim'
 Plug 'tyrannicaltoucan/vim-deep-space'
 Plug 'tyrannicaltoucan/vim-quantum'
 Plug 'w0ng/vim-hybrid'
-Plug 'zenorocha/dracula-theme', {'rtp': 'vim/'}
+Plug 'zanglg/nova.vim'
 " }}}
 
 if has('nvim')
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
+
+  Plug 'benekastah/neomake'
   
   " Async autocomplete library
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -128,7 +131,9 @@ if has('nvim')
   Plug 'awetzel/elixir.nvim', { 'do': 'yes \| ./install.sh' }
   Plug 'mhartington/deoplete-typescript', { 'do': 'npm install -g typescript' }
   Plug 'fishbullet/deoplete-ruby'
+  Plug 'sebastianmarkow/deoplete-rust'
 else
+  Plug 'scrooloose/syntastic'
   Plug 'ctrlpvim/ctrlp.vim'
   Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
 endif
@@ -166,18 +171,20 @@ set switchbuf=useopen
 set backspace=indent,eol,start
 set t_Co=256
 set tags=./tags;/
+set cscopetag "seach both cscopes and the tags file
 set clipboard=unnamed
 set lazyredraw
+set autowrite
 
 " Key delays are just the worst
 set timeoutlen=1000
 set ttimeoutlen=0
 
-if has("nvim")
-  set termguicolors
-end
+if (has("termguicolors"))
+ set termguicolors
+endif
 
-" Split setting that make way more sense
+" Split settings that make way more sense
 set splitbelow
 set splitright
 
@@ -232,9 +239,6 @@ let g:fzf_action = {
 
 let g:fzf_command_prefix = 'Fzf'
 let g:fzf_layout = { 'down': '~25%' }
-" }}}
-" neomake {{{
-let g:neomake_javascript_enabled_makers = ['eslint']
 " }}}
 " ctrl-p {{{		
 let g:ctrlp_open_new_file = 'r'
@@ -339,6 +343,11 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 " }}}
+" neomake {{{
+let g:neomake_javascript_enabled_makers = ['eslint_d']
+let g:neomake_jsx_enabled_makers = ['eslint_d']
+let g:neomake_vue_enabled_makers = ['eslint_d']
+" }}}
 " Syntastic {{{
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_enable_highlighting = 0
@@ -390,7 +399,11 @@ let g:deoplete#enable_at_startup = 1
 let g:deoplete#auto_completion_start_length = 1
 let g:deoplete#file#enable_buffer_path = 1
 let g:deoplete#omni_patterns = {}
+
 let g:deoplete#omni_patterns.javascript = '[^. *\t]\.\w*'
+
+let g:deoplete#sources#rust#racer_binary='/Users/atta/.cargo/bin/racer'
+let g:deoplete#sources#rust#rust_source_path='/usr/local/rust/src'
 " }}}
 
 " YouCompleteMe {{{
@@ -449,6 +462,7 @@ if exists('neovim_dot_app')
   " search to happen in an iterm window and the full screen shift if really unpleasant,
   " so we only bind these when we're using neovim
   nnoremap <D-t> :FzfFiles<CR>
+  nnoremap <leader>a :FzfAg<CR>
   nnoremap <space>a :FzfAg<space>
 elseif has('gui_running')
   " gui specific settings
@@ -486,24 +500,28 @@ elseif has('gui_running')
 else
   set background=dark
 
-  " let g:enable_bold_font = 1
-  " colorscheme hybrid_material
-  " let g:airline_theme="hybrid"
   " let g:deepspace_italics = 1
   " colorscheme deep-space
   " let g:airline_theme="deep_space"
   colorscheme quantum
   let g:airline_theme="quantum"
 
+  " let ayucolor = "mirage"
+  " colorscheme ayu
   " hybrid_material is insane and doens't use traditional green = additon / red = subtraction
   " coloring. Address that with color linking
-  hi! link diffRemoved Special
-  hi! link diffAdded String
+  " hi! link diffRemoved Special
+  " hi! link diffAdded String
 
   hi SignColumn ctermfg=243 ctermbg=235 cterm=NONE guifg=#757777 guibg=NONE gui=NONE
   hi SignifySignAdd ctermfg=188 ctermbg=64 cterm=bold guifg=#43800a guibg=NONE gui=bold
   hi SignifySignDelete ctermfg=88 ctermbg=NONE cterm=NONE guifg=#870505 guibg=NONE gui=NONE
   hi SignifySignChange ctermfg=188 ctermbg=23 cterm=NONE guifg=#6189D4 guibg=NONE gui=NONE
+
+  hi NeomakeErrorSign ctermfg=204 guifg=#dd6880
+  hi NeomakeWarningSign ctermfg=221 guifg=#ddbd71
+  hi NeomakeMessageSign ctermfg=75 guifg=#76a2e1
+  hi NeomakeInfoSign ctermfg=236 guifg=#263238
 
   if has('nvim')
     " Fzf Commands
@@ -511,6 +529,7 @@ else
     " search to happen in an iterm window and the full screen shift if really unpleasant,
     " so we only bind these when we're using neovim
     nnoremap <C-p> :FzfFiles<CR>
+    nnoremap <leader>a :FzfAg<CR>
     nnoremap <space>a :FzfAg<space>
   else
     let g:ctrlp_map = '<C-p>'
@@ -534,6 +553,9 @@ if has("autocmd")
 
     " Autoclose preview window on autocomplete finish
     autocmd CompleteDone * pclose!
+
+    " Run neomake on buffer write
+    autocmd! BufWritePost * Neomake
   augroup END
 
   augroup git
@@ -603,6 +625,8 @@ if has("autocmd")
   augroup json
     au!
 
+    au FileType json setlocal foldmethod=syntax
+
     au BufNewFile,BufRead .tern-project setfiletype json
     au BufNewFile,BufRead .jshintrc setfiletype json
     au BufNewFile,BufRead .jscsrc setfiletype json
@@ -649,6 +673,8 @@ if has("autocmd")
 
     au BufNewFile,BufRead *.styl setfiletype stylus
     au BufNewFile,BufRead *.roo setfiletype stylus
+
+    au BufNewFile,BufRead *.focss setfiletype scss
 
     au FileType css setlocal omnifunc=csscomplete#CompleteCSS
     au Filetype css,sass,scss,less,stylus setlocal foldmethod=marker
@@ -815,7 +841,7 @@ nnoremap <Leader>pi :PlugInstall<cr>
 nnoremap <Leader>ts :TagbarOpenAutoClose<CR>
 
 " Show CtrlP with Tag search
-nnoremap <leader>. :CtrlPTag<CR>
+" nnoremap <leader>. :CtrlPTag<CR>
 
 " Shortcut to rapidly toggle `set list`
 nnoremap <leader>lt :set list!<CR>
@@ -844,8 +870,8 @@ vnoremap <tab> >gv
 
 nnoremap <leader><space> :nohlsearch<CR>
 
-nnoremap <space> za
-vnoremap <space> za
+nnoremap <space><space> za
+vnoremap <space><space> za
 
 " To enforce good habits...
 map <Left> <Nop>
@@ -910,7 +936,7 @@ nmap <leader>h :Limelight!!0.8<CR>
 map <leader>d :call SearchDash()<CR>
 
 " Just like...save ok
-nnoremap <leader>w :wa<CR>
+nnoremap <leader>w :w<CR>
 
 " VERY MAGIC EVERYWHERE
 nnoremap / /\v

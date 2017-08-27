@@ -22,25 +22,15 @@ set -s escape-time 0
 # Use vim keybindings in copy mode
 setw -g mode-keys vi
 
-set-option -g status-utf8 on
-set-option -g status-interval 1
-set-option -g status-fg colour10
-set-option -g status-bg default
-set-option -g status-left-bg default
-set-option -g status-right-bg default
-
-set-option -g status-left ''
-set-option -g status-right '#[fg=yellow]#S#[fg=default] #[fg=default]%a %d %b %H:%M'
-
-set-option -g status-right-length 100
-set-option -g status-left-length 120
-
 set-window-option -g window-status-current-fg colour4
 set-window-option -g window-status-current-bg default
 set-window-option -g window-status-current-format '[ #I #W ]'
 
 set-option -g   allow-rename      off
 set-option -g   automatic-rename  off
+
+# Make sure focus events work for things like neovim
+set -g focus-events on
 
 ## pane border and colors
 set-option -g pane-active-border-fg colour240
@@ -54,18 +44,20 @@ set -g mouse on
 bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'select-pane -t=; copy-mode -e; send-keys -M'"
 bind -n WheelDownPane select-pane -t= \; send-keys -M
 bind -n C-WheelUpPane select-pane -t= \; copy-mode -e \; send-keys -M
-bind -t vi-copy    C-WheelUpPane   halfpage-up
-bind -t vi-copy    C-WheelDownPane halfpage-down
-bind -t emacs-copy C-WheelUpPane   halfpage-up
-bind -t emacs-copy C-WheelDownPane halfpage-down
+bind -T copy-mode-vi    C-WheelUpPane send-keys -X  halfpage-up
+bind -T copy-mode-vi    C-WheelDownPane send-keys -X halfpage-down
+bind -T copy-mode C-WheelUpPane send-keys -X  halfpage-up
+bind -T copy-mode C-WheelDownPane send-keys -X halfpage-down
 
 # Setup 'v' to begin selection as in Vim
-bind-key -t vi-copy v begin-selection
-bind-key -t vi-copy y copy-pipe "reattach-to-user-namespace pbcopy"
+bind-key -T copy-mode-vi v send-keys -X begin-selection
+bind-key -T copy-mode-vi y send-keys -X copy-pipe "reattach-to-user-namespace pbcopy"
 
 # Update default binding of `Enter` to also use copy-pipe
-unbind -t vi-copy Enter
-bind-key -t vi-copy Enter copy-pipe "reattach-to-user-namespace pbcopy"
+unbind -T copy-mode-vi Enter
+bind-key -T copy-mode-vi Enter send-keys -X copy-pipe "reattach-to-user-namespace pbcopy"
 
 # Make sure that pbpaste actually works
 set-option -g default-command "reattach-to-user-namespace -l zsh"
+
+if-shell "test -f ~/.dotfiles/tmux/tmuxline-config" "source ~/.dotfiles/tmux/tmuxline-config"

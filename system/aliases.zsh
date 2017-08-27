@@ -27,6 +27,7 @@ alias ls="ls -GF"
 alias l="ls -GlAh"
 alias ll="ls -Gl"
 alias la='ls -GA'
+alias kl="k --almost-all"
 
 alias update='sudo softwareupdate -i -a; brew update; brew upgrade; npm update npm -g; npm update -g'
 

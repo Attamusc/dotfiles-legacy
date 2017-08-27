@@ -14,9 +14,11 @@ export LESS=FRSX
 export FZF_DEFAULT_COMMAND='ag -g ""'
 
 # Languages
-export PHP_HOME=$(brew --prefix php56)
+export PHP_HOME=$(brew --prefix php71)
 export GO_HOME=$(brew --prefix go)/libexec
 export COMPOSER_HOME=/Users/atta/.composer
+export RUST_SRC_PATH=/usr/local/rust/src
+export CARGO_HOME=/Users/atta/.cargo
 
 export GOPATH=~/Projects/go-space
 
@@ -34,7 +36,7 @@ export HEROKU_HOME=/usr/local/heroku
 export PATH=$HOME/.dotfiles/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin
 
 # Add our special directories
-export PATH=$PHP_HOME/bin:$HEROKU_HOME/bin:$TMUXIFIER_HOME/bin:$GOPATH/bin:$GO_HOME/bin:$POSTGRES_APP_HOME/bin:$ACTIVATOR_HOME/bin:$GRADLE_HOME/bin:$BEES_HOME:$COMPOSER_HOME/vendor/bin:$PATH
+export PATH=$PHP_HOME/bin:$HEROKU_HOME/bin:$TMUXIFIER_HOME/bin:$GOPATH/bin:$GO_HOME/bin:$POSTGRES_APP_HOME/bin:$ACTIVATOR_HOME/bin:$GRADLE_HOME/bin:$BEES_HOME:$COMPOSER_HOME/vendor/bin:$CARGO_HOME/bin:$PATH
 
 # Add direnv
 if which direnv > /dev/null; then eval eval "$(direnv hook zsh)"; fi
