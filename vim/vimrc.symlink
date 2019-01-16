@@ -27,7 +27,10 @@ Plug 'janko-m/vim-test'
 Plug 'joereynolds/gtags-scope'
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-pseudocl'
+Plug 'junegunn/vim-fnr'
 Plug 'jgdavey/tslime.vim'
+Plug 'justinmk/vim-sneak'
 Plug 'kana/vim-textobj-user'
 Plug 'kennethzfeng/vim-raml'
 Plug 'kien/rainbow_parentheses.vim'
@@ -98,29 +101,23 @@ Plug 'wavded/vim-stylus'
 Plug 'xsbeats/vim-blade'
 " }}}
 " Colors {{{
-Plug 'ayu-theme/ayu-vim'
-Plug 'blerins/flattown'
-Plug 'baskerville/bubblegum'
 Plug 'chriskempson/base16-vim'
-Plug 'flazz/vim-colorschemes'
-Plug 'jdkanani/vim-material-theme'
-Plug 'joshhartigan/banana'
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'kaicataldo/material.vim'
 Plug 'kristijanhusak/vim-hybrid-material'
-Plug 'morhetz/gruvbox'
-Plug 'mhartington/oceanic-next'
 Plug 'nanotech/jellybeans.vim'
 Plug 'trusktr/seti.vim'
 Plug 'tyrannicaltoucan/vim-deep-space'
 Plug 'tyrannicaltoucan/vim-quantum'
-Plug 'w0ng/vim-hybrid'
-Plug 'zanglg/nova.vim'
 " }}}
 
 if has('nvim')
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
 
-  Plug 'benekastah/neomake'
+  " Async Linting tools
+  " Plug 'benekastah/neomake'
+  Plug 'w0rp/ale'
   
   " Async autocomplete library
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -129,7 +126,7 @@ if has('nvim')
   " autocompletion plugins for deoplete
   Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
   Plug 'awetzel/elixir.nvim', { 'do': 'yes \| ./install.sh' }
-  Plug 'mhartington/deoplete-typescript', { 'do': 'npm install -g typescript' }
+  Plug 'mhartington/nvim-typescript', { 'do': './install.sh' }
   Plug 'fishbullet/deoplete-ruby'
   Plug 'sebastianmarkow/deoplete-rust'
 else
@@ -143,8 +140,6 @@ endif
 
 call plug#end()
 filetype plugin indent on
-
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
 let mapleader=","
 " }}}
@@ -343,8 +338,35 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 " }}}
+" ale {{{
+let g:ale_sign_error = '✗'
+let g:ale_sign_warning = '>>'
+
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_echo_msg_format = '%linter%: %s'
+
+let g:airline#extensions#ale#enabled = 1
+
+let g:ale_linters = {
+  \ 'javascript': ['eslint', 'flow'],
+  \ 'typescript': ['eslint', 'tslint', 'tsserver'],
+  \ 'vue': ['eslint', 'stylelint'],
+  \ 'php': ['phpcs'],
+  \ 'html': []
+\ }
+let g:ale_linter_aliases = {'vue': ['css', 'javascript']}
+
+let g:ale_fixers = {
+  \ 'javascript': ['prettier'],
+  \ 'css': ['prettier']
+\ }
+let g:ale_fix_on_save = 1
+
+let g:ale_php_phpcs_standard = '/Users/atta/Projects/Work/php-sniffs/Behance/ruleset.xml'
+" }}}
 " neomake {{{
 let g:neomake_javascript_enabled_makers = ['eslint_d']
+let g:neomake_typescript_enabled_makers = ['eslint_d']
 let g:neomake_jsx_enabled_makers = ['eslint_d']
 let g:neomake_vue_enabled_makers = ['eslint_d']
 " }}}
@@ -428,43 +450,7 @@ let g:RHUBARB_TOKEN=$GH_TOKEN
 " }}}
 " }}}
 
-if exists('neovim_dot_app')
-  " neovim specific settings
-  " Reduce that input and draw lag duuuuuude
-  set noshowcmd 
-  set nolazyredraw
-
-  " Not sure this actually does anything just yet
-  set guifont=mononoki:h16
-
-  set background=dark
-  let g:enable_bold_font = 1
-  colorscheme hybrid_material
-  let g:airline_theme="hybrid"
-
-  " hybrid_material is insane and doens't use traditional green = additon / red = subtraction
-  " coloring. Address that with color linking
-  hi! link diffRemoved Special
-  hi! link diffAdded String
-
-  hi SignColumn ctermfg=243 ctermbg=235 cterm=NONE guifg=#757777 guibg=NONE gui=NONE
-  hi SignifySignAdd ctermfg=188 ctermbg=64 cterm=bold guifg=#43800a guibg=NONE gui=bold
-  hi SignifySignDelete ctermfg=88 ctermbg=NONE cterm=NONE guifg=#870505 guibg=NONE gui=NONE
-  hi SignifySignChange ctermfg=188 ctermbg=23 cterm=NONE guifg=#6189D4 guibg=NONE gui=NONE
-
-  " Unbind conflicting menu bindings
-  call MacMenu("Window.New Tab", "")
-
-  let g:ctrlp_map = 'C-p'
-
-  " Fzf Commands
-  " Only neovim can open fzf searches in a split terminal windows. Macvim requires the
-  " search to happen in an iterm window and the full screen shift if really unpleasant,
-  " so we only bind these when we're using neovim
-  nnoremap <D-t> :FzfFiles<CR>
-  nnoremap <leader>a :FzfAg<CR>
-  nnoremap <space>a :FzfAg<space>
-elseif has('gui_running')
+if has('gui_running')
   " gui specific settings
   " set guifont=M+\ 1m\ light:h14
   " set guifont=Sudo:h18
@@ -500,14 +486,12 @@ elseif has('gui_running')
 else
   set background=dark
 
-  " let g:deepspace_italics = 1
-  " colorscheme deep-space
-  " let g:airline_theme="deep_space"
-  colorscheme quantum
-  let g:airline_theme="quantum"
+  let g:material_theme_style = "palenight"
+  let g:material_terminal_italics = 1
+  colorscheme material
 
-  " let ayucolor = "mirage"
-  " colorscheme ayu
+  let g:airline_theme="material"
+
   " hybrid_material is insane and doens't use traditional green = additon / red = subtraction
   " coloring. Address that with color linking
   " hi! link diffRemoved Special
@@ -555,7 +539,7 @@ if has("autocmd")
     autocmd CompleteDone * pclose!
 
     " Run neomake on buffer write
-    autocmd! BufWritePost * Neomake
+    " autocmd! BufWritePost * Neomake
   augroup END
 
   augroup git
@@ -584,6 +568,7 @@ if has("autocmd")
     au FileType css setlocal ts=2 sts=2 sw=2 expandtab
 
     au BufNewFile,BufRead *.zsh* setfiletype zsh
+    au BufNewFile,BufRead .owners setfiletype yaml
   augroup END
 
   augroup html
@@ -897,6 +882,10 @@ nnoremap <leader>j :tabp<CR>
 map <leader>n :NERDTreeToggle<CR>
 map <leader>/ <plug>NERDCommenterToggle<CR>
 imap <leader>/ <esc><plug>NERDCommenterToggle<CR>
+
+" Replace native f behavior with vim-sneak
+map f <Plug>Sneak_s
+map F <Plug>Sneak_S
 
 " Easier multi-pane commands
 nnoremap <C-j> <C-w>j

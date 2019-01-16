@@ -82,6 +82,7 @@
   hotfix = workflow -p hotfix
   release = workflow -p release
   own = !"hub fork && git remote rename origin upstream && git remote rename Attamusc origin"
+  cown = !"hub fork && git remote rename origin upstream && git remote rename sedunn origin"
 [core]
   # editor = "mvim -f --nomru -c 'au VimLeave * !open -a iTerm'"
   editor = "nvim"
@@ -90,6 +91,7 @@
   user = Attamusc
 [hub]
   protocol = https
+	host = git.corp.adobe.com
 [credential]
   helper = osxkeychain
 [color]

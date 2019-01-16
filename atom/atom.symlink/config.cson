@@ -36,6 +36,9 @@
       "source.python": [
         "BUCK"
       ]
+    disabledPackages: [
+      "linter"
+    ]
     projectHome: "/Users/atta/Projects/Fun"
     telemetryConsent: "limited"
     themes: [
