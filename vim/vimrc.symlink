@@ -9,9 +9,16 @@ endif
 
 filetype off
 
+" Install vim-plugged if it isn't already installed
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 " vim-plug {{{
 " vim-plug setup for plugin management
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.local/share/nvim/plugged')
 
 " Bundles {{{
 " Utilities {{{
@@ -38,9 +45,7 @@ Plug 'malkomalko/projections.vim'
 Plug 'majutsushi/tagbar'
 Plug 'mattn/emmet-vim'
 Plug 'nelstrom/vim-textobj-rubyblock'
-Plug 'Quramy/tsuquyomi'
 Plug 'Raimondi/delimitMate'
-Plug 'ryanoasis/vim-devicons'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'SirVer/ultisnips'
@@ -83,11 +88,12 @@ Plug 'fatih/vim-go'
 Plug 'Glench/Vim-Jinja2-Syntax'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'isRuslan/vim-es6'
+Plug 'jparise/vim-graphql'
 Plug 'joshtronic/php.vim'
 Plug 'juvenn/mustache.vim'
 Plug 'kchmck/vim-coffee-script'
 Plug 'leafgarland/typescript-vim'
-Plug 'mxw/vim-jsx'
+Plug 'maxmellon/vim-jsx-pretty'
 Plug 'othree/es.next.syntax.vim'
 Plug 'othree/html5.vim'
 Plug 'othree/yajs.vim'
@@ -101,10 +107,12 @@ Plug 'wavded/vim-stylus'
 Plug 'xsbeats/vim-blade'
 " }}}
 " Colors {{{
+Plug 'artanikin/vim-synthwave84'
 Plug 'chriskempson/base16-vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'kaicataldo/material.vim'
 Plug 'kristijanhusak/vim-hybrid-material'
+Plug 'haishanh/night-owl.vim'
 Plug 'nanotech/jellybeans.vim'
 Plug 'trusktr/seti.vim'
 Plug 'tyrannicaltoucan/vim-deep-space'
@@ -118,6 +126,9 @@ if has('nvim')
   " Async Linting tools
   " Plug 'benekastah/neomake'
   Plug 'w0rp/ale'
+
+  " LSP-based tag/symbol viewer and searcher
+  Plug 'liuchengxu/vista.vim'
   
   " Async autocomplete library
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -126,10 +137,11 @@ if has('nvim')
   " autocompletion plugins for deoplete
   Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
   Plug 'awetzel/elixir.nvim', { 'do': 'yes \| ./install.sh' }
-  Plug 'mhartington/nvim-typescript', { 'do': './install.sh' }
+  Plug 'mhartington/nvim-typescript', { 'build': './install.sh' }
   Plug 'fishbullet/deoplete-ruby'
   Plug 'sebastianmarkow/deoplete-rust'
 else
+  Plug 'Quramy/tsuquyomi'
   Plug 'scrooloose/syntastic'
   Plug 'ctrlpvim/ctrlp.vim'
   Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
@@ -251,8 +263,8 @@ let g:go_highlight_structs = 1
 " vim-json {{{
 let g:vim_json_syntax_conceal = 0
 " }}}
-" vim-jsx {{{
-let g:jsx_ext_required = 0
+" vim-jsx-pretty {{{
+let g:vim_jsx_pretty_highlight_close_tag = 1
 " }}}
 " vim-airline {{{
 " let g:airline_left_sep=''
@@ -288,6 +300,8 @@ let g:jellybeans_overrides = {
 " NerdTree {{{
 " Show hidden files in NerdTree
 let NERDTreeShowHidden=1
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
 " }}}
 " NerdCommenter {{{
 " Add a padding space to comments
@@ -343,6 +357,7 @@ let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '>>'
 
 let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
 let g:ale_echo_msg_format = '%linter%: %s'
 
 let g:airline#extensions#ale#enabled = 1
@@ -357,12 +372,13 @@ let g:ale_linters = {
 let g:ale_linter_aliases = {'vue': ['css', 'javascript']}
 
 let g:ale_fixers = {
+  \ 'typescript': ['prettier'],
   \ 'javascript': ['prettier'],
   \ 'css': ['prettier']
 \ }
 let g:ale_fix_on_save = 1
 
-let g:ale_php_phpcs_standard = '/Users/atta/Projects/Work/php-sniffs/Behance/ruleset.xml'
+let g:ale_php_phpcs_standard = '/Users/sedunn/Projects/Work/php-sniffs/Behance/ruleset.xml'
 " }}}
 " neomake {{{
 let g:neomake_javascript_enabled_makers = ['eslint_d']
@@ -424,8 +440,19 @@ let g:deoplete#omni_patterns = {}
 
 let g:deoplete#omni_patterns.javascript = '[^. *\t]\.\w*'
 
-let g:deoplete#sources#rust#racer_binary='/Users/atta/.cargo/bin/racer'
+let g:deoplete#sources#rust#racer_binary='/Users/sedunn/.cargo/bin/racer'
 let g:deoplete#sources#rust#rust_source_path='/usr/local/rust/src'
+" }}}
+
+" echodoc {{{
+let g:echodoc_enable_at_startup=1
+" }}}
+
+" nvim-typescript {{{
+let g:nvim_typescript#vue_support=1
+let g:nvim_typescript#diagnostics_enable=0
+let g:nvim_typescript#suggestions_enabled=0
+let g:nvim_typescript#type_info_on_hold=1
 " }}}
 
 " YouCompleteMe {{{
@@ -486,11 +513,13 @@ if has('gui_running')
 else
   set background=dark
 
-  let g:material_theme_style = "palenight"
-  let g:material_terminal_italics = 1
-  colorscheme material
+  " let g:material_theme_style = "palenight"
+  " let g:material_terminal_italics = 1
+  " colorscheme material
+  " colorscheme night-owl
+  colorscheme synthwave84
 
-  let g:airline_theme="material"
+  let g:airline_theme="night_owl"
 
   " hybrid_material is insane and doens't use traditional green = additon / red = subtraction
   " coloring. Address that with color linking
@@ -645,6 +674,12 @@ if has("autocmd")
     au!
 
     au FileType typescript setlocal completeopt+=menu,preview
+  augroup END
+
+  augroup graphql
+    au!
+
+    au BufNewFile,BufRead *.prisma setfiletype graphql
   augroup END
 
   augroup coffee

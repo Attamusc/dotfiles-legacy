@@ -1,10 +1,9 @@
 # Source zplug and all zplug managed plugins
 source ~/.zplug/init.zsh
 
-zplug "rupa/z", use:z.sh
-zplug "changyuheng/fz"
 zplug "qianxinfeng/vscode"
 zplug "supercrabtree/k"
+zplug "ajeetdsouza/zoxide"
 
 if ! zplug check --verbose; then
     printf "Install? [y/N]: "

@@ -7,6 +7,7 @@ install webkit2png
 install qt
 install git
 install hub
+install neovim
 install jq
 install ag
 install tig
@@ -19,15 +20,6 @@ install fswatch
 # rbenv and friends
 install rbenv
 install ruby-build
-install rbenv-gem-rehash
-
-# Scala and Typesafe Stack
-install scala
-install sbt
-install maven
-
-# Go
-install go
 
 # Clojure
 install leiningen

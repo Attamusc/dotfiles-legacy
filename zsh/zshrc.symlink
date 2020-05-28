@@ -23,4 +23,9 @@ for config_file ($ZSH/**/completion.sh) source $config_file
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+eval "$(starship init zsh)"
+
 export PATH="$HOME/.yarn/bin:$PATH"
+
+export VOLTA_HOME="/Users/sedunn/.volta"
+grep --silent "$VOLTA_HOME/bin" <<< $PATH || export PATH="$VOLTA_HOME/bin:$PATH"

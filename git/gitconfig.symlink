@@ -87,6 +87,9 @@
   # editor = "mvim -f --nomru -c 'au VimLeave * !open -a iTerm'"
   editor = "nvim"
   excludesfile = ~/.gitignore
+  pager= delta --plus-color="#012800" --minus-color="#340001" --theme='Dracula'
+[interactive]
+  diffFilter = delta --color-only
 [github]
   user = Attamusc
 [hub]
@@ -109,27 +112,26 @@
   added = green
   changed = cyan
   untracked = red
-[difftool "sourcetree"]
-  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-  path =
-[mergetool "sourcetree"]
-  cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-  trustExitCode = true
 [push]
   default = simple
 [difftool "Kaleidoscope"]
-  cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+  cmd = ksdiff --partial-changeset --relative-path "$MERGED" -- "$LOCAL" "$REMOTE"
+[difftool "smerge"]
+  cmd = smerge "$BASE"
 [diff]
-  tool = Kaleidoscope
+  tool = smerge
 [difftool]
   prompt = false
 [mergetool "Kaleidoscope"]
-  cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+  cmd = ksdiff --merge --output "$MERGED" --base "$BASE" -- "$LOCAL" --snapshot "$REMOTE" --snapshot
+  trustExitCode = true
+[mergetool "smerge"]
+  cmd = smerge mergetool "$BASE" "$LOCAL" "$REMOTE" -o "$MERGED"
   trustExitCode = true
 [mergetool]
   prompt = false
 [merge]
-  tool = Kaleidoscope
+  tool = smerge
 [tig "color"]
   cursor = black green bold
 [flow "prefix"]
@@ -147,3 +149,5 @@
 	process = git-lfs filter-process
 [url "https://"]
 	insteadOf = git://
+[http]
+	postBuffer = 524288000

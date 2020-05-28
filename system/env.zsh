@@ -14,11 +14,11 @@ export LESS=FRSX
 export FZF_DEFAULT_COMMAND='ag -g ""'
 
 # Languages
-export PHP_HOME=$(brew --prefix php71)
+export PHP_HOME=$(brew --prefix php72)
 export GO_HOME=$(brew --prefix go)/libexec
-export COMPOSER_HOME=/Users/atta/.composer
+export COMPOSER_HOME=$HOME/.composer
 export RUST_SRC_PATH=/usr/local/rust/src
-export CARGO_HOME=/Users/atta/.cargo
+export CARGO_HOME=$HOME/.cargo
 
 export GOPATH=~/Projects/go-space
 
