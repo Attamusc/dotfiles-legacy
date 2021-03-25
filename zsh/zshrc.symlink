@@ -29,3 +29,10 @@ export PATH="$HOME/.yarn/bin:$PATH"
 
 export VOLTA_HOME="/Users/sedunn/.volta"
 grep --silent "$VOLTA_HOME/bin" <<< $PATH || export PATH="$VOLTA_HOME/bin:$PATH"
+export PATH="/usr/local/opt/arm-gcc-bin@8/bin:$PATH"
+export PATH="/usr/local/opt/avr-gcc@8/bin:$PATH"
+
+# tab multiplexer configuration: https://github.com/austinjones/tab-rs/
+source "/Users/sedunn/Library/Application Support/tab/completion/zsh-history.zsh"
+# end tab configuration
+

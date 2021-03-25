@@ -56,18 +56,17 @@
   # Resetting
   undo-last = reset --soft HEAD~1
 
-  # Stashing and some shit
+  # Stashing and popping
   s = stash
   sp = stash pop
+
+  wip = for-each-ref --sort='authordate:iso8601' --format=' %(color:green)%(authordate:relative)%09%(color:white)%(refname:short)' refs/heads
 
   # Grabbing SHA of latest commit
   sha = !"echo 'Copying HEAD SHA...' && git rev-parse HEAD | tr -d '\n' | pbcopy"
 
   # For the lolz
   yolo = !git reset --hard HEAD^
-
-  # Gotta be able to send those e-notes
-  e-note = pr
 
   in = incoming
   out = outgoing
@@ -96,7 +95,7 @@
   protocol = https
 	host = git.corp.adobe.com
 [credential]
-  helper = osxkeychain
+	helper = osxkeychain
 [color]
   ui = auto
 [color "branch"]
@@ -151,3 +150,7 @@
 	insteadOf = git://
 [http]
 	postBuffer = 524288000
+[pull]
+	rebase = true
+[init]
+	defaultBranch = main

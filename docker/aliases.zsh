@@ -1,5 +1,8 @@
 alias fig=docker-compose
 alias dm=docker-machine
+alias dc=docker-compose
+alias dcl="docker-compose logs"
+alias dclf="docker-compose logs -f --tail=10"
 
 dm-up() {
   docker-machine start $1

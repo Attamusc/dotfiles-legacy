@@ -1,1 +1,1 @@
-cd $PROJECTS/Work/behance/$1 && mux;
+z $PROJECTS/Work/behance/$1 && mux;

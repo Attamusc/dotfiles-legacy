@@ -23,8 +23,9 @@ call plug#begin('~/.local/share/nvim/plugged')
 " Bundles {{{
 " Utilities {{{
 Plug 'AndrewRadev/splitjoin.vim'
+Plug 'antoinemadec/FixCursorHold.nvim'
 Plug 'craigemery/vim-autotag'
-" Plug 'edkolev/tmuxline.vim'
+Plug 'edkolev/tmuxline.vim'
 Plug 'guns/vim-clojure-highlight'
 Plug 'guns/vim-clojure-static'
 Plug 'guns/vim-sexp'
@@ -46,7 +47,6 @@ Plug 'majutsushi/tagbar'
 Plug 'mattn/emmet-vim'
 Plug 'nelstrom/vim-textobj-rubyblock'
 Plug 'Raimondi/delimitMate'
-Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'SirVer/ultisnips'
 Plug 'Shougo/neomru.vim'
@@ -109,14 +109,18 @@ Plug 'xsbeats/vim-blade'
 " Colors {{{
 Plug 'artanikin/vim-synthwave84'
 Plug 'chriskempson/base16-vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'kaicataldo/material.vim'
 Plug 'kristijanhusak/vim-hybrid-material'
 Plug 'haishanh/night-owl.vim'
 Plug 'nanotech/jellybeans.vim'
+Plug 'sainnhe/forest-night'
+Plug 'skbolton/embark'
 Plug 'trusktr/seti.vim'
 Plug 'tyrannicaltoucan/vim-deep-space'
 Plug 'tyrannicaltoucan/vim-quantum'
+Plug '~/.local/share/nvim/plugged/dracula_pro'
 " }}}
 
 if has('nvim')
@@ -129,21 +133,37 @@ if has('nvim')
 
   " LSP-based tag/symbol viewer and searcher
   Plug 'liuchengxu/vista.vim'
+
+  " LSP-based autocomplete
+  " Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+  " Async file drawer
+  Plug 'lambdalisue/fern.vim'
+  Plug 'lambdalisue/glyph-palette.vim'
   
   " Async autocomplete library
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   Plug 'Shougo/echodoc.vim'
 
+
   " autocompletion plugins for deoplete
   Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
   Plug 'awetzel/elixir.nvim', { 'do': 'yes \| ./install.sh' }
   Plug 'mhartington/nvim-typescript', { 'build': './install.sh' }
-  Plug 'fishbullet/deoplete-ruby'
+  " ruby completions using solargraph
+  " Plug 'uplus/deoplete-solargraph'
   Plug 'sebastianmarkow/deoplete-rust'
+  Plug 'racer-rust/vim-racer'
+  " Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
 else
-  Plug 'Quramy/tsuquyomi'
+  " NerdTree file drawer
+  Plug 'scrooloose/nerdtree'
   Plug 'scrooloose/syntastic'
+
+  Plug 'Quramy/tsuquyomi'
+
   Plug 'ctrlpvim/ctrlp.vim'
+
   Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
 endif
 " }}}
@@ -182,13 +202,18 @@ set cscopetag "seach both cscopes and the tags file
 set clipboard=unnamed
 set lazyredraw
 set autowrite
+set signcolumn=number
 
 " Key delays are just the worst
 set timeoutlen=1000
 set ttimeoutlen=0
 
 if (has("termguicolors"))
- set termguicolors
+  " https://github.com/vim/vim/issues/993#issuecomment-255651605
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
+  set termguicolors
 endif
 
 " Split settings that make way more sense
@@ -307,6 +332,71 @@ let g:NERDTreeDirArrowCollapsible = '▾'
 " Add a padding space to comments
 let NERDSpaceDelims=1
 " }}}
+" fern.vim {{{
+
+" Disable netrw.
+let g:loaded_netrw  = 1
+let g:loaded_netrwPlugin = 1
+let g:loaded_netrwSettings = 1
+let g:loaded_netrwFileHandlers = 1
+
+function! s:hijack_directory() abort
+  let path = expand('%:p')
+  if !isdirectory(path)
+    return
+  endif
+  bwipeout %
+  execute printf('Fern %s', fnameescape(path))
+endfunction
+
+augroup FernOpenHijack
+  autocmd!
+  autocmd BufEnter * ++nested call s:hijack_directory()
+augroup END
+
+" Custom settings and mappings.
+let g:fern#disable_default_mappings = 1
+let g:fern#renderer#default#leading = "  "
+let g:fern#renderer#default#leaf_symbol = "- "
+let g:fern#renderer#default#collapsed_symbol = "▶ "
+let g:fern#renderer#default#expanded_symbol = "▼ "
+
+noremap <silent> <Leader>n :Fern . -drawer -reveal=% -toggle -width=35<CR><C-w>=
+
+function! FernInit() abort
+  nmap <buffer><expr>
+        \ <Plug>(fern-my-open-expand-collapse)
+        \ fern#smart#leaf(
+        \   "\<Plug>(fern-action-open:select)",
+        \   "\<Plug>(fern-action-expand)",
+        \   "\<Plug>(fern-action-collapse)",
+        \ )
+  nmap <buffer> <CR> <Plug>(fern-my-open-expand-collapse)
+  nmap <buffer> <2-LeftMouse> <Plug>(fern-my-open-expand-collapse)
+  nmap <buffer> n <Plug>(fern-action-new-path)
+  nmap <buffer> d <Plug>(fern-action-remove)
+  nmap <buffer> m <Plug>(fern-action-move)
+  nmap <buffer> M <Plug>(fern-action-rename)
+  nmap <buffer> h <Plug>(fern-action-hidden-toggle)
+  nmap <buffer> r <Plug>(fern-action-reload)
+  nmap <buffer> i <Plug>(fern-action-mark:toggle)
+  nmap <buffer> s <Plug>(fern-action-open:split)
+  nmap <buffer> v <Plug>(fern-action-open:vsplit)
+  nmap <buffer><nowait> < <Plug>(fern-action-leave)
+  nmap <buffer><nowait> > <Plug>(fern-action-enter)
+endfunction
+
+augroup FernGroup
+  autocmd!
+  autocmd FileType fern call FernInit()
+augroup END
+
+augroup GlyphPaletteGroup
+  autocmd! *
+  autocmd FileType fern call glyph_palette#apply()
+  autocmd FileType nerdtree,startify call glyph_palette#apply()
+augroup END
+" }}}
 " TagBar {{{
 " ---CoffeeScript---
 if executable('coffeetags')
@@ -329,6 +419,13 @@ endif
 let g:UltiSnipsExpandTrigger="<c-k>"
 let g:UltiSnipsJumpForwardTrigger="<c-k>"
 let g:UltiSnipsJumpBackwardTrigger="<c-j>"
+" }}}
+" deoplete-tabnine {{{
+call deoplete#custom#var('tabnine', {
+\ 'line_limit': 500,
+\ 'max_num_results': 5,
+\ })
+call deoplete#custom#source('tabnine', 'rank', 50)
 " }}}
 " vim-signify {{{
 let g:signify_update_on_focusgained = 1
@@ -365,14 +462,16 @@ let g:airline#extensions#ale#enabled = 1
 let g:ale_linters = {
   \ 'javascript': ['eslint', 'flow'],
   \ 'typescript': ['eslint', 'tslint', 'tsserver'],
-  \ 'vue': ['eslint', 'stylelint'],
+  \ 'vue': ['vls', 'eslint', 'stylelint'],
   \ 'php': ['phpcs'],
   \ 'html': []
 \ }
-let g:ale_linter_aliases = {'vue': ['css', 'javascript']}
+let g:ale_linter_aliases = {'vue': ['vue', 'css', 'javascript', 'typescript']}
 
 let g:ale_fixers = {
+  \ 'vue': ['prettier'],
   \ 'typescript': ['prettier'],
+  \ 'typescriptreact': ['prettier'],
   \ 'javascript': ['prettier'],
   \ 'css': ['prettier']
 \ }
@@ -440,8 +539,12 @@ let g:deoplete#omni_patterns = {}
 
 let g:deoplete#omni_patterns.javascript = '[^. *\t]\.\w*'
 
-let g:deoplete#sources#rust#racer_binary='/Users/sedunn/.cargo/bin/racer'
-let g:deoplete#sources#rust#rust_source_path='/usr/local/rust/src'
+" let g:deoplete#sources#rust#racer_binary='/Users/sedunn/.cargo/bin/racer'
+" let g:deoplete#sources#rust#rust_source_path='/usr/local/rust/src'
+" }}}
+" {{{
+let g:racer_experimental_completer=1
+let g:racer_insert_paren=1
 " }}}
 
 " echodoc {{{
@@ -517,9 +620,11 @@ else
   " let g:material_terminal_italics = 1
   " colorscheme material
   " colorscheme night-owl
-  colorscheme synthwave84
+  colorscheme dracula_pro_van_helsing
+  " colorscheme dracula
 
-  let g:airline_theme="night_owl"
+  " let g:airline_theme="dracula"
+  let g:airline_theme="dracula_pro"
 
   " hybrid_material is insane and doens't use traditional green = additon / red = subtraction
   " coloring. Address that with color linking
@@ -539,7 +644,7 @@ else
   if has('nvim')
     " Fzf Commands
     " Only neovim can open fzf searches in a split terminal windows. Macvim requires the
-    " search to happen in an iterm window and the full screen shift if really unpleasant,
+    " search to happen in an iterm window and the full screen shift is really unpleasant,
     " so we only bind these when we're using neovim
     nnoremap <C-p> :FzfFiles<CR>
     nnoremap <leader>a :FzfAg<CR>
@@ -758,6 +863,17 @@ if has("autocmd")
 
     autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   augroup END
+
+  augroup rust
+    au!
+
+    au FileType rust nmap <buffer> gd         <Plug>(rust-def)
+    au FileType rust nmap <buffer> gs         <Plug>(rust-def-split)
+    au FileType rust nmap <buffer> gx         <Plug>(rust-def-vertical)
+    au FileType rust nmap <buffer> gt         <Plug>(rust-def-tab)
+    au FileType rust nmap <buffer> <leader>gd <Plug>(rust-doc)
+    au FileType rust nmap <buffer> <leader>gD <Plug>(rust-doc-tab)
+  augroup END
 endif
 " }}}
 " Functions {{{
@@ -914,7 +1030,6 @@ nnoremap <leader>j :tabp<CR>
 " Search and replace current word under cursor
 "noremap <Leader>sw :%s/\<<C-r><C-w>\>//g<Left><Left>
 
-map <leader>n :NERDTreeToggle<CR>
 map <leader>/ <plug>NERDCommenterToggle<CR>
 imap <leader>/ <esc><plug>NERDCommenterToggle<CR>
 

@@ -23,10 +23,9 @@ alias oo="open ."
 alias md="open -a Mou"
 
 # ls
-alias ls="ls -GF"
-alias l="ls -GlAh"
-alias ll="ls -Gl"
-alias la='ls -GA'
+alias l="exa -lah"
+alias ll="exa -l"
+alias la='exa -a'
 alias kl="k --almost-all"
 
 alias update='sudo softwareupdate -i -a; brew update; brew upgrade; npm update npm -g; npm update -g'
