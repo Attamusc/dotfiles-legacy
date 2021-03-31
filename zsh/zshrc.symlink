@@ -3,7 +3,7 @@ export ZSH=$HOME/.dotfiles
 export SHELL=/bin/zsh
 
 # your project folder that we can `c [tab]` to
-export PROJECTS=~/Projects
+export PROJECTS=$HOME/Projects
 
 # source every .zsh file in this rep
 for config_file ($ZSH/**/*.zsh) source $config_file
@@ -21,18 +21,11 @@ autoload -U compinit && compinit
 # load every completion after autocomplete loads
 for config_file ($ZSH/**/completion.sh) source $config_file
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-eval "$(starship init zsh)"
-
-export PATH="$HOME/.yarn/bin:$PATH"
-
-export VOLTA_HOME="/Users/sedunn/.volta"
-grep --silent "$VOLTA_HOME/bin" <<< $PATH || export PATH="$VOLTA_HOME/bin:$PATH"
 export PATH="/usr/local/opt/arm-gcc-bin@8/bin:$PATH"
 export PATH="/usr/local/opt/avr-gcc@8/bin:$PATH"
 
 # tab multiplexer configuration: https://github.com/austinjones/tab-rs/
-source "/Users/sedunn/Library/Application Support/tab/completion/zsh-history.zsh"
+source "$HOME/Library/Application Support/tab/completion/zsh-history.zsh"
 # end tab configuration
 
+eval "$(starship init zsh)"

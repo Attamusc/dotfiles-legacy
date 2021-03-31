@@ -5,17 +5,11 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias ~="cd ~"
 alias -- -="cd -"
-alias cdot="cd ~/.dotfiles"
-alias capps="cd /usr/local/etc/nginx/sites-available"
-
-# gifs for the lolz
-alias gifs="open ~/Projects/Fun/gifs"
+alias cdot="cd $HOME/.dotfiles"
 
 # Shortcuts
 alias m="mvim"
 alias v="vim"
-alias f="foreman start"
-alias ford='foreman start -f Procfile.dev'
 alias o="open"
 alias oo="open ."
 
@@ -27,19 +21,6 @@ alias l="exa -lah"
 alias ll="exa -l"
 alias la='exa -a'
 alias kl="k --almost-all"
-
-alias update='sudo softwareupdate -i -a; brew update; brew upgrade; npm update npm -g; npm update -g'
-
-# ---Happier command correction---
-alias fuck='$(thefuck $(fc -ln -1))'
-
-# ---Selenium Standalone Server---
-alias sel-server="selenium-server -p 4444"
-# Old alias without homebrew services
-# alias sel-start="java -jar /usr/local/opt/selenium-server-standalone/selenium-server-standalone-2.39.0.jar -p 4444"
-
-# ---JenkinsCI---
-alias jenkins="java -jar /usr/local/opt/jenkins/libexec/jenkins.war"
 
 # ---Spotlight Stuff---
 # Disable/Enable spotlight indexing
@@ -65,9 +46,3 @@ alias PUT='burl PUT'
 alias PATCH='burl PATCH'
 alias DELETE='burl DELETE'
 alias OPTIONS='burl OPTIONS'
-
-# For the lolz
-alias die='afplay /Users/Atta/Documents/Sean/Darth\ Vader\ NO.mp3; exit'
-
-# Lazy clear command
-alias cl='clear'

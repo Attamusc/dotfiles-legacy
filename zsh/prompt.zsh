@@ -100,7 +100,8 @@ set_prompt () {
   #export RPROMPT="%{$fg_bold[blue]%}$(todo_prompt +next)%{$reset_color%}"
 }
 
-precmd() {
-  title "zsh" "%c" "%55<...<%~"
-  set_prompt
-}
+# Removing in favor of using starship
+# precmd() {
+  # title "zsh" "%c" "%55<...<%~"
+  # set_prompt
+# }
