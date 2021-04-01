@@ -20,6 +20,7 @@ export TMUXIFIER_TMUX_OPTS="-2"
 export EDITOR="nvim"
 export LESS=iRS
 export FZF_DEFAULT_COMMAND='ag -g ""'
+export FZF_DEFAULT_OPTS='--height 40% --reverse'
 
 export USER_BIN=$HOME/bin
 

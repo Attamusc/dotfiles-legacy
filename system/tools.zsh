@@ -10,9 +10,7 @@ if which tmuxifier > /dev/null; then eval "$(tmuxifier init -)"; fi
 if [[ -d "/home/linuxbrew/.linuxbrew" ]]
 then
   export PATH=$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$PATH
+  
+  # If we have linux brew, add it to the path
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# If we have linux brew, add it to the path
-[ -d "/home/linuxbrew" ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"

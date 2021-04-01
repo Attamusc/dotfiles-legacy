@@ -1,0 +1,28 @@
+#!/bin/sh
+#
+# This script allows to switch branches easily.
+#
+# Credit: https://github.com/phaazon/config/blob/3f79305283f043db0fc2f93cd71f3aef7d47cbba/git/scripts/gs
+
+set -e
+
+header="Select a branch to switch to"
+autostash=0
+flags=
+while getopts "s" opt; do
+  case $opt in
+    s)
+      autostash=1
+      flags="-s $flags"
+      ;;
+  esac
+done
+
+choice=$(git branch | rg -v "^\*" | tr -d ' ' | fzf \
+  --header="$header [$flags]" \
+  --prompt="Switch branch: " \
+)
+r=$?
+
+[[ autostash -eq 1 ]] && git stash
+[ $r = 0 ] && git switch $choice

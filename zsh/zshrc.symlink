@@ -28,4 +28,6 @@ export PATH="/usr/local/opt/avr-gcc@8/bin:$PATH"
 source "$HOME/Library/Application Support/tab/completion/zsh-history.zsh"
 # end tab configuration
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 eval "$(starship init zsh)"
