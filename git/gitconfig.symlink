@@ -1,6 +1,6 @@
 [user]
 	name = Sean Dunn
-	email = sedunn@adobe.com
+	email = sean@attamusc.com
 [alias]
   # Add
   aa = add --all
@@ -62,7 +62,7 @@
 
   wip = for-each-ref --sort='authordate:iso8601' --format=' %(color:green)%(authordate:relative)%09%(color:white)%(refname:short)' refs/heads
 
-  # Grabbing SHA of latest commit
+  # Grabbing SHA of latest commit (osx only)
   sha = !"echo 'Copying HEAD SHA...' && git rev-parse HEAD | tr -d '\n' | pbcopy"
 
   # For the lolz
@@ -83,7 +83,6 @@
   own = !"hub fork && git remote rename origin upstream && git remote rename Attamusc origin"
   cown = !"hub fork && git remote rename origin upstream && git remote rename sedunn origin"
 [core]
-  # editor = "mvim -f --nomru -c 'au VimLeave * !open -a iTerm'"
   editor = "nvim"
   excludesfile = ~/.gitignore
   pager= delta --plus-color="#012800" --minus-color="#340001" --theme='Dracula'
@@ -93,9 +92,8 @@
   user = Attamusc
 [hub]
   protocol = https
-	host = git.corp.adobe.com
 [credential]
-	helper = osxkeychain
+  helper = /c/Program\\ Files/Git/mingw64/libexec/git-core/git-credential-manager.exe
 [color]
   ui = auto
 [color "branch"]

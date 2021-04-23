@@ -24,8 +24,19 @@ export FZF_DEFAULT_OPTS='--height 40% --reverse'
 
 export USER_BIN=$HOME/bin
 
+# Homebrew
+export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+export HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar"
+export HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew"
+
 # Languages
-export GO_HOME=$(brew --prefix go)/libexec
+if [[ -d "/home/linuxbrew/.linuxbrew" ]]
+then
+  export GO_HOME=$(/home/linuxbrew/.linuxbrew/bin/brew --prefix go)/libexec
+else
+  export GO_HOME=$(brew --prefix go)/libexec
+fi
+
 export COMPOSER_HOME=$HOME/.composer
 export CARGO_HOME=$HOME/.cargo
 # export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src
@@ -54,6 +65,11 @@ export PATH=$USER_BIN:$VOLTA_HOME/bin:$YARN_HOME/bin:$HEROKU_HOME/bin:$TMUXIFIER
 # mkdir .git/safe in the root of repositories you trust
 export PATH=".git/safe/../../bin:.git/safe/../../node_modules/.bin:$PATH"
 
+export PATH="/usr/local/opt/arm-gcc-bin@8/bin:$PATH"
+export PATH="/usr/local/opt/avr-gcc@8/bin:$PATH"
 
 # Set our MANPATH for `man`
 export MANPATH="/usr/share/man:/share/man:/usr/local/mysql/man:$MANPATH"
+export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"
+
+export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"

@@ -51,13 +51,8 @@ bind -T copy-mode C-WheelDownPane send-keys -X halfpage-down
 
 # Setup 'v' to begin selection as in Vim
 bind-key -T copy-mode-vi v send-keys -X begin-selection
-bind-key -T copy-mode-vi y send-keys -X copy-pipe "reattach-to-user-namespace pbcopy"
 
 # Update default binding of `Enter` to also use copy-pipe
 unbind -T copy-mode-vi Enter
-bind-key -T copy-mode-vi Enter send-keys -X copy-pipe "reattach-to-user-namespace pbcopy"
-
-# Make sure that pbpaste actually works
-set-option -g default-command "reattach-to-user-namespace -l zsh"
 
 if-shell "test -f ~/.dotfiles/tmux/tmuxline-config" "source ~/.dotfiles/tmux/tmuxline-config"

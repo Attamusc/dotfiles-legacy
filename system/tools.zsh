@@ -14,3 +14,19 @@ then
   # If we have linux brew, add it to the path
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
+
+# Load nvm shims
+if which nvm > /dev/null
+then
+  nvm ls default &>/dev/null && nvm use default &>/dev/null
+fi
+
+# Load fzf if it's installed
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Load kubectl completion if it's installed
+if which kubectl > /dev/null; then source <(kubectl completion zsh); fi
+
+# tab multiplexer configuration: https://github.com/austinjones/tab-rs/
+source "$HOME/Library/Application Support/tab/completion/zsh-history.zsh"
+# end tab configuration

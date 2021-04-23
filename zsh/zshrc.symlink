@@ -1,3 +1,5 @@
+umask 002
+
 # shortcut to this dotfiles path is $ZSH
 export ZSH=$HOME/.dotfiles
 export SHELL=/bin/zsh
@@ -20,14 +22,5 @@ autoload -U compinit && compinit
 
 # load every completion after autocomplete loads
 for config_file ($ZSH/**/completion.sh) source $config_file
-
-export PATH="/usr/local/opt/arm-gcc-bin@8/bin:$PATH"
-export PATH="/usr/local/opt/avr-gcc@8/bin:$PATH"
-
-# tab multiplexer configuration: https://github.com/austinjones/tab-rs/
-source "$HOME/Library/Application Support/tab/completion/zsh-history.zsh"
-# end tab configuration
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 eval "$(starship init zsh)"
