@@ -24,3 +24,11 @@ autoload -U compinit && compinit
 for config_file ($ZSH/**/completion.sh) source $config_file
 
 eval "$(starship init zsh)"
+
+# tab multiplexer configuration: https://github.com/austinjones/tab-rs/
+source "/Users/atta/Library/Application Support/tab/completion/zsh-history.zsh"
+# end tab configuration
+
+# Load fzf if it's installed
+# Need to have this come last so that it doesn't get overridden
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

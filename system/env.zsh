@@ -7,6 +7,13 @@ then
   export HOMEBREW_REPOSITORY=$HOMEBREW_PREFIX/Homebrew
 fi
 
+if [[ -d "/opt/homebrew" ]]
+then
+  export HOMEBREW_PREFIX="/opt/homebrew"
+  export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
+  export HOMEBREW_REPOSITORY="/opt/homebrew"
+fi
+
 # Fix for cgo on Mavericks
 export CC=clang
 
@@ -24,15 +31,10 @@ export FZF_DEFAULT_OPTS='--height 40% --reverse'
 
 export USER_BIN=$HOME/bin
 
-# Homebrew
-export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
-export HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar"
-export HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew"
-
 # Languages
-if [[ -d "/home/linuxbrew/.linuxbrew" ]]
+if [[ -d "$HOMEBREW_PREFIX" ]]
 then
-  export GO_HOME=$(/home/linuxbrew/.linuxbrew/bin/brew --prefix go)/libexec
+  export GO_HOME=$($HOMEBREW_PREFIX/bin/brew --prefix go)/libexec
 else
   export GO_HOME=$(brew --prefix go)/libexec
 fi
@@ -62,6 +64,21 @@ export PATH=$HOME/.local/bin:$HOME/.dotfiles/bin:/usr/local/bin:/usr/local/sbin:
 # Add our special directories
 export PATH=$USER_BIN:$VOLTA_HOME/bin:$YARN_HOME/bin:$HEROKU_HOME/bin:$TMUXIFIER_HOME/bin:$GOPATH/bin:$GO_HOME/bin:$POSTGRES_APP_HOME/bin:$ACTIVATOR_HOME/bin:$GRADLE_HOME/bin:$BEES_HOME:$COMPOSER_HOME/vendor/bin:$CARGO_HOME/bin:$GIT_FUZZY_HOME/bin:$PATH
 
+# if we're using linuxbrew, then setup some special vars
+if [[ -d "/home/linuxbrew/.linuxbrew" ]]
+then
+  export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"
+  export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"
+fi
+
+# If we're using arm homebrew, make sure we add homebrew to the path
+if [[ -d "/opt/homebrew" ]]
+then
+  export PATH="/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}";
+  export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
+  export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
+fi
+
 # mkdir .git/safe in the root of repositories you trust
 export PATH=".git/safe/../../bin:.git/safe/../../node_modules/.bin:$PATH"
 
@@ -70,6 +87,3 @@ export PATH="/usr/local/opt/avr-gcc@8/bin:$PATH"
 
 # Set our MANPATH for `man`
 export MANPATH="/usr/share/man:/share/man:/usr/local/mysql/man:$MANPATH"
-export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"
-
-export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"

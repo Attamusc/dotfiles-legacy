@@ -15,7 +15,8 @@
   # Checkout
   co = checkout
   cb = checkout -b
-  com = checkout master
+  com = checkout main
+  coma = checkout master
 
   # Diff
   d = !"git diff --no-color | tig"
@@ -31,7 +32,7 @@
 
   # Push
   pp = pull --prune
-  preb = pull --rebase
+  pre = pull --rebase
 
   # Fetch
   fu = fetch upstream
@@ -40,7 +41,8 @@
   p = push
   poh = push origin HEAD
   pof = push origin +HEAD
-  pom = push origin master
+  pom = push origin main
+  poma = push origin master
   puh = push upstream HEAD
 
   # tig shims
@@ -93,7 +95,9 @@
 [hub]
   protocol = https
 [credential]
-  helper = /c/Program\\ Files/Git/mingw64/libexec/git-core/git-credential-manager.exe
+  # Just gonna commit both versions, but will eventually use chezmoi to handle this
+  # helper = /c/Program\\ Files/Git/mingw64/libexec/git-core/git-credential-manager.exe
+	helper = /usr/local/share/gcm-core/git-credential-manager-core
 [color]
   ui = auto
 [color "branch"]
@@ -152,3 +156,5 @@
 	rebase = true
 [init]
 	defaultBranch = main
+[credential "https://dev.azure.com"]
+	useHttpPath = true

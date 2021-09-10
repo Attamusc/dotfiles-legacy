@@ -1,0 +1,72 @@
+"" Source your .vimrc
+""" Map leader to space ---------------------
+let mapleader=" "
+
+""" Plugins  --------------------------------
+set surround
+set multiple-cursors
+set commentary
+set argtextobj
+set easymotion
+set textobj-entire
+set ReplaceWithRegister
+set NERDTree
+set highlightedyank
+
+""" Plugin settings -------------------------
+let g:argtextobj_pairs="[:],(:),<:>"
+
+""" Common settings -------------------------
+set showmode
+set showcmd
+set so=5
+set incsearch
+set hlsearch
+set nu
+set rnu
+
+""" Idea specific settings ------------------
+set ideajoin
+set ideamarks
+set ideastatusicon=gray
+set idearefactormode=keep
+
+" Don't use Ex mode, use Q for formatting.
+map Q gq
+map j gj
+map k gk
+
+nnoremap H ^
+nnoremap L $
+nnoremap Y y$
+nnoremap U <c-r>
+nnoremap <tab> >>
+nnoremap <s-tab> <<
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap <c-l> <c-w>l
+nnoremap <c-k> <c-w>k
+nnoremap <c-j> <c-w>j
+nnoremap <c-h> <c-w>h
+nnoremap <space><space> :nohlsearch<CR>
+nnoremap <leader>rc :source ~/.ideavimrc<CR>
+
+imap <c-k> <up>
+imap <c-j> <down>
+inoremap jj <esc>
+
+vnoremap v <esc>
+vnoremap <tab> >gv
+vnoremap <s-tab> <gv
+
+cnoremap jj <c-c>
+
+" Plugin mappings
+nnoremap <leader>e :NERDTreeToggle<CR>
+
+" -- Map IDE actions to IdeaVim -- https://jb.gg/abva4t
+nnoremap <leader>s :action SaveAll<CR>
+nnoremap <leader>ff :action SearchEverywhere<CR>
+
+nnoremap <leader>c<space> :action CommentByLineComment<CR>
+vnoremap <leader>c<space> :action CommentByLineComment<CR>

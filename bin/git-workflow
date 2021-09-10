@@ -62,10 +62,14 @@ module GitWorkflow
 
     def upstream_branch
       if upstream?
-        'upstream/master'
+        "upstream/#{mainline_branch}"
       else
-        'origin/master'
+        "origin/#{mainline_branch}"
       end
+    end
+
+    def mainline_branch
+      `git branch | grep main | wc -l`.to_i != 0 ? "main" : "master"
     end
 
     def upstream?

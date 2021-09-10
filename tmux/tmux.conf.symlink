@@ -22,8 +22,8 @@ set -s escape-time 0
 # Use vim keybindings in copy mode
 setw -g mode-keys vi
 
-set-window-option -g window-status-current-fg colour4
-set-window-option -g window-status-current-bg default
+# set-window-option -g window-status-current-fg colour4
+# set-window-option -g window-status-current-bg default
 set-window-option -g window-status-current-format '[ #I #W ]'
 
 set-option -g   allow-rename      off
@@ -33,8 +33,8 @@ set-option -g   automatic-rename  off
 set -g focus-events on
 
 ## pane border and colors
-set-option -g pane-active-border-fg colour240
-set-option -g pane-border-fg colour240
+# set-option -g pane-active-border-fg colour240
+# set-option -g pane-border-fg colour240
 
 # Start windows and panes at 1, not 0
 set -g base-index 1
